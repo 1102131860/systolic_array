@@ -1,4 +1,4 @@
-Project 1
+Project
 ============
 In this project, you will implement and tapeout **CORDIC** (COordinate Rotation DIgital Computer) as a team. You will undrstand the CORDIC algorithm, model its behavior with high level programming language. Then, you will design it in RTL, and perform synthesis and APR. You are going to also verify the module in each intermediate stages are functional and meet the constraints. Evnetually, your CORDIC design will be taped out and you will test the chip and measure its performance and power.
 
