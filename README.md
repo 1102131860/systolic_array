@@ -1,6 +1,6 @@
 Project 1
 ============
-In this project, you and your group members will implement and tapeout **CORDIC** (COordinate Rotation DIgital Computer) as a team. You will undrstand the CORDIC algorithm, model its behavior with high level programming language. Then, you will design it in RTL, and perform synthesis and APR. You are going to also verify the module in each intermediate stages are functional and meet the constraints. Evnetually, your CORDIC design will be taped out and you will test the chip and measure its performance and power.
+In this project, you will implement and tapeout **CORDIC** (COordinate Rotation DIgital Computer) as a team. You will undrstand the CORDIC algorithm, model its behavior with high level programming language. Then, you will design it in RTL, and perform synthesis and APR. You are going to also verify the module in each intermediate stages are functional and meet the constraints. Evnetually, your CORDIC design will be taped out and you will test the chip and measure its performance and power.
 
 **:date: Milestone 1 Due Date: 11/3 11:59pm (:warning:PLEASE START EARLY:warning:**)
 
@@ -16,8 +16,20 @@ In this project, you and your group members will implement and tapeout **CORDIC*
 9. Observe how the chip performs and think about how each step of the flow affects the end result
 
 ## CORDIC Algorithm
-CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, hyperbolic functions, square roots and more. Due to its simplicity and efficiency, CORDIC is used in the navigation system of the Apollo program's Lunar Roving Vehicle, processors such as Intel 8087, and FPGAs. Please read the provided slide and paper to clearly unsdrstand the operations.
+CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, hyperbolic functions, square roots and more. Due to its simplicity and efficiency, CORDIC is used in the navigation system of the Apollo program's Lunar Roving Vehicle, processors such as Intel 8087, and FPGAs. Please read the provided [slide](doc/CORDIC_slide.pdf) and [paper](doc/CORDIC_paper.pdf) to clearly unsdrstand the operations.
 
-## Commands and Variables
+## Specifications
+Here are the specifiacaitons of the CORDIC design you are implementing:
 
- Milestone 1
+| Feature                             | Description                  |
+|-------------------------------------|------------------------------|
+| Number of micro-rotations           | 14                           |
+| Scaling factor                      | Ignored                      |
+| Modes supported                     | Rotation & Vectoring         |
+| IO ports                            | [cordic.sv]                  |
+| Process node                        | TSMC 65GP                    |
+| Power supply                        | 0.8 ~ 1 V                    |
+| Minimum clock frequency             | 100 Mhz                      |
+
+ ## Milestone 1 Deliverables
+ 
