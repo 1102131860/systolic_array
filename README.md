@@ -13,10 +13,10 @@ In this project, you and your group members will implement and tapeout **CORDIC*
 6. Understand what files to provide for the final chip integration
 7. Understand how your module is intergrated and interacts with the peripharals
 8. Understand and perform several methods to test the chip
-9. Observe how each step of the flow affects the end result
+9. Observe how the chip performs and think about how each step of the flow affects the end result
 
 ## CORDIC Algorithm
-CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, hyperbolic functions, square roots and more. Due to its simplicity and efficiency, CORDIC is used in the navigation system of the Apollo program's Lunar Roving Vehicle, processors such as Intel 8087, and FPGAs.
+CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, hyperbolic functions, square roots and more. Due to its simplicity and efficiency, CORDIC is used in the navigation system of the Apollo program's Lunar Roving Vehicle, processors such as Intel 8087, and FPGAs. Please read the provided slide and paper to clearly unsdrstand the operations.
 
 ## Commands and Variables
 
