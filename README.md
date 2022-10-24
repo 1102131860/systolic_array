@@ -6,16 +6,27 @@ You will implement and tapeout a **CORDIC** (COordinate Rotation DIgital Compute
 
 ## Objectives
 1.1.1 Understand CORDIC algorithm. Properly.
+
 1.1.2 Demonstrate your ability to implement a given algorithm in RTL using the best-practices learned in this class
+
 1.1.3. Construct a good verification flow to ensure a successful tapeout
+
 **1.2.1. Add input source and output select logic for your module, including LFSR and BIST function.**
+
 1.2.2. Perform synthesis to meet provided functional specifications
+
 1.2.3. Perform auto place and route to generate a tapeout ready design
+
 1.2.4. Construct a good verification flow to validate your post-apr design.
+
 1.2.5. Understand what files to provide for the final chip integration. Deliver the FRAM view of your design.
+
 1.3.1. Understand how your module is intergrated and interacts with the peripharals
+
 1.3.2. Understand and perform several methods to test the chip
+
 1.3.3. Observe how the chip performs and think about how each step of the flow affects the end result
+
 1.3.4. Successfully tapeout a CORDIC that meets target specifications
 
 This section of the project will focus on understanding and writing 
