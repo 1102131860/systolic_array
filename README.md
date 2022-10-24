@@ -2,7 +2,7 @@ Project Description
 ====================
 You will implement and tapeout a **CORDIC** (COordinate Rotation DIgital Computer) in pre-assigned teams. This will involve (1) understanding the CORDIC algorithm and  modelling its behavior using a high level programming language; (2) Describing your design in RTL; and (3) perform synthesis and APR on your design. You will verify that the module is functional, and meets target specifications at each intermediate stage of the process. Eventually, your CORDIC design will be taped out and you will test the chip, and characterize its performance and power.
 
-**:date: Milestone 1 Due Date: 11/3 11:59pm (:warning:PLEASE START EARLY:warning:)
+**:date: Milestone 1 Due Date: 11/3 11:59pm (:warning:PLEASE START EARLY:warning:)**
 
 ## Objectives
 1.1.1 Understand CORDIC algorithm. Properly.
@@ -38,17 +38,19 @@ CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, 
 ## Specifications
 Here are the specifiacaitons of the CORDIC design you are implementing:
 
-| Feature                             | Description                  |
-|-------------------------------------|------------------------------|
-| Number of micro-rotations           | 12 (make it user-programmable|
-| Number of pipline stages            | Designer to decide           |
-| Input data timing assumptions       | Data can appear every cycle  |
-| Scaling factor                      | Ignored                      |
-| Modes supported                     | Rotation & Vectoring         |
-| IO ports                            | [cordic_top.sv]              |
-| Process node                        | TSMC 65GP                    |
-| Power supply                        | 0.8 ~ 1 V                    |
-| Minimum clock frequency             | 100 Mhz                      |
+| Feature                             | Description                      |
+|-------------------------------------|----------------------------------|
+| Number of micro-rotations           | 12 (make it user-programmable)   |
+| Number of pipline stages            | Designer to decide               |
+| Input data timing assumptions       | Data can appear every cycle      |
+| Input data format                   | Two's complement                 |
+| Input data width                    | 16 bits (1 sign, 2 int, 13 frac) |
+| Scaling factor                      | Ignored                          |
+| Modes supported                     | Rotation & Vectoring             |
+| IO ports                            | [cordic_top.sv]                  |
+| Process node                        | TSMC 65GP                        |
+| Power supply                        | 0.8 ~ 1 V                        |
+| Minimum clock frequency             | 100 Mhz                          |
 
 Explore use of _genvar_ to build a customizable number of stages.
 **The header verilog file for the design has been provided**
