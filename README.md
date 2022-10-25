@@ -46,6 +46,7 @@ Here are the specifiacaitons of the CORDIC design you are implementing:
 | Input data format                   | Two's complement                 |
 | Input data width                    | 16 bits (1 sign, 2 int, 13 frac) |
 | Scaling factor                      | Ignored                          |
+| Coordinates supported               | Circular                         |
 | Modes supported                     | Rotation & Vectoring             |
 | IO ports                            | [cordic_top.sv]                  |
 | Process node                        | TSMC 65GP                        |
