@@ -11,7 +11,7 @@ You will implement and tapeout a **CORDIC** (COordinate Rotation DIgital Compute
 
 1.1.3. Construct a good verification flow to ensure a successful tapeout
 
-**1.2.1. Add input source and output select logic for your module, including LFSR and BIST function.**
+1.2.1. Add input source and output select logic for your module, including LFSR and BIST function.
 
 1.2.2. Perform synthesis to meet provided functional specifications
 
