@@ -52,6 +52,12 @@ Here are the specifiacaitons of the CORDIC design you are implementing:
 | Power supply                        | 0.8 ~ 1 V                        |
 | Minimum clock frequency             | 100 Mhz                          |
 
+Shown below is the input and expected output pattern. Input data along with ucr carrying operation code are fed to your CORDIC module for one cycle with enable bit. After processing, the output result is presented with done signal indicating the completion for one cycle.
+<p align="center">
+<img src="./img/behavior.png" alt="" width="700"/>
+</p>
+
+
 Explore use of _genvar_ to build a customizable number of stages.
 **The header verilog file for the design has been provided**
 
