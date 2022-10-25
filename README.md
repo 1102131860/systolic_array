@@ -48,7 +48,7 @@ Here are the specifiacaitons of the CORDIC design you are implementing:
 | Scaling factor                      | Ignored                          |
 | Coordinates supported               | Circular                         |
 | Modes supported                     | Rotation & Vectoring             |
-| IO ports                            | [cordic_top.sv]                  |
+| IO ports                            | [cordic_top.sv](src/verilog/cordic_top.sv)|
 | Process node                        | TSMC 65GP                        |
 | Power supply                        | 0.8 ~ 1 V                        |
 | Minimum clock frequency             | 100 Mhz                          |
