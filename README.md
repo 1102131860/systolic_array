@@ -64,7 +64,7 @@ Explore use of _genvar_ to build a customizable number of stages.
 
  ## Milestone 1 Deliverables
  Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
- 1. Script written in high level programing language that models the CORDIC behavior. **We have specified the format of the input data file in the attached repo** 
+ 1. Script written in high level programing language that models the CORDIC behavior. We have specified the format of the [input data file](scripts/cordic_input.txt).
  3. Synthesizable CORDIC RTL design
  4. Test framework used to verify your design
  5. Readme that clearly explains the organization of your design and how to run both high level simulation and verilog.
