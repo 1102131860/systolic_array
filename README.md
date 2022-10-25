@@ -51,6 +51,8 @@ Here are the specifiacaitons of the CORDIC design you are implementing:
 | IO ports                            | [cordic_top.sv](src/verilog/cordic_top.sv)|
 | Process node                        | TSMC 65GP                        |
 | Power supply                        | 0.8 ~ 1 V                        |
+| Target corner                       | TT                               |
+| Timing model                        | NLDM                             |
 | Minimum clock frequency             | 100 Mhz                          |
 
 Shown below is the input and expected output pattern. Input data along with ucr carrying operation code are fed to your CORDIC module for one cycle with enable bit. After processing, the output result is presented with done signal indicating the completion for one cycle.
