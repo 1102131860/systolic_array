@@ -81,7 +81,7 @@ Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_.
 
 
 ## Team common directories on ECE Linux Machine
-Please `cd` the full path directly to access. 
+You only have the permission to write to files taht are in your group. Please `cd` the full path directly to access. 
 ``` bash
 /tools/projects/ece4804/group01
 /tools/projects/ece4804/group02
