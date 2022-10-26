@@ -54,6 +54,7 @@ Here are the specifiacaitons of the CORDIC design you are implementing:
 | Power supply                        | 0.8 ~ 1 V                        |
 | Target corner                       | TT                               |
 | Minimum clock frequency             | 100 Mhz                          |
+| Highest metal allowed               | M5                               |
 
 Shown below is the input and expected output pattern. Input data along with ucr carrying operation code are fed to your CORDIC module for one cycle with enable bit. After processing, the output result is presented with done signal indicating the completion for one cycle.
 <p align="center">
