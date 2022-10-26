@@ -72,6 +72,7 @@ Explore use of _genvar_ to build a customizable number of stages.
 | 2        | 11/10 | Integration with wrapper, SAPR complete, FRAM export |
 | 3        | 11/17 | Chip-level Validation, Final SAPR Delivery           |
 
+**:muscle: Collaboration is highly encouraged. However, NO COPYING:x:**
 
 ## Milestone 1 Deliverables
 Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
