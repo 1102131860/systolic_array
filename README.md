@@ -65,8 +65,16 @@ Shown below is the input and expected output pattern. Input data along with ucr 
 Explore use of _genvar_ to build a customizable number of stages.
 **The header verilog file for the design has been provided**
 
- ## Milestone 1 Deliverables
- Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
+## Milestone timeline
+| Milstone | Date  | Item                                                 |
+|----------|-------|------------------------------------------------------|
+| 1        | 11/3  | Verilog block-level complete & regression flow       |
+| 2        | 11/10 | Integration with wrapper, SAPR complete, FRAM export |
+| 3        | 11/17 | Chip-level Validation, Final SAPR Delivery           |
+
+
+## Milestone 1 Deliverables
+Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
  1. Script written in high level programing language that models the CORDIC behavior. We have specified the format of the [input data file](scripts/cordic_input.txt).
  3. Synthesizable CORDIC RTL design
  4. Test framework used to verify your design
