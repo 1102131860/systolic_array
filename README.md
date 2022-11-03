@@ -45,7 +45,8 @@ Here are the specifiacaitons of the CORDIC design you are implementing:
 | Input data timing assumptions       | Data can appear every cycle      |
 | Input data format                   | Two's complement                 |
 | Input data width                    | 16 bits (1 sign, 2 int, 13 frac) |
-| Scaling factor                      | Ignored                          |
+| Output data width                   | 18 bits (1 sign, 4 int, 13 frac) :bangbang:|
+| Scaling factor                      | Compensate the scaling           :bangbang:|
 | Coordinates supported               | Circular                         |
 | Modes supported                     | Rotation & Vectoring             |
 | IO ports                            | [cordic_top.sv](src/verilog/cordic_top.sv)|
