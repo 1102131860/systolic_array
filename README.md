@@ -69,7 +69,7 @@ Explore use of _genvar_ to build a customizable number of stages.
 ## Milestone timeline
 | Milestone | Date  | Item                                                 |
 |-----------|-------|------------------------------------------------------|
-| 1         | 11/3  | Verilog block-level complete & regression flow       |
+| 1         | ~~11/3~~ 11/4  | Verilog block-level complete & regression flow       |
 | 2         | 11/10 | Integration with wrapper, SAPR complete, FRAM export |
 | 3         | 11/17 | Chip-level Validation, Final SAPR Delivery           |
 
