@@ -67,6 +67,7 @@ Explore use of _genvar_ to build a customizable number of stages.
 **The header verilog file for the design has been provided**
 
 ## CORDIC Wrapper
+The CORDIC wrapper includes 3 main blocks: driver, monitor and your cordic. In driver mode 0, driver flops the incoming test patteren, and sends it out to CORDIC in the next cycle. In driver mode 1, LFSR inside the driver generates the test patterens and feed it to CORDIC. Monitor in mode 0 flops the CORDIC output and pops it out the next cycle to external modules. In monitor mode 1, the signature analyzer inside the monotor collects the CORDIC ouputs and compresses those until it receives the stop signal, and one ouput will be sent out from the monitor. The valid and data input ports are also used to set the seed of LFSR and SA when in driver mode 1 or monitor mode 1. Send the seed through data port with one cycle of valid in the beginning of your test sequence if you are using LFSR or SA. LFSR stops when the generated pattern matches the stop pattern from the stop code input port.
 
 | Driver Mode | Description      |
 |-------------|------------------|
