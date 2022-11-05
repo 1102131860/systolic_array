@@ -66,6 +66,23 @@ Shown below is the input and expected output pattern. Input data along with ucr 
 Explore use of _genvar_ to build a customizable number of stages.
 **The header verilog file for the design has been provided**
 
+## CORDIC Wrapper
+
+| Driver Mode | Description      |
+|-------------|------------------|
+| 0           | External Input   |
+| 1           | LSFR             |
+
+| Monitor Mode| Description      |
+|-------------|------------------|
+| 0           | Direct Output    |
+| 1           | Signal Analyzer  |
+
+<p align="center">
+<img src="./img/cordic_wrapper.png" alt="" width="700"/>
+</p>
+
+
 ## Milestone timeline
 | Milestone | Date  | Item                                                 |
 |-----------|-------|------------------------------------------------------|
