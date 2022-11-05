@@ -51,10 +51,6 @@ module tb_cordic_wrapper;
          $sdf_annotate("./syn_dll.sdf", dll0);
       `endif
       returnval = $value$plusargs("testname=%s", testname);
-      //filename  = {"./golden_log/", string'(testname), ".log"};
-      //f = $fopen(filename);
-      //$fmonitor(f, "time=%5d, State=%0s, rst_i=%b, go_i=%b, wb_i=%b, rd_o=%b, ds_o=%b ", 
-      //             $time, fsm0.state_r.name(),rst_i, go_i, wb_i, rd_o, ds_o);
       
       initialize_signals();
       repeat (10) @(posedge i_clk);	
