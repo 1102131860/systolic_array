@@ -6,8 +6,6 @@
 ./misr.sv
 ./pseudo_rand_num_gen.sv
 ./signature_analyzer.sv
-./cordic_unit.sv
-./cordic_pipe.sv
 ./cordic_top.sv
 ./cordic_wrapper.sv
 ./tb_cordic_wrapper.sv
