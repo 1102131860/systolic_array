@@ -16,7 +16,7 @@ module lfsr
    output                  o_lfsr_done
 );
  
-   reg    [NUM_BITS:1]     r_lfsr_data = '0;
+   reg    [NUM_BITS:1]     r_lfsr_data;
    reg                     r_lfsr_vld;
    reg                     r_xnor;
  
