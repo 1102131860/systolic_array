@@ -77,7 +77,7 @@ The CORDIC wrapper includes 3 main blocks: driver, monitor and your cordic. In d
 | Monitor Mode| Description      |
 |-------------|------------------|
 | 0           | Direct Output    |
-| 1           | Signal Analyzer  |
+| 1           | Signature Analyzer  |
 
 <p align="center">
 <img src="./img/cordic_wrapper.png" alt="" width="700"/>
