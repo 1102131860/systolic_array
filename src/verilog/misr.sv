@@ -14,7 +14,7 @@ module misr
    output [NUM_BITS-1:0]   o_misr_data
 );
  
-   reg    [NUM_BITS:1]     r_misr_data = '0;
+   reg    [NUM_BITS:1]     r_misr_data;
    reg                     r_misr_vld;
    reg                     r_xnor;
  
