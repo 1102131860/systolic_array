@@ -85,11 +85,11 @@ The CORDIC wrapper includes 3 main blocks: driver, monitor and your cordic. In d
 
 
 ## Milestone timeline
-| Milestone | Date  | Item                                                 |
-|-----------|-------|------------------------------------------------------|
-| 1         | ~~11/3~~ 11/4  | Verilog block-level complete & regression flow       |
-| 2         | 11/10 | Integration with wrapper, SAPR complete, FRAM export |
-| 3         | 11/17 | Chip-level Validation, Final SAPR Delivery           |
+| Milestone | Date            | Item                                                 |
+|-----------|-----------------|------------------------------------------------------|
+| 1         | ~~11/3~~  11/4  | Verilog block-level complete & regression flow       |
+| 2         | ~~11/10~~ 11/15 | Integration with wrapper, SAPR complete, FRAM export |
+| 3         | ~~11/17~~ 11/22 | Chip-level Validation, Final SAPR Delivery           |
 
 ## Milestone 1 Deliverables
 Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
