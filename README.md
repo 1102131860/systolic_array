@@ -94,10 +94,29 @@ The CORDIC wrapper includes 3 main blocks: driver, monitor and your cordic. In d
 ## Milestone 1 Deliverables
 Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
  1. Script written in high level programing language that models the CORDIC behavior. We have specified the format of the [input data file](scripts/cordic_input.txt).
- 3. Synthesizable CORDIC RTL design
- 4. Test framework used to verify your design
- 5. Readme that clearly explains the organization of your design and how to run both high level simulation and verilog.
+ 2. Synthesizable CORDIC RTL design
+ 3. Test framework used to verify your design
+ 4. Readme that clearly explains the organization of your design and how to run both high level simulation and verilog.
 
+## Milestone 2 Deliverables
+ 1. Please rename your _cordic_wrapper_ module that now integrates your cordic to _cordic\_wrapper\_\<x\>_ to avoid naming conflict during integration(_\<x\>_ is your group number)
+ 2. Run the flow with the updated tcl files that now have 65GP setup, desired pin placement and design constraints
+ 3. Each team will submit one tar.gz with filename _cordic\_wrapper\_\<x\>.tar.gz_ in group directory: _/tools/projects/ece4804/group0\<x\>/ms2\_submission_
+ 4. The tar.gz file should include these two directories that can be found in your _apr_ directory and all the contents inside: _results_ and  _cordic\_wrapper\_\<x\>\_lib_
+```bash
+cordic_wrapper_<x>.tar.gz
+|
+|-cordic_wrapper_<x>-|
+                     |-result-----------------|
+                     |                        |-file1
+                     |                        |-file2
+                     |                        |-...
+                     |        
+                     |-cordic_wrapper_<x>_lib-|
+                                              |-dir1
+                                              |-file1
+                                              |-...
+```
 
 ## Team common directories on ECE Linux Machine
 You only have the permission to write to files taht are in your group. Please `cd` the full path directly to access. 
