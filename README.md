@@ -102,12 +102,17 @@ Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_.
  1. Please rename your _cordic_wrapper_ module that now integrates your cordic to _cordic\_wrapper\_\<x\>_ to avoid naming conflict during integration(_\<x\>_ is your group number)
  2. Run the flow with the updated tcl files that now have 65GP setup, desired pin placement and design constraints
  3. Each team will submit one tar.gz with filename _cordic\_wrapper\_\<x\>.tar.gz_ in group directory: _/tools/projects/ece4804/group0\<x\>/ms2\_submission_
- 4. The tar.gz file should include these two directories that can be found in your _apr_ directory and all the contents inside: _results_ and  _cordic\_wrapper\_\<x\>\_lib_
+ 4. The tar.gz file should include these three directories 1._results_ 2. _reports_ and 3._cordic\_wrapper\_\<x\>\_lib_ that can be found in your _apr_ directory and all the contents inside 
 ```bash
 cordic_wrapper_<x>.tar.gz
 |
 |-cordic_wrapper_<x>-|
                      |-result-----------------|
+                     |                        |-file1
+                     |                        |-file2
+                     |                        |-...
+                     |        
+                     |-reports----------------|
                      |                        |-file1
                      |                        |-file2
                      |                        |-...
