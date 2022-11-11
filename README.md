@@ -107,7 +107,7 @@ Each team will submit one tar.gz through Canvas with filename _<team_x>.tar.gz_.
 cordic_wrapper_<x>.tar.gz
 |
 |-cordic_wrapper_<x>-|
-                     |-result-----------------|
+                     |-results----------------|
                      |                        |-file1
                      |                        |-file2
                      |                        |-...
