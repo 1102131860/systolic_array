@@ -1,0 +1,3 @@
+./cordic_wrapper.apr.v 
+./tb_cordic_wrapper_sapr.sv
+/tools/pdk/tsmc/musesemi/65MSRFGP/tcbn65gplus_200a/TSMCHOME/digital/Front_End/verilog/tcbn65gplus_200a/tcbn65gplus_pwr.v
