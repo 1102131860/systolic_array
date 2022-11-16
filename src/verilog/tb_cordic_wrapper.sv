@@ -3,6 +3,7 @@ module tb_cordic_wrapper;
    parameter      NUM_MICRO_ROTATION = 12;
    parameter      INPUT_DATA_WIDTH   = 49;
    parameter      OUTPUT_DATA_WIDTH  = 54;
+   parameter      DATA_WIDTH         = 56;
  
    parameter      PERIODCLK2         = 10;
    parameter real DUTY_CYCLE         = 0.5;
@@ -18,9 +19,9 @@ module tb_cordic_wrapper;
    logic [INPUT_DATA_WIDTH-1:0]      i_stop_code;
    
    logic                             i_vld;
-   logic [INPUT_DATA_WIDTH-1:0]      i_data;
+   logic [DATA_WIDTH-1:0]            i_data;
    logic                             o_vld;
-   logic [OUTPUT_DATA_WIDTH-1:0]     o_data;
+   logic [DATA_WIDTH-1:0]            o_data;
    
    logic                             o_sample_clk;
    
@@ -41,7 +42,8 @@ module tb_cordic_wrapper;
    cordic_wrapper #(
       .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION),
       .INPUT_DATA_WIDTH    (INPUT_DATA_WIDTH),
-      .OUTPUT_DATA_WIDTH   (OUTPUT_DATA_WIDTH)
+      .OUTPUT_DATA_WIDTH   (OUTPUT_DATA_WIDTH),
+      .DATA_WIDTH          (DATA_WIDTH)
    ) cordic_wrapper_0 (.*);
 
    initial begin : TEST_CASE
