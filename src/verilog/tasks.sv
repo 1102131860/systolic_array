@@ -30,14 +30,13 @@ task simple();
       repeat (10) @(posedge i_clk);
       @(posedge i_clk);
       #OFFSET i_vld        =  1'b1;
-      //#OFFSET i_data       = {1'b0,16'h2000,16'h2000,16'h2000};
-      #OFFSET i_data       = {1'b1,16'hA3D6,16'h3C69,16'h5B48};
+      #OFFSET i_data       = {2'b01,18'h0A3D6,18'h03C69,18'h05B48};
       @(posedge i_clk);
       #OFFSET i_vld        =  1'b0;
       repeat (20) @(posedge i_clk);
       @(posedge i_clk);
       #OFFSET i_vld        =  1'b1;
-      #OFFSET i_data       = 49'd100;
+      #OFFSET i_data       = 56'd100;
       @(posedge i_clk);
       #OFFSET i_vld        =  1'b0;
       
