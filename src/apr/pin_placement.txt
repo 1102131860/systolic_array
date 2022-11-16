@@ -3,7 +3,7 @@ defaultOffset = 10.0
 
 #W, 10.0
 i_stop_code [48:0], layer=M2  +4.0 pitch=1.0
-i_data      [48:0], layer=M2  +8.0 pitch=1.0
+i_data      [55:0], layer=M2  +8.0 pitch=1.0
 i_vld             , layer=M2  +4.0
 
 o_sample_clk      , layer=M2  +4.0
@@ -13,4 +13,4 @@ i_mode      [1:0] , layer=M2  +4.0 pitch=1.0
 i_bypass    [2:0] , layer=M2  +4.0 pitch=1.0
 
 o_vld             , layer=M2  +4.0
-o_data      [53:0], layer=M2  +8.0 pitch=1.0
+o_data      [55:0], layer=M2  +8.0 pitch=1.0
