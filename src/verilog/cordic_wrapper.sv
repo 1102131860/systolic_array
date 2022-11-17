@@ -114,7 +114,7 @@ module cordic_wrapper
       .i_stop     (stop_code_hit),     
       
       .i_seed_vld (i_vld),     
-      .i_seed_data({5'b0,i_data}),
+      .i_seed_data({5'b0,i_data[54],i_data[51:36],i_data[33:18],i_data[15:0]}),
 
       .i_dut_vld  (monitor_in.vld),     
       .i_dut_data (monitor_in.data),
