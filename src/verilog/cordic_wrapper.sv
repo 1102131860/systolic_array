@@ -96,7 +96,8 @@ module cordic_wrapper
    );
 
    assign monitor_in.vld  = cordic_bypass ? cordic_in.vld  : cordic_out.vld;
-   assign monitor_in.data = cordic_bypass ? cordic_in.data : cordic_out.data;
+   assign monitor_in.data = cordic_bypass ? {2'b00,cordic_in.data[47:32],2'b00,cordic_in.data[31:16],2'b00,cordic_in.data[15:0]} : cordic_out.data;
+
    
 //-------------------------------------------------------------------------//
 //    Monitor                                                              //
