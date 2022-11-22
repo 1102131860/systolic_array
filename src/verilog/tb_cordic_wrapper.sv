@@ -13,7 +13,8 @@ module tb_cordic_wrapper;
    
    logic                             i_clk;
    logic                             i_async_rst;
-
+   
+   logic                             i_en;
    logic [1:0]                       i_mode;
    logic [2:0]                       i_bypass;
    logic [INPUT_DATA_WIDTH-1:0]      i_stop_code;
