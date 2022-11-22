@@ -33,6 +33,7 @@ module tb_cordic_wrapper;
    
    initial begin
       #OFFSET;
+      i_en = 1'b1;
       forever begin
          i_clk = 1'b0;
          #(PERIODCLK2-(PERIODCLK2*DUTY_CYCLE)) i_clk = 1'b1;
