@@ -15,3 +15,4 @@ module cordic_top
         output logic        done_o,
         output cordic_data  data_o
     );
+endmodule    
