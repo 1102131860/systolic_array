@@ -1,4 +1,4 @@
-import cordic_pkg::*;
+import cordic_wrapper_pkg::*;
 
 module cordic_top
     #(
