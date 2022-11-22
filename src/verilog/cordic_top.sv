@@ -5,7 +5,6 @@ module cordic_top
         parameter NUM_MICRO_ROTATION = 12
     )
     (
-    (
         input  logic        clk_i,
         input  logic        rst_i,
         
