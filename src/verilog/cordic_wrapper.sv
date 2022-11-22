@@ -11,6 +11,7 @@ module cordic_wrapper
    input  logic                           i_clk,
    input  logic                           i_async_rst,
 
+   input  logic                           i_en,
    input  logic [1:0]                     i_mode,
    input  logic [2:0]                     i_bypass,
    input  logic [INPUT_DATA_WIDTH-1:0]    i_stop_code,
@@ -30,9 +31,11 @@ module cordic_wrapper
    logic          driver_mode, monitor_mode;
    logic          stop_code_hit;
    logic          sync_rst;
+   logic          g_clk;
    logic          [OUTPUT_DATA_WIDTH-1:0]       pre_o_data;
    
    assign o_sample_clk   = i_clk;
+   assign g_clk = i_clk & i_en; 
    
    assign driver_mode    = i_mode[1];    // 0=external   1=internal lfsr
    assign monitor_mode   = i_mode[0];    // 0=directout  1=signature analyzer
@@ -41,9 +44,10 @@ module cordic_wrapper
    assign cordic_bypass  = i_bypass[1];  // 0=no bypass  1=bypass
    assign monitor_bypass = i_bypass[0];  // 0=no bypass  1=bypass
    
+
    async_reset async_rst_0 
    (
-      .clk        (i_clk), 
+      .clk        (g_clk), 
       .asyncrst   (i_async_rst),
       .rst        (sync_rst)
    );
@@ -53,18 +57,18 @@ module cordic_wrapper
 //-------------------------------------------------------------------------//
    
    assign driver_in.vld  = i_vld;
-   assign driver_in.func = cordic_func'(i_data[54]); //[54]
+   assign driver_in.func = i_data[54]; //[54]
    assign driver_in.data = {i_data[51:36],i_data[33:18],i_data[15:0]};
    
    pseudo_rand_num_gen
    #(
       .DATA_WIDTH (INPUT_DATA_WIDTH)
    ) cordic_driver_0 (
-      .i_clk      (i_clk),
+      .i_clk      (g_clk),
       .i_rst      (sync_rst),
       
       .i_mode     (driver_mode),
-      .i_en       (driver_in.vld),
+      .i_vld      (driver_in.vld),
       .i_data     ({driver_in.func, driver_in.data}),
       
       .i_stop_code(i_stop_code),
@@ -80,25 +84,25 @@ module cordic_wrapper
 //    Cordic                                                               //
 //-------------------------------------------------------------------------//
    
-   cordic_top
-   #(
-      .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
-   ) cordic_top_0 (
-      .clk_i      (i_clk),
-      .rst_i      (sync_rst),
-      
-      .en_i       (cordic_in.vld),
-      .func_i     (cordic_in.func),
-      .data_i     (cordic_in.data),
-      
-      .done_o     (cordic_out.vld),
-      .data_o     (cordic_out.data)
-   );
+   //cordic_top
+   //#(
+   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
+   //) cordic_top_0 (
+   //   .clk_i      (g_clk),
+   //   .rst_i      (sync_rst),
+   //   
+   //   .en_i       (cordic_in.vld),
+   //   .func_i     (cordic_in.func),
+   //   .data_i     (cordic_in.data),
+   //   
+   //   .done_o     (cordic_out.vld),
+   //   .data_o     (cordic_out.data)
+   //);
 
    assign monitor_in.vld  = cordic_bypass ? cordic_in.vld  : cordic_out.vld;
    assign monitor_in.data = cordic_bypass ? {2'b00,cordic_in.data[47:32],2'b00,cordic_in.data[31:16],2'b00,cordic_in.data[15:0]} : cordic_out.data;
 
-   
+    
 //-------------------------------------------------------------------------//
 //    Monitor                                                              //
 //-------------------------------------------------------------------------//
@@ -107,13 +111,11 @@ module cordic_wrapper
    #(
       .DATA_WIDTH (OUTPUT_DATA_WIDTH)
    ) cordic_monitor_0 (
-      .i_clk      (i_clk),
+      .i_clk      (g_clk),
       .i_rst      (sync_rst),
       
       .i_mode     (monitor_mode),     
       .i_stop     (stop_code_hit),     
-      
-      .i_seed_vld (i_vld),     
       .i_seed_data({5'b0,i_data[54],i_data[51:36],i_data[33:18],i_data[15:0]}),
 
       .i_dut_vld  (monitor_in.vld),     
@@ -126,4 +128,5 @@ module cordic_wrapper
    assign o_vld      = monitor_bypass ? monitor_in.vld  : monitor_out.vld;
    assign pre_o_data = monitor_bypass ? monitor_in.data : monitor_out.data;
    assign o_data     ={2'b00, pre_o_data}; 
+
 endmodule
