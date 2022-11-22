@@ -139,6 +139,7 @@ source set_dont_use.tcl
 # __simulates__ correctly, but will fail in silicon.
 
 #Some examples below
+set_false_path   -from [get_ports i_en]
 #set_false_path -through [get_pins trng_ns_0/reset_*]
 #set_false_path -to clk_pad_out
 # set_false_path -from nmi
