@@ -16,7 +16,6 @@ set RTL_SOURCE_FILES "\
 $BASE/cordic_wrapper_pkg.sv \
 $BASE/pseudo_rand_num_gen_pkg.sv \
 $BASE/async_reset.sv \
-$BASE/async_reset_n.sv \
 $BASE/lfsr.sv \
 $BASE/misr.sv \
 $BASE/pseudo_rand_num_gen.sv \
@@ -28,7 +27,7 @@ $BASE/cordic_wrapper.sv \
 set_svf ./$results/$TOPLEVEL.svf
 define_design_lib WORK -path ./WORK
 analyze -format sverilog $RTL_SOURCE_FILES
-elaborate cordic_wrapper 
+elaborate cordic_wrapper
 
 link
 current_design $TOPLEVEL
