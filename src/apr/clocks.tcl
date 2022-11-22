@@ -48,7 +48,7 @@ set power_cg_all_registers true ; # insert always-enabled cg cells for ungated r
 set power_remove_redundant_clock_gates false  ; # prevent DC from optimizing away the cg cells that are used for balancing
 
 # after placing, split_clock_net command to balance the clock tree fanout before cts
-split_clock_net -objects pad_clk -gate_sizing -gate_relocation -operating_condition min_max
+split_clock_net -objects i_clk -gate_sizing -gate_relocation -operating_condition min_max
 
 set_optimize_pre_cts_power_options -low_power_placement true -merge_clock_gates true
 set placer_disable_auto_bound_for_gated_clock true
