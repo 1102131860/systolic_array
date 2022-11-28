@@ -1,17 +1,17 @@
 type = offset
-defaultOffset = 10.0
+defaultOffset = 16.65
 
-#W, 10.0
-i_stop_code [48:0], layer=M2  +4.0 pitch=1.0
-i_data      [55:0], layer=M2  +8.0 pitch=1.0
-i_vld             , layer=M2  +4.0
+#W, 16.65
+i_stop_code [48:0], layer=M2  +1.8 pitch=0.85
+i_data      [55:0], layer=M2  +3.6 pitch=0.85
+i_vld             , layer=M2  +1.8
 
-o_sample_clk      , layer=M2  +4.0
-i_clk             , layer=M2  +4.0
-i_async_rst       , layer=M2  +4.0
-i_en              , layer=M2  +4.0
-i_mode      [1:0] , layer=M2  +4.0 pitch=1.0
-i_bypass    [2:0] , layer=M2  +4.0 pitch=1.0
+o_sample_clk      , layer=M2  +1.8
+i_clk             , layer=M2  +1.8
+i_async_rst       , layer=M2  +1.8
+i_en              , layer=M2  +1.8
+i_mode      [1:0] , layer=M2  +1.8 pitch=0.85
+i_bypass    [2:0] , layer=M2  +1.8 pitch=0.85
 
-o_vld             , layer=M2  +4.0
-o_data      [55:0], layer=M2  +8.0 pitch=1.0
+o_vld             , layer=M2  +1.8
+o_data      [55:0], layer=M2  +3.6 pitch=0.85
