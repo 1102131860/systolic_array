@@ -100,7 +100,9 @@ module cordic_wrapper
    //);
 
    assign monitor_in.vld  = cordic_bypass ? cordic_in.vld  : cordic_out.vld;
-   assign monitor_in.data = cordic_bypass ? {2'b00,cordic_in.data[47:32],2'b00,cordic_in.data[31:16],2'b00,cordic_in.data[15:0]} : cordic_out.data;
+   assign monitor_in.data = cordic_bypass ? {{2{cordic_in.data[47]}},cordic_in.data[47:32],
+                                             {2{cordic_in.data[31]}},cordic_in.data[31:16],
+                                             {2{cordic_in.data[15]}},cordic_in.data[15:0]} : cordic_out.data;
 
     
 //-------------------------------------------------------------------------//
@@ -127,6 +129,6 @@ module cordic_wrapper
 
    assign o_vld      = monitor_bypass ? monitor_in.vld  : monitor_out.vld;
    assign pre_o_data = monitor_bypass ? monitor_in.data : monitor_out.data;
-   assign o_data     ={2'b00, pre_o_data}; 
+   assign o_data     ={{2{pre_o_data[OUTPUT_DATA_WIDTH-1]}}, pre_o_data}; 
 
 endmodule
