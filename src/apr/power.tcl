@@ -69,8 +69,8 @@ set_power_plan_strategy $upper_mesh_strategy_name \
 # compile_power_plan -ring -strategy $vss_ring_strategy_name
 # compile_power_plan -ring -strategy $vdd_ring_strategy_name
 # Create core power mesh
-compile_power_plan -strategy $upper_mesh_strategy_name
 compile_power_plan -strategy $lower_mesh_strategy_name
+compile_power_plan -strategy $upper_mesh_strategy_name
 
 # Via hack
 # =============================
