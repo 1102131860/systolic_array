@@ -29,6 +29,12 @@ set_clock_tree_options \
 #Block off metal layers from being routed
 create_metal_blockage 6 10
 
+set_clock_tree_exceptions -float_pins [get_ports o_sample_clk]\
+                          -float_pin_max_delay_rise 0.200\
+                          -float_pin_max_delay_fall 0.200\
+                          -float_pin_min_delay_rise 0.200\
+                          -float_pin_min_delay_fall 0.200
+
 ############################################################################
 # CLOCK GATING
 ############################################################################
