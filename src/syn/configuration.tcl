@@ -151,7 +151,7 @@ set PROJECT_DIR ".."
 set DC_PREFER_RUNTIME 0
 
 # Preserve design hierarchy. Very useful.
-set DC_KEEP_HIER 1
+set DC_KEEP_HIER 0
 
 # Register retiming. Look in synthesis for the compile_ultra attribute that allows for this.
 set DC_REG_RETIME 0
