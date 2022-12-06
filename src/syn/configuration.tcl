@@ -190,7 +190,11 @@ set DC_CLK_GATING 1
 set results "results"
 set reports "reports"
 
-
+# UNCOMMENT LINE WITH YOUR GROUP NUMBER !!!!!!!!!!
+#set power_cg_module_naming_style "wrp1_SNPS_%e_%t"
+#set power_cg_module_naming_style "wrp2_SNPS_%e_%t"
+#set power_cg_module_naming_style "wrp3_SNPS_%e_%t"
+#set power_cg_module_naming_style "wrp4_SNPS_%e_%t"
 
 # ==========================================================================
 # DESIGN SPECIFICATIONS AND CONSTRAINTS
