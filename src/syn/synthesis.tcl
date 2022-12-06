@@ -78,6 +78,53 @@ if {$DC_EXACT_MAP} {
     lappend COMPILE_ARGS "-exact_map"
 }
 
+if {$DC_FLATTEN} {
+   set_flatten true -effort $DC_FLATTEN_EFFORT
+}
+if {$DC_STRUCTURE} {
+   set_structure true -timing $DC_STRUCTURE_TIMING -boolean $DC_STRUCTURE_LOGIC
+}
+
+set COMPILE_ARGS [list]
+if {$DC_KEEP_HIER} {
+    lappend COMPILE_ARGS "-no_autoungroup"
+    # lappend COMPILE_ARGS "-no_boundary_optimization"
+}
+if {$DC_REG_RETIME} {
+    set_optimize_registers -async_transform $DC_REG_RETIME_XFORM \
+    -sync_transform  $DC_REG_RETIME_XFORM
+    lappend COMPILE_ARGS "-retime"
+}
+
+## Set the compilation options
+#if {$DC_FLATTEN} {
+#   set_flatten true -effort $DC_FLATTEN_EFFORT
+#}
+#if {$DC_STRUCTURE} {
+#   set_structure true -timing $DC_STRUCTURE_TIMING -boolean $DC_STRUCTURE_LOGIC
+#}
+#if {$DC_PREFER_RUNTIME} {
+#   compile_prefer_runtime
+#}
+#set COMPILE_ARGS [list]
+#if {$DC_KEEP_HIER} {
+#   lappend COMPILE_ARGS "-no_autoungroup"
+#}
+#if {$DC_REG_RETIME} {
+#   set_optimize_registers -async_transform $DC_REG_RETIME_XFORM \
+#                          -sync_transform  $DC_REG_RETIME_XFORM
+#   lappend COMPILE_ARGS "-retime"
+#}
+#if {$DC_BOUNDARY_OPTIMIZATION eq 0} {
+#    lappend COMPILE_ARGS "-no_boundary_optimization"
+#}
+#if {$DC_SEQ_OUTPUT_INVERSION eq 0} {
+#    lappend COMPILE_ARGS "-no_seq_output_inversion"
+#}
+#if {$DC_EXACT_MAP} {
+#    lappend COMPILE_ARGS "-exact_map"
+#}
+
 #=============================================================================#
 #                            Synthesis                                        #
 #=============================================================================#
