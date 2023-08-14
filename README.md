@@ -92,76 +92,76 @@ Please start by running the simulation with the provided sequence in task.sv, al
 | 4         | 11/17 | Chip-level Validation, Final SAPR Delivery with post-review changes |
 
 ## Milestone 1 Deliverables
-Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include below deliverables structured as the directories we have been following in tutorials.
- 1. Script written in high level programing language that models the CORDIC behavior. We have specified the format of the [input data file](scripts/cordic_input.txt).
- 2. A Functionally Correct and verified CORDIC RTL design integrated with the CORDIC wrapper. Rename the CORDIC Wrapper file to _cordic\_wrapper\_\<group_number\>_.
- 3. A Test framework that is used to verify your design.
- 4. Readme that clearly explains the organization of your design and how to run both the high level simulation model and verilog.
+Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
+ 1. A script written in a high level programing language such as python or C that models the CORDIC behavior. We have specified the format of the [input data file](scripts/cordic_input.txt).
+ 2. A functionally correct and verified CORDIC RTL design integrated with the CORDIC wrapper.
+ 3. A test framework that is used to verify your design.
+ 4. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
 
 ## Milestone 2 Deliverables
-Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms2.tar.gz_. The file should include the below deliverables structured as below.
- 1. The tar.gz file should include these three directories 1._results_ 2. _reports_ and 3._cordic\_wrapper\_\<group_number\>\_lib_ that can be found in your _syn_ directory and all the contents inside 
+Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms2.tar.gz_. The tar file should include the following deliverables, which can be found in your _syn_ directory, structured as below.
+
 ```bash
-cordic_wrapper_<group_number>.tar.gz
+cordic_wrapper.tar.gz
 |
-|-cordic_wrapper_<group_number>-|
-                                |-results---------------------------|
-                                |                                   |-file1
-                                |                                   |-file2
-                                |                                   |-...
-                                |        
-                                |-reports---------------------------|
-                                |                                   |-file1
-                                |                                   |-file2
-                                |                                   |-...
-                                |        
-                                |-cordic_wrapper_<group_number>_lib-|
-                                                                    |-dir1
-                                                                    |-file1
+|-cordic_wrapper-|
+                 |-results---------------------------|
+                 |                                   |-file1
+                 |                                   |-file2
+                 |                                   |-...
+                 |        
+                 |-reports---------------------------|
+                 |                                   |-file1
+                 |                                   |-file2
+                 |                                   |-...
+                 |        
+                 |-cordic_wrapper_lib----------------|
+                                                     |-dir1
+                                                     |-file1
 ```
 
 ## Milestone 3 Deliverables
-Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms3.tar.gz_. The file should include the below deliverables structured as below.
- 1. The tar.gz file should include these three directories 1._results_ 2. _reports_ and 3._cordic\_wrapper\_\<group_number\>\_lib_ that can be found in your _apr_ directory and all the contents inside 
+Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms3.tar.gz_. The file should include the following deliverables, which can be found in your _apr_ directory, structured as below.
+
 ```bash
-cordic_wrapper_<group_number>.tar.gz
+cordic_wrapper.tar.gz
 |
-|-cordic_wrapper_<group_number>-|
-                                |-results---------------------------|
-                                |                                   |-file1
-                                |                                   |-file2
-                                |                                   |-...
-                                |        
-                                |-reports---------------------------|
-                                |                                   |-file1
-                                |                                   |-file2
-                                |                                   |-...
-                                |        
-                                |-cordic_wrapper_<group_number>_lib-|
-                                                                    |-dir1
-                                                                    |-file1
+|-cordic_wrapper-|
+                 |-results---------------------------|
+                 |                                   |-file1
+                 |                                   |-file2
+                 |                                   |-...
+                 |        
+                 |-reports---------------------------|
+                 |                                   |-file1
+                 |                                   |-file2
+                 |                                   |-...
+                 |        
+                 |-cordic_wrapper_lib----------------|
+                                                     |-dir1
+                                                     |-file1
 ```
 
 ## Milestone 4 Deliverables
-Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms4.tar.gz_. The file should include the below deliverables structured as below.
- 1. The tar.gz file should include these three directories 1._results_ 2. _reports_ and 3._cordic\_wrapper\_\<group_number\>\_lib_ that can be found in your _apr_ directory and all the contents inside 
+Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms4.tar.gz_. The file should include the following deliverables, which can be found in your _apr_ directory, structured as below.
+
 ```bash
-cordic_wrapper_<group_number>.tar.gz
+cordic_wrapper.tar.gz
 |
-|-cordic_wrapper_<group_number>-|
-                                |-results---------------------------|
-                                |                                   |-file1
-                                |                                   |-file2
-                                |                                   |-...
-                                |        
-                                |-reports---------------------------|
-                                |                                   |-file1
-                                |                                   |-file2
-                                |                                   |-...
-                                |        
-                                |-cordic_wrapper_<group_number>_lib-|
-                                                                    |-dir1
-                                                                    |-file1
+|-cordic_wrapper-|
+                 |-results---------------------------|
+                 |                                   |-file1
+                 |                                   |-file2
+                 |                                   |-...
+                 |        
+                 |-reports---------------------------|
+                 |                                   |-file1
+                 |                                   |-file2
+                 |                                   |-...
+                 |        
+                 |-cordic_wrapper_lib----------------|
+                                                     |-dir1
+                                                     |-file1
 ```
 
 ## Team Common Directories on ECE Linux Machine
