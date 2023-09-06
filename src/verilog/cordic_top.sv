@@ -1,18 +1,18 @@
 import cordic_wrapper_pkg::*;
 
-module cordic_top
+module cordic_top_groupnum
     #(
         parameter NUM_MICRO_ROTATION = 12
     )
     (
-        input  logic        clk_i,
-        input  logic        rst_i,
+        input  logic        i_clk,
+        input  logic        i_rst,
         
-        input  logic        en_i,
-        input  cordic_func  func_i,
-        input  cordic_data  data_i,
+        input  logic        i_valid,
+        input  cordic_func  i_func,
+        input  cordic_data  i_data,
         
-        output logic        done_o,
-        output cordic_data  data_o
+        output logic        o_done,
+        output cordic_data  o_data
     );
 endmodule    

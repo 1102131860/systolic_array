@@ -25,7 +25,7 @@ design:
 
 
 icc: results/$(TOPLEVEL).apr.v
-	make results/$(TOP_LEVEL).apr.v
+	make results/$(TOPLEVEL).apr.v
 
 # $(SYN_FILES):$(SRC_VERILOG) 
 	# make -C $(PRJ)/syn
@@ -58,4 +58,7 @@ clean:
 			  DC_lib\
 			  *.syn.v\
 			  WORK \
-			  *.log
+			  *.log \
+			  antenna.rule \
+			  net.acts \
+			  pna_output

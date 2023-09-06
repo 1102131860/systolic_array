@@ -44,7 +44,6 @@ module cordic_wrapper
    assign cordic_bypass  = i_bypass[1];  // 0=no bypass  1=bypass
    assign monitor_bypass = i_bypass[0];  // 0=no bypass  1=bypass
    
-
    async_reset async_rst_0 
    (
       .clk        (g_clk), 
@@ -68,7 +67,7 @@ module cordic_wrapper
       .i_rst      (sync_rst),
       
       .i_mode     (driver_mode),
-      .i_vld      (driver_in.vld),
+      .i_vld      (driver_in.vld && !driver_bypass),
       .i_data     ({driver_in.func, driver_in.data}),
       
       .i_stop_code(i_stop_code),
@@ -84,19 +83,94 @@ module cordic_wrapper
 //    Cordic                                                               //
 //-------------------------------------------------------------------------//
    
-   //cordic_top
+   //cordic_top_0
    //#(
    //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
    //) cordic_top_0 (
-   //   .clk_i      (g_clk),
-   //   .rst_i      (sync_rst),
+   //   .i_clk      (g_clk),
+   //   .i_rst      (sync_rst),
    //   
-   //   .en_i       (cordic_in.vld),
-   //   .func_i     (cordic_in.func),
-   //   .data_i     (cordic_in.data),
+   //   .i_valid    (cordic_in.vld && !cordic_bypass),
+   //   .i_func     (cordic_in.func),
+   //   .i_data     (cordic_in.data),
    //   
-   //   .done_o     (cordic_out.vld),
-   //   .data_o     (cordic_out.data)
+   //   .o_done     (cordic_out.vld),
+   //   .o_data     (cordic_out.data)
+   //);
+
+   //cordic_top_1
+   //#(
+   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
+   //) cordic_top_1 (
+   //   .i_clk      (g_clk),
+   //   .i_rst      (sync_rst),
+   //   
+   //   .i_valid    (cordic_in.vld && !cordic_bypass),
+   //   .i_func     (cordic_in.func),
+   //   .i_data     (cordic_in.data),
+   //   
+   //   .o_done     (cordic_out.vld),
+   //   .o_data     (cordic_out.data)
+   //);
+
+   //cordic_top_2
+   //#(
+   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
+   //) cordic_top_2 (
+   //   .i_clk      (g_clk),
+   //   .i_rst      (sync_rst),
+   //   
+   //   .i_valid    (cordic_in.vld && !cordic_bypass),
+   //   .i_func     (cordic_in.func),
+   //   .i_data     (cordic_in.data),
+   //   
+   //   .o_done     (cordic_out.vld),
+   //   .o_data     (cordic_out.data)
+   //);
+
+   //cordic_top_3
+   //#(
+   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
+   //) cordic_top_3 (
+   //   .i_clk      (g_clk),
+   //   .i_rst      (sync_rst),
+   //   
+   //   .i_valid    (cordic_in.vld && !cordic_bypass),
+   //   .i_func     (cordic_in.func),
+   //   .i_data     (cordic_in.data),
+   //   
+   //   .o_done     (cordic_out.vld),
+   //   .o_data     (cordic_out.data)
+   //);
+
+   //cordic_top_4
+   //#(
+   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
+   //) cordic_top_4 (
+   //   .i_clk      (g_clk),
+   //   .i_rst      (sync_rst),
+   //   
+   //   .i_valid    (cordic_in.vld && !cordic_bypass),
+   //   .i_func     (cordic_in.func),
+   //   .i_data     (cordic_in.data),
+   //   
+   //   .o_done     (cordic_out.vld),
+   //   .o_data     (cordic_out.data)
+   //);
+
+   //cordic_top_5
+   //#(
+   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
+   //) cordic_top_5 (
+   //   .i_clk      (g_clk),
+   //   .i_rst      (sync_rst),
+   //   
+   //   .i_valid    (cordic_in.vld && !cordic_bypass),
+   //   .i_func     (cordic_in.func),
+   //   .i_data     (cordic_in.data),
+   //   
+   //   .o_done     (cordic_out.vld),
+   //   .o_data     (cordic_out.data)
    //);
 
    assign monitor_in.vld  = cordic_bypass ? cordic_in.vld  : cordic_out.vld;
@@ -120,7 +194,7 @@ module cordic_wrapper
       .i_stop     (stop_code_hit),     
       .i_seed_data({5'b0,i_data[54],i_data[51:36],i_data[33:18],i_data[15:0]}),
 
-      .i_dut_vld  (monitor_in.vld),     
+      .i_dut_vld  (monitor_in.vld && !monitor_bypass),     
       .i_dut_data (monitor_in.data),
 
       .o_vld      (monitor_out.vld),

@@ -108,7 +108,7 @@ def unpackLine (lineList,signal,metalLayer,pitch,last,mode,currentPos,offset,sid
         else:
             nextPos=findLegalPinLoc(float(currentPos)+pitch,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
     else:
-        currentPos = findlegalPinLoc(float(lineList[-1]),trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
+        currentPos = findLegalPinLoc(float(lineList[-1]),trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
     signalList.extend((signal,metalLayer,currentPos,side))
     return nextPos,signalList
 

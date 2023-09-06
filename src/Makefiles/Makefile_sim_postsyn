@@ -16,9 +16,6 @@ ifeq ($(SDF), 1)
 		VERILOG_DEFINES := $(VERILOG_DEFINES)+SDF=1
 endif
 
-
-
-
 .DEFAULT_GOAL := vcs
 
 # Move all the verilog files from the source directory over to this simulation directory. Being disciplined about file naming
