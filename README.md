@@ -85,10 +85,11 @@ Please start by running the simulation with the provided sequence in task.sv, al
 ## Milestone timeline
 | Milestone | Date            | Item                                                      |
 |-----------|-----------------|-----------------------------------------------------------|
-| 1         | 10/27 | A Functionally Complete and Verified CORDIC Module                  |
-| 2         | 11/03 | Verified, Post-synthesis CORDIC Module                              |
-| 3         | 11/10 | Verified, Post-APR CORDIC Module                                    |
-| 4         | 11/17 | Chip-level Validation, Final SAPR Delivery with post-review changes |
+| 1         | 10/28 | A Functionally Complete and Verified CORDIC Module                  |
+| 2         | 11/04 | Verified, Post-synthesis CORDIC Module                              |
+| 3         | 11/11 | Verified, Post-APR CORDIC Module                                    |
+| 4         | 11/18 | Chip-level Validation, Final SAPR Delivery with post-review changes |
+| Peer      | 12/02 | Peer Review                                                         |
 
 ## Milestone 1 Deliverables
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
