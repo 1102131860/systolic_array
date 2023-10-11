@@ -28,7 +28,7 @@ You will implement and tapeout a **CORDIC** (COordinate Rotation DIgital Compute
 1.3.4. Successfully tapeout a CORDIC that meets target specifications.
 
 ## CORDIC Algorithm
-CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, hyperbolic functions, square roots and more. Due to its simplicity and efficiency, CORDIC was used in the navigation system of the Apollo program's Lunar Roving Vehicle, processors, such as Intel 8087, and FPGAs. Please read the provided [slide](doc/CORDIC_slide.pdf) and [paper](doc/CORDIC_paper.pdf) to clearly understand the CORDIC operations. By now, you should appreciate the value of building a firm foundation upon which to mount your effort. Doing otherwise typically takes up even more time, and leads to poor quality.
+CORDIC is a shift-and-add algorithm that can calculate trigonometric functions, hyperbolic functions, square roots and more. Due to its simplicity and efficiency, CORDIC was used in the navigation system of the Apollo program's Lunar Roving Vehicle, processors, such as Intel 8087, and FPGAs. Please read the provided [slide](doc/CORDIC_slide.pdf) and [paper](doc/CORDIC_paper.pdf) to clearly understand the CORDIC operations. A high level scripts has been provided to check your knowledge against. This scripts does not satisfy the requirements for Milestone 1, but feel free to use it as a base. By now, you should appreciate the value of building a firm foundation upon which to mount your effort. Doing otherwise typically takes up even more time, and leads to poor quality.
 
 ## Specifications
 Here are the specifications of the CORDIC design you are implementing:
@@ -42,7 +42,7 @@ Here are the specifications of the CORDIC design you are implementing:
 | Input data width                    | 16 bits (1 sign, 2 int, 13 frac) |
 | Output data width                   | 18 bits (1 sign, 4 int, 13 frac) |
 | Scaling factor                      | Compensate for scaling           |
-| Coordinates supported               | Circular                         |
+| Coordinates supported               | Circular (m = 1)                 |
 | Modes supported                     | Rotation & Vectoring             |
 | IO ports                            | See [cordic_top.sv](src/verilog/cordic_top.sv)|
 | Process node                        | TSMC 65GP                        |
@@ -52,13 +52,14 @@ Here are the specifications of the CORDIC design you are implementing:
 | Minimum clock frequency             | 100 Mhz                          |
 | Highest metal allowed               | M5                               |
 
-Shown below is an example of the input and expected output pattern. Input data along with ucr carrying operation code are fed to your CORDIC module for one cycle with enable bit. After processing, the output result is presented with done signal indicating the completion for one cycle.
+Shown below is an example of the input and expected output pattern. Input data and function (equivalent to the mode mentioned in the paper and high level sim) are fed to your CORDIC module for one cycle when the enable bit is set. After processing, the output result is presented with done signal indicating the completion for one cycle.
 
 <p align="center">
 <img src="./img/behavior.png" alt="" width="700"/>
 </p>
 
-Explore use of _genvar_ to build a customizable number of stages.
+Explore the use of _genvar_ to build a customizable number of stages.
+
 **The header verilog file for the design has been provided**
 
 ## CORDIC Wrapper
@@ -85,7 +86,7 @@ Please start by running the simulation with the provided sequence in task.sv, al
 ## Milestone timeline
 | Milestone | Date            | Item                                                      |
 |-----------|-----------------|-----------------------------------------------------------|
-| 1         | 10/28 | A Functionally Complete and Verified CORDIC Module                  |
+| 1         | 10/28 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
 | 2         | 11/04 | Verified, Post-synthesis CORDIC Module                              |
 | 3         | 11/11 | Verified, Post-APR CORDIC Module                                    |
 | 4         | 11/18 | Chip-level Validation, Final SAPR Delivery with post-review changes |
@@ -93,7 +94,7 @@ Please start by running the simulation with the provided sequence in task.sv, al
 
 ## Milestone 1 Deliverables
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
- 1. A script written in a high level programing language such as python or C that models the CORDIC behavior on a bit level (One-To-One Accurate Results). We have specified the format of the [input data file](scripts/cordic_input.txt).
+ 1. A script written in a high level programing language such as python or C that models the CORDIC behavior on a bit level. Unlike the provided high level script, your high level should match the output of your CORDIC module. We have specified the format of the [input data file](scripts/cordic_input.txt).
  2. A functionally correct and verified CORDIC RTL design integrated with the CORDIC wrapper. Remember to rename the module cordic_top_groupnumber to have the appropriate group number.
  3. A test framework that is used to verify your design.
  4. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.

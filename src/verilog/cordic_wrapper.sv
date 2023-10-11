@@ -83,6 +83,8 @@ module cordic_wrapper
 //    Cordic                                                               //
 //-------------------------------------------------------------------------//
    
+   // Uncomment your groups respective cordic module
+
    //cordic_top_0
    //#(
    //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
@@ -147,21 +149,6 @@ module cordic_wrapper
    //#(
    //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
    //) cordic_top_4 (
-   //   .i_clk      (g_clk),
-   //   .i_rst      (sync_rst),
-   //   
-   //   .i_valid    (cordic_in.vld && !cordic_bypass),
-   //   .i_func     (cordic_in.func),
-   //   .i_data     (cordic_in.data),
-   //   
-   //   .o_done     (cordic_out.vld),
-   //   .o_data     (cordic_out.data)
-   //);
-
-   //cordic_top_5
-   //#(
-   //   .NUM_MICRO_ROTATION  (NUM_MICRO_ROTATION)
-   //) cordic_top_5 (
    //   .i_clk      (g_clk),
    //   .i_rst      (sync_rst),
    //   
