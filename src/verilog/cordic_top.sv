@@ -12,7 +12,7 @@ module cordic_top_groupnum
         input  cordic_func  i_func,
         input  cordic_data  i_data,
         
-        output logic        o_done,
+        output logic        o_valid,
         output cordic_data  o_data
     );
 endmodule    
