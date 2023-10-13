@@ -96,7 +96,7 @@ module cordic_wrapper
    //   .i_func     (cordic_in.func),
    //   .i_data     (cordic_in.data),
    //   
-   //   .o_done     (cordic_out.vld),
+   //   .o_valid     (cordic_out.vld),
    //   .o_data     (cordic_out.data)
    //);
 
@@ -111,7 +111,7 @@ module cordic_wrapper
    //   .i_func     (cordic_in.func),
    //   .i_data     (cordic_in.data),
    //   
-   //   .o_done     (cordic_out.vld),
+   //   .o_valid     (cordic_out.vld),
    //   .o_data     (cordic_out.data)
    //);
 
@@ -126,7 +126,7 @@ module cordic_wrapper
    //   .i_func     (cordic_in.func),
    //   .i_data     (cordic_in.data),
    //   
-   //   .o_done     (cordic_out.vld),
+   //   .o_valid     (cordic_out.vld),
    //   .o_data     (cordic_out.data)
    //);
 
@@ -141,7 +141,7 @@ module cordic_wrapper
    //   .i_func     (cordic_in.func),
    //   .i_data     (cordic_in.data),
    //   
-   //   .o_done     (cordic_out.vld),
+   //   .o_valid     (cordic_out.vld),
    //   .o_data     (cordic_out.data)
    //);
 
@@ -156,7 +156,7 @@ module cordic_wrapper
    //   .i_func     (cordic_in.func),
    //   .i_data     (cordic_in.data),
    //   
-   //   .o_done     (cordic_out.vld),
+   //   .o_valid     (cordic_out.vld),
    //   .o_data     (cordic_out.data)
    //);
 
