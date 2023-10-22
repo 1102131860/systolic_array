@@ -35,7 +35,7 @@ Here are the specifications of the CORDIC design you are implementing:
 
 | Feature                             | Description                      |
 |-------------------------------------|----------------------------------|
-| Number of micro-rotations           | 12 (User-programmable)           |
+| Number of micro-rotations           | 12 (Programable by Designer)     |
 | Number of pipline stages            | Designer's Decision              |
 | Input data timing assumptions       | Data can appear every cycle      |
 | Input data format                   | Two's complement                 |
