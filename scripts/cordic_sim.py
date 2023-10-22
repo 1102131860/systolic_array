@@ -12,7 +12,7 @@ import sys
 uRotations = 0,1,2,3,4,5,6,7,8,9,10,11
 
 #Cordic Place Holder Values
-k = 0.607352 # Set based on number of cordic rotations
+k = 0.607352 # Set based on number of cordic rotations. Equavalent to 1/K_m
 x_r = 1      # Placeholder
 y_r = 2      # Placeholder
 z_r = 3      # Placeholder
@@ -93,10 +93,10 @@ for line in lines:
       y_r = y_r + sigma * (2**-rot) * x_r
       x_r = x_r - sigma * (2**-rot) * y_r2
   
-  # Scale final output by k
+  # Scale final output by 1/Km
   x_r = x_r * k
   y_r = y_r * k
-  z_r = z_r * k
+  z_r = z_r
 
   # Write to output file
   with open('cordic_output.txt', 'a') as f2:
