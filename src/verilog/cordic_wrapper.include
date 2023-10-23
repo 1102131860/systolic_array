@@ -1,4 +1,3 @@
-./cordic_pkg.sv
 ./cordic_wrapper_pkg.sv
 ./pseudo_rand_num_gen_pkg.sv
 ./async_reset.sv
