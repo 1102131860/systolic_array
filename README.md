@@ -45,6 +45,7 @@ Here are the specifications of the CORDIC design you are implementing:
 | Coordinates supported               | Circular (m = 1)                 |
 | Modes supported                     | Rotation & Vectoring             |
 | IO ports                            | See [cordic_top.sv](src/verilog/cordic_top.sv)|
+| Reset                               | Positive Reset (Reset when 1)    |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
 | Power supply                        | 0.8 ~ 1 V                        |
