@@ -104,9 +104,9 @@ Each team will submit one tar.gz through Canvas with filename _group<group_numbe
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms2.tar.gz_. The tar file should include the following deliverables, which can be found in your _syn_ directory, structured as below.
 
 ```bash
-cordic_wrapper.tar.gz
+group<group_number>\_ms2.tar.gz
 |
-|-cordic_wrapper-|
+|-cordic_wrapper_<groupnum>-|
                  |-results---------------------------|
                  |                                   |-file1
                  |                                   |-file2
@@ -117,7 +117,7 @@ cordic_wrapper.tar.gz
                  |                                   |-file2
                  |                                   |-...
                  |        
-                 |-cordic_wrapper_lib----------------|
+                 |-cordic_wrapper_<groupnum>_lib----------------|
                                                      |-dir1
                                                      |-file1
 ```
@@ -126,9 +126,9 @@ cordic_wrapper.tar.gz
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms3.tar.gz_. The file should include the following deliverables, which can be found in your _apr_ directory, structured as below.
 
 ```bash
-cordic_wrapper.tar.gz
+group<group_number>\_ms3.tar.gz
 |
-|-cordic_wrapper-|
+|-cordic_wrapper_<groupnum>-|
                  |-results---------------------------|
                  |                                   |-file1
                  |                                   |-file2
@@ -139,7 +139,7 @@ cordic_wrapper.tar.gz
                  |                                   |-file2
                  |                                   |-...
                  |        
-                 |-cordic_wrapper_lib----------------|
+                 |-cordic_wrapper_<groupnum>_lib----------------|
                                                      |-dir1
                                                      |-file1
 ```
@@ -148,9 +148,9 @@ cordic_wrapper.tar.gz
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms4.tar.gz_. The file should include the following deliverables, which can be found in your _apr_ directory, structured as below.
 
 ```bash
-cordic_wrapper.tar.gz
+group<group_number>\_ms4.tar.gz
 |
-|-cordic_wrapper-|
+|-cordic_wrapper_<groupnum>-|
                  |-results---------------------------|
                  |                                   |-file1
                  |                                   |-file2
@@ -161,7 +161,7 @@ cordic_wrapper.tar.gz
                  |                                   |-file2
                  |                                   |-...
                  |        
-                 |-cordic_wrapper_lib----------------|
+                 |-cordic_wrapper_<groupnum>_lib-----|
                                                      |-dir1
                                                      |-file1
 ```
