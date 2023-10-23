@@ -1,6 +1,6 @@
 import cordic_wrapper_pkg::*;
 
-module cordic_top_groupnum
+module cordic_top_<groupnum>
     #(
         parameter NUM_MICRO_ROTATION = 12
     )
