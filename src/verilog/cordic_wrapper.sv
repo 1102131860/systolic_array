@@ -1,6 +1,6 @@
 `include "cordic_wrapper_pkg.sv"
 
-module cordic_wrapper_groupnum
+module cordic_wrapper_<groupnum>
 #(
    parameter   NUM_MICRO_ROTATION = 12,
    parameter   INPUT_DATA_WIDTH   = 49,
