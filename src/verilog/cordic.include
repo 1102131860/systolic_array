@@ -1,2 +1,2 @@
-./cordic_pkg.sv
+./cordic_wrapper_pkg.sv
 ./cordic_top.sv
