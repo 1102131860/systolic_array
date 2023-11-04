@@ -51,7 +51,7 @@ Here are the specifications of the CORDIC design you are implementing:
 | Power supply                        | 0.8 ~ 1 V                        |
 | Target corner                       | TT                               |
 | Minimum clock frequency             | 100 Mhz                          |
-| Highest metal allowed               | M5                               |
+| Highest metal allowed               | M7                               |
 
 Shown below is an example of the input and expected output pattern. Input data and function (equivalent to the mode mentioned in the paper and high level sim) are fed to your CORDIC module for one cycle when the enable bit is set. After processing, the output result is presented with done signal indicating the completion for one cycle.
 
@@ -113,13 +113,13 @@ group<group_number>\_ms2.tar.gz
                  |                                   |-...
                  |        
                  |-reports---------------------------|
-                 |                                   |-file1
-                 |                                   |-file2
-                 |                                   |-...
-                 |        
-                 |-cordic_wrapper_<groupnum>_lib----------------|
-                                                     |-dir1
                                                      |-file1
+                                                     |-file2
+                                                     |-...
+                 
+                 
+                                                     
+                                                    
 ```
 
 ## Milestone 3 Deliverables
