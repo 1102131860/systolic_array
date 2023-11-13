@@ -106,20 +106,15 @@ Each team will submit one tar.gz through Canvas with filename _group<group_numbe
 ```bash
 group<group_number>\_ms2.tar.gz
 |
-|-cordic_wrapper_<groupnum>-|
-                 |-results---------------------------|
-                 |                                   |-file1
-                 |                                   |-file2
-                 |                                   |-...
-                 |        
-                 |-reports---------------------------|
-                                                     |-file1
-                                                     |-file2
-                                                     |-...
-                 
-                 
-                                                     
-                                                    
+|-results---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+|        
+|-reports---------------------------|
+                                    |-file1
+                                    |-file2
+                                    |-...
 ```
 
 ## Milestone 3 Deliverables
@@ -128,20 +123,19 @@ Each team will submit one tar.gz through Canvas with filename _group<group_numbe
 ```bash
 group<group_number>\_ms3.tar.gz
 |
-|-cordic_wrapper_<groupnum>-|
-                 |-results---------------------------|
-                 |                                   |-file1
-                 |                                   |-file2
-                 |                                   |-...
-                 |        
-                 |-reports---------------------------|
-                 |                                   |-file1
-                 |                                   |-file2
-                 |                                   |-...
-                 |        
-                 |-cordic_wrapper_<groupnum>_lib----------------|
-                                                     |-dir1
-                                                     |-file1
+|-results---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+|        
+|-reports---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+|        
+|-cordic_wrapper_<groupnum>_lib-----|
+                                    |-dir1
+                                    |-file1
 ```
 
 ## Milestone 4 Deliverables
@@ -150,20 +144,20 @@ Each team will submit one tar.gz through Canvas with filename _group<group_numbe
 ```bash
 group<group_number>\_ms4.tar.gz
 |
-|-cordic_wrapper_<groupnum>-|
-                 |-results---------------------------|
-                 |                                   |-file1
-                 |                                   |-file2
-                 |                                   |-...
-                 |        
-                 |-reports---------------------------|
-                 |                                   |-file1
-                 |                                   |-file2
-                 |                                   |-...
-                 |        
-                 |-cordic_wrapper_<groupnum>_lib-----|
-                                                     |-dir1
-                                                     |-file1
+|
+|-results---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+|        
+|-reports---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+|        
+|-cordic_wrapper_<groupnum>_lib-----|
+                                    |-dir1
+                                    |-file1
 ```
 
 ## Team Common Directories on ECE Linux Machine
