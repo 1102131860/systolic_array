@@ -150,8 +150,11 @@ set CRITICAL_NETS ""
 # Build a buffer tree for the reset signal (should be mutually exclusive with CRITICAL_NETS)
 # Notice! The buffer tree net names list here identifies i_rst as a tree to have buffer 
 # insertion done for. This net was listed as an ideal_network in synthesis.
-set BUILD_BUFFER_TREES 0 
-set BUFFER_TREE_NET_NAMES {i_rst}
+set BUILD_BUFFER_TREES 1
+set BUFFER_TREE_NET_NAMES [list \
+    "i_async_rst" \
+    "sync_rst" \
+] 
 
 # Routing optimization effort
 set ROUTE_OPT_EFFORT "high"
