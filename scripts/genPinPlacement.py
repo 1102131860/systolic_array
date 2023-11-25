@@ -1,8 +1,9 @@
-#!/usr/bin/python 
+#!/usr/bin/python3 
 import sys
 import os
 import re
 from optparse import OptionParser
+import pdb
 
 #Example
 # pinplacement -t <templateFile> -o <outputTclFile> 
@@ -12,14 +13,9 @@ parser = OptionParser()
 parser.add_option("-t", "--templateFile", default="pin_placement.txt", dest="inFile", help="The template file where you have specified your pin placements [default: pin_placement.txt]")
 parser.add_option("-o", "--outputFile", default="pin_placement.tcl", dest="outFile", help="The file name where the resulting tcl commands corrosponding to the input file are placed [default: pin_placement.tcl]")
 
-#Stdcell height in microns
-stdCellHeight=1.8
-trackPitch = {"M2":0.2, "M3":0.2, "M4":0.2, "M5":0.2, "M6":0.2, "M7":0.2, "M8":0.8, "M9":0.8}
-routeWidth= {"M2":0.1, "M3":0.1, "M4":0.1, "M5":0.1, "M6":0.1, "M7":0.1, "M8":0.4, "M9":0.4}
-allowedTracks = [2,3,4,5,6,7] #Tracks 0, 1 and 8 are taken up by power rails.
-trackOffset = {"M2":0, "M3":0.1, "M4":0, "M5":0.1, "M6":0, "M7":0.1, "M8":0, "M9":0.2}
+
 faceDict = {"W":1, "N":2, "E":3, "S":4, "w":1, "n":2, "e":3, "s":4}
-defaultMetalDict = {"W":"M2", "N":"M3", "E":"M2", "S":"M3"}
+defaultMetalDict = {"W":"METAL2", "N":"METAL3", "E":"METAL2", "S":"METAL3"}
 
 def readInputFile(inFile):
     pinList=[]
@@ -31,14 +27,14 @@ def readInputFile(inFile):
         lines=rfh.readlines()
         for line in lines:
             line=line.strip()
-            if re.search('^\s*$',line):
+            if re.search('^\s*$',line) or re.search('^//',line):
                 continue
             ################3 Identify the type of mapping. Offset of direct-map ############
             elif re.search ('^\s*type\s*=\s*(\w+)', line): #type=offset or #type=map
                 m=re.search ('^\s*type\s*=\s*(?P<mode>\w+)', line)
                 mode=m.group('mode')
                 if not( mode=='offset' or mode=='map'):
-                    print ("Invalid mode. Mode must be either offset or map. {0} selected. Please specify a valid mode".format(mode))
+                    print("Invalid mode. Mode must be either offset or map. {0} selected. Please specify a valid mode".format(mode))
                 ###################### Identify the default Offset #############################
                 # elif re.search ('\s*defaultOffset', line): #default_offset=245.52
             elif re.search ('\s*defaultOffset\s*=\s*[0-9.]+', line): #default_offset=245.52
@@ -54,7 +50,7 @@ def readInputFile(inFile):
             else: #Regular pin assignment nnnn
                 signal = "INVALID"
                 line=re.sub('\s+', '',line)
-                lineList=line.split(r',') #Break on a commua
+                lineList=line.split(r',') #Break on a comma
                 #######Get the metal layer and the offset for the line###########
                 m=re.search(r'layer\s*=\s*(?P<metalLayer>M[0-9]+)',lineList[1])
                 metalLayer=m.group('metalLayer')
@@ -88,8 +84,9 @@ def readInputFile(inFile):
                     pinList.append(pinInfoList)
 
     return pinList
+                            
 
-def unpackLine_old (lineList,signal,metalLayer,pitch,last,mode,currentPos,offset,side):
+def unpackLine (lineList,signal,metalLayer,pitch,last,mode,currentPos,offset,side):
     signalList=[]
     nextPos="invalid"
     if mode=='offset':
@@ -98,40 +95,7 @@ def unpackLine_old (lineList,signal,metalLayer,pitch,last,mode,currentPos,offset
         currentPos = float(lineList[-1])
     signalList.extend((signal,metalLayer,currentPos,side))
     return nextPos,signalList
- 
-def unpackLine (lineList,signal,metalLayer,pitch,last,mode,currentPos,offset,side):
-    signalList=[]
-    nextPos="invalid"
-    if mode=='offset':
-        if(pitch==0 or last==1):
-            nextPos=findLegalPinLoc(float(currentPos)+offset,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
-        else:
-            nextPos=findLegalPinLoc(float(currentPos)+pitch,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
-    else:
-        currentPos = findLegalPinLoc(float(lineList[-1]),trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
-    signalList.extend((signal,metalLayer,currentPos,side))
-    return nextPos,signalList
-
-#Find the nearest legal "on-track" location that is greater than the existing location
-def findLegalPinLoc(loc, trackPitch, trackOffset, routeWidth):
-    # print(f"stdCellHeight:{stdCellHeight}")
-    trackIndex=((loc-trackOffset) % stdCellHeight) / trackPitch
-    # if(trackIndex== 0 or trackIndex == 1 or trackIndex==8): print("illegal pin location")
-    stdCellCount=int((loc-trackOffset)/stdCellHeight)
-    found=0
-    legalIndex=allowedTracks[0]
-    for index in allowedTracks:
-        if(index>=trackIndex):
-            legalIndex = index
-            found=1
-            break
-    if(found==0): #Pick next track over. Legal index defaults to iallowedTracks[0]
-        stdCellCount+=1
-    finLoc = trackOffset+stdCellCount*stdCellHeight+trackPitch*legalIndex - routeWidth*0.5
-    finLoc = round(finLoc,2)
-    # print(f"Init loc was {loc}. Final loc was {finLoc}")
-    return finLoc 
-
+    
 
 (options,args) = parser.parse_args()
 wfh=open(options.outFile,'w')
