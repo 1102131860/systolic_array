@@ -87,19 +87,22 @@ Please start by running the simulation with the provided sequence in task.sv, al
 ## Milestone timeline
 | Milestone | Date            | Item                                                      |
 |-----------|-----------------|-----------------------------------------------------------|
-| 1         | 10/28 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
+| 1a (solo)        | 09/22 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
+| 1b (solo)        | 10/13 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
+| 1 (team)        | 10/27 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
 | 2         | 11/04 | Verified, Post-synthesis CORDIC Module                              |
-| 3         | 11/11 | Verified, Post-APR CORDIC Module                                    |
-| 4         | 11/18 | Chip-level Validation, Final SAPR Delivery with post-review changes |
+| 3         | 11/03 | Verified, Post-APR CORDIC Module                                    |
+| 4         | 11/10 | Chip-level Validation, Final SAPR Delivery with post-review changes |
 | Peer      | 12/02 | Peer Review                                                         |
 
 ## Milestone 1 Deliverables
 
 # Solo portion:
- a)
+ a.
   1. A script written in a high level programing language such as python or C that models the CORDIC behavior on a bit level. Unlike the provided high level script, your high level should match the output of your CORDIC module. We have specified the format of the [input data file](scripts/cordic_input.txt).
   2. A Readme that clearly explains the organization of your design and how to run the high level simulation model.
- b)
+ 
+ b.
   1. A functionally correct and verified CORDIC RTL design integrated with the CORDIC wrapper.
   2. A test framework that is used to verify your design.
   3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
