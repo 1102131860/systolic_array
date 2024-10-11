@@ -1,5 +1,5 @@
 # TCL scripts
-TOPLEVEL=fsm
+TOPLEVEL=cordic_wrapper
 PRJ=..
 
 SRC_TCL=$(PRJ)/src/apr

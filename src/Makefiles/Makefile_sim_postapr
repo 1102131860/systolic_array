@@ -1,4 +1,4 @@
-TOPLEVEL= fsm
+TOPLEVEL= cordic_wrapper
 TESTNAME=default
 SRC_VERILOG=../../src/verilog
 APR_FOLDER=../../apr/results
