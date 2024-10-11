@@ -51,7 +51,7 @@ module tb_cordic_wrapper;
    initial begin : TEST_CASE
       $fsdbDumpfile("cordic_wrapper.fsdb");
       $fsdbDumpon;
-      $fsdbDumpvars(0, cordic_wrapper_0);
+      $fsdbDumpvars(0, cordic_wrapper_0, "+mda", "+all", "+trace_process");
       `ifdef SDF 
          $sdf_annotate("./cordic_wrapper.sdf", cordic_wrapper_0);
       `endif
