@@ -9,18 +9,12 @@
 #L I N E     B Y     L I N E.
 #Yes its boring, but you'll only have to do this once if you do it right.
 
-
-
-
-
-
 # ==========================================================================
 # DC RUNTIME OPTIONS
 # ==========================================================================
 
 # Multicore
 set_host_options -max_cores 8 
-
 
 set TOOL_NAME "DC"
 
@@ -31,9 +25,9 @@ set TOOL_NAME "DC"
 # ===== Design libraries =====
 set DESIGN_MW_LIB_NAME "${TOOL_NAME}_lib"
 
-# ===== Logic libraries ===== 
+# ===== Logic Libraries =====
 set TSMC_PATH "/tools/pdk/designkits/tsmc/tsmc65gp/tcbn65gplus_200a/TSMCHOME/digital"
-# set TSMC_PATH "/tools/pdk/designkits/tsmc/tsmc65ic61/65MSRFLP/SClib/tcbn65gplus_220a"
+
 set TARGETCELLLIB_PATH "$TSMC_PATH/Front_End/timing_power_noise/NLDM/tcbn65gplus_200a"
 
 #The TYPICAL_LIB_FILE is not actually used. We've just defined it here for reference for you to 
@@ -80,9 +74,7 @@ set TARGET_LIBS [list \
  #   # "RAM_10B_256_AR1_LP_ss_1p08v_1p08v_125c.db" \
  #   # "ro_ip_with_converter_gp.db"
  # ]
-
 set ADDITIONAL_TARGET_LIBS []
-
 
 #The SYNOPSYS_SYNTHETIC_LIB contains the foundation library that has designware
 #A listing of already optimized hardware components that are frequently used by 
@@ -93,6 +85,7 @@ set SYNOPSYS_SYNTHETIC_LIB "dw_foundation.sldb"
 
 # ===== Reference libraries =====
 set MW_REFERENCE_LIBS "$TSMC_PATH/Back_End/milkyway/tcbn65gplus_200a/cell_frame/tcbn65gplus/"
+
 # MW_ADDITIONAL_REFERENCE_LIBS will contain the FRAM VIEWS of designs you will instantiate as modules.
 # commented to an empty list since you don't need this yet.
 # set MW_ADDITIONAL_REFERENCE_LIBS [list \
@@ -143,10 +136,10 @@ set TECH2ITF_MAP_FILE "star.map_9M"
 #Leave PROJECT_DIR alone. To understand why
 #see where and how it's used in this directory
 #(Hint: grep for it)
-set DESIGN "cordic_wrapper"
+set DESIGN "fsm"
 set PROJECT_DIR ".."
 
-#Options that are used to direct the compiler. Look these up in the documentation.
+# Options that are used to direct the compiler. Look these up in the documentation.
 # Reduce runtime
 set DC_PREFER_RUNTIME 0
 
@@ -186,20 +179,15 @@ set DC_CLK_GATING 1
 # ==========================================================================
 # RESULT GENERATION AND REPORTING
 # ==========================================================================
-
 set results "results"
 set reports "reports"
 
-# UNCOMMENT LINE WITH YOUR GROUP NUMBER !!!!!!!!!!
-#set power_cg_module_naming_style "wrp1_SNPS_%e_%t"
-#set power_cg_module_naming_style "wrp2_SNPS_%e_%t"
-#set power_cg_module_naming_style "wrp3_SNPS_%e_%t"
-#set power_cg_module_naming_style "wrp4_SNPS_%e_%t"
+
 
 # ==========================================================================
 # DESIGN SPECIFICATIONS AND CONSTRAINTS
 # ==========================================================================
-# Dont bother with hold skew. It'll get fixed during apr . Good  to know why I have 2 skews here though...
+# Dont bother with hold skew. It'll get fixed during apr. Good  to know why I have 2 skews here though...
 # Gater setup is something you'll learing once we cover clock gating.  Think of it for now as a requirement
 # that the input to a clock gater cell must show up a certain amount of time before the triggering clock transition. 
 # TRANSITION_LIMITS are meant to limit the rise/fall time of any signal in the design.

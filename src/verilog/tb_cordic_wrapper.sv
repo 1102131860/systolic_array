@@ -49,10 +49,11 @@ module tb_cordic_wrapper;
    ) cordic_wrapper_0 (.*);
 
    initial begin : TEST_CASE
-      $vcdpluson;
-      $vcdplusmemon;
+      $fsdbDumpfile("cordic_wrapper.fsdb");
+      $fsdbDumpon;
+      $fsdbDumpvars(0, cordic_wrapper_0);
       `ifdef SDF 
-         $sdf_annotate("./syn_dll.sdf", dll0);
+         $sdf_annotate("./cordic_wrapper.sdf", cordic_wrapper_0);
       `endif
       returnval = $value$plusargs("testname=%s", testname);
       

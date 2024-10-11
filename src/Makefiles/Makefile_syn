@@ -1,5 +1,5 @@
 # TCL scripts
-TOPLEVEL=cordic_wrapper
+TOPLEVEL=fsm
 PRJ=..
 
 SRC_VERILOG=$(PRJ)/src/verilog
@@ -12,8 +12,6 @@ TMP_FOLDER=/tmp/$(USER)/
 # Directories
 RESULTDIR=./results 
 REPORTDIR=./reports
-
-all=design
 
 design: 
 	-make clean
@@ -36,8 +34,6 @@ link_tcl:
 
 results/$(TOPLEVEL).syn.v: $(VERILOG_FILES) $(TCL_FILES)
 	dc_shell -64bit -topo -output_log_file dc.log -f $(TCL_MAIN)
-	echo "trying to syn"
-	ls -al $(VERILOG_FILES) $(TCL_FILES)
 
 clean:
 	-@ rm -rf $(TOPLEVEL)_lib \

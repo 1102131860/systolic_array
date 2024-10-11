@@ -1,4 +1,4 @@
-TOPLEVEL=cordic_wrapper
+TOPLEVEL= fsm
 TESTNAME=default
 SRC_VERILOG=../../src/verilog
 SYN_FOLDER=../../syn/results
@@ -16,13 +16,16 @@ ifeq ($(SDF), 1)
 		VERILOG_DEFINES := $(VERILOG_DEFINES)+SDF=1
 endif
 
+
+
+
 .DEFAULT_GOAL := vcs
 
 # Move all the verilog files from the source directory over to this simulation directory. Being disciplined about file naming
 # allows you to automate a lot of these menial and occassionally error inducing tasks.
 link_src:
 	find $(SRC_FOLDER) -name '*syn.include' -exec ln -s -f {} ';'
-	find $(SRC_FOLDER) -name 'tb_*sapr.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name 'tb_*syn.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*tasks*.sv' -exec ln -s -f {} ';'
 	find $(SYN_FOLDER) -name '*.v' -exec ln -s -f {} ';'
 	find $(SYN_FOLDER) -name '*.sdf' -exec ln -s -f {} ';'
@@ -30,13 +33,18 @@ link_src:
 
 
 vcs:$(TOPLEVEL)_syn.include
+
+	mkdir golden_log
+	touch golden_log/default.log
 	vcs -f $(TOPLEVEL)_syn.include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
-		-debug_access -l $(TOPLEVEL).log +vpdfile+./$(TOPLEVEL)_$(TESTNAME).vpd +define+$(VERILOG_DEFINES) +testname=$(TESTNAME)
+		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
+		-lca -kdb
 		# simv 
 
 wipe:
 	rm -rf *.include
+	rm -rf syn_results
 	rm -rf alib-52
 	rm -rf $(TOPLEVEL)
 	rm -rf simv.daidir
@@ -49,8 +57,7 @@ wipe:
 	rm -rf simv
 	rm -rf *.sv *.v *.svh
 	rm -rf csrc
-	rm -rf *.include
-	rm -rf golden_log
+	rm -rf fsm.sdf
 
 clean:
 	rm -rf DVEfiles

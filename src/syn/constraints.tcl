@@ -7,7 +7,7 @@
 source configuration.tcl
 
 #Units are in ns.
-set CLOCK_PERIOD 10; #  100MHz
+set CLOCK_PERIOD 2; #  300MHz
 
 #Create a clock that will establish the context needed for timing.
 #All timing  constraints are provided relative to a clock.Your 
@@ -15,11 +15,10 @@ set CLOCK_PERIOD 10; #  100MHz
 #a purely combinational module, you'd still need to define a clock just
 #so that you could give timing constraints to the tool. If you have 
 #an actual clock in your design though, you MUST specify it's port name.
-
 create_clock -name "clk"    \
     -period   "$CLOCK_PERIOD"                        \
     -waveform "0 [expr $CLOCK_PERIOD*0.5]"             \
-    [get_ports i_clk]
+    [get_ports clk_i]
 
 #Your synthesis tool will automatically buffer nets if it sees
 #that they are driving a large capacitance. E.g. clocks, reset pins
@@ -32,15 +31,12 @@ create_clock -name "clk"    \
 #specify the clocks/nets you want. E.g. 
 # set_ideal_network all_clocks. 
 # Also, all inputs and outputs will have the same net name as their pin
-# so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
-# set_ideal_network [get_nets i_clk] 
-# set_ideal_network [get_nets i_rst]
-set_ideal_network [get_nets -of_objects [get_ports i_clk]] 
-set_ideal_network [get_nets -of_objects [get_ports i_async_rst]]
-
+# so you don't have to [get_nets -of_objects [get_ports rst_i]]. 
+set_ideal_network [get_nets clk_i] 
+set_ideal_network [get_nets rst_i]
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
-# set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate
+#set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate
 
 ##############################################################################
 #                                                                            #
@@ -56,26 +52,8 @@ set_ideal_network [get_nets -of_objects [get_ports i_async_rst]]
 #The third groups is all direct input to output paths (no registers in the
 #middle. Those are called feedthroughs.
 group_path -name REGOUT      -to   [all_outputs]
-group_path -name REGIN       -from [remove_from_collection [all_inputs] [get_ports {i_clk}]]
-group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] [get_ports  {i_clk}]] -to [all_outputs]
-
-
-##############################################################################
-#                                                                            #
-#             TIMING DERATE AND RECONVERGENCE PESSIMISM REMOVAL		         #
-#                                                                            #
-##############################################################################
-# Set setup/hold derating factors. 20%. 
-# -clk ensures application of derate only to clk paths. 
-# This will be applied to both setup and hold paths (see definition of set_timing_derate)
-# If you want the part to really not end up faster than you built it for, will likely have to relax cycle time.
-set_timing_derate -early 0.8
-set_timing_derate -late  1.2  
-
-#Avoid tracking entire early and late paths altogether. 
-#That is excessive. Remoe that pessimism.
-set timing_remove_clock_reconvergence_pessimism true
-
+group_path -name REGIN       -from [remove_from_collection [all_inputs] [get_ports {clk_i}]]
+group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] [get_ports  {clk_i}]] -to [all_outputs]
 
 
 ##############################################################################
@@ -87,7 +65,7 @@ set timing_remove_clock_reconvergence_pessimism true
 #==========================#
 #          GLOBAL          #
 #==========================#
-#Set critical range sets the range (in ns) within the critical path delay for which the tool will perform timing optimization. By default, critical range is set to 0.0. In other words, the tool will actually only try to fix all critical paths *with negative slack* that are of delay T_critical and (T_critical - critical_range). For example, if your worst negative slack (WNS) is 3ns, and your critical range is 2, only paths that are of negative slack of 1-3ns will be fixed. Paths at 0.99ns of slack will not be touched. If meeting timing targets is a major priority, you need to set a critical range that is greater than the WNS in your design. This does NOT mean that the design will not try to achieve positive timing slack if you have a design with multiple paths that fail timing and that are not within the critical range. Synthesis simply reserves costly optimizations for paths within the critical_range of the critical path 
+#Set critical range sets the range (in ns) within the critical path delay for which the tool will perform timing optimization. By default, critical range is set to 0.0. In other words, the tool will actually only try to fix all critical paths *with negative slack* that are of delay T_critical and (T_critical - critical_range). For example, if your worst negative slack (WNS) is 3ns, and your critical range is 2, only paths that are of negative slack of 1-3ns will be fixed. Paths at 0.99ns of slack will not be touched. If meeting timing targets is a major priority, you need to set a critical range that is greater than the WNS in your design. 
 set_critical_range 0.05 $current_design
 
 #==========================#
@@ -122,7 +100,7 @@ set_load [load_of tcbn65gplustc/INVD8/I] [all_outputs]
 #=========================#
 #Review what set_input_delay means.
 #Find out what set_driving_cell does
-set_input_delay $INPUT_DELAY -clock clk [remove_from_collection [all_inputs] [get_ports {i_clk}]]
+set_input_delay $INPUT_DELAY -clock clk [remove_from_collection [all_inputs] [get_ports {clk_i}]]
 set_driving_cell -lib_cell INVD1 [get_ports [all_inputs]]
 
 #=========================#
@@ -142,7 +120,6 @@ source set_dont_use.tcl
 # __simulates__ correctly, but will fail in silicon.
 
 #Some examples below
-set_false_path   -from [get_ports i_en]
 #set_false_path -through [get_pins trng_ns_0/reset_*]
 #set_false_path -to clk_pad_out
 # set_false_path -from nmi

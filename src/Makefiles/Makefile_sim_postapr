@@ -1,4 +1,4 @@
-TOPLEVEL=cordic_wrapper
+TOPLEVEL= fsm
 TESTNAME=default
 SRC_VERILOG=../../src/verilog
 APR_FOLDER=../../apr/results
@@ -35,8 +35,9 @@ link_files:
 vcs:$(TOPLEVEL)_apr.include
 	vcs -f $(TOPLEVEL)_apr.include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
-		-debug_access -l $(TOPLEVEL).log +vpdfile+./$(TOPLEVEL)_$(TESTNAME).vpd +define+$(VERILOG_DEFINES) +testname=$(TESTNAME)
-		# simv 
+		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
+		-lca -kdb
+		#simv
 
 wipe:
 	rm -rf *.include

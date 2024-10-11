@@ -13,21 +13,14 @@ set TOPLEVEL "$DESIGN"
 
 # Set the verilog files that you would like to be read in
 set RTL_SOURCE_FILES "\
-$BASE/cordic_wrapper_pkg.sv \
-$BASE/pseudo_rand_num_gen_pkg.sv \
-$BASE/async_reset.sv \
-$BASE/lfsr.sv \
-$BASE/misr.sv \
-$BASE/pseudo_rand_num_gen.sv \
-$BASE/signature_analyzer.sv \
-$BASE/cordic_top.sv \
-$BASE/cordic_wrapper.sv \
+$BASE/fsm_pkg.sv \
+$BASE/fsm.sv \ 
 "
 
 set_svf ./$results/$TOPLEVEL.svf
 define_design_lib WORK -path ./WORK
 analyze -format sverilog $RTL_SOURCE_FILES
-elaborate cordic_wrapper
+elaborate fsm 
 
 link
 current_design $TOPLEVEL

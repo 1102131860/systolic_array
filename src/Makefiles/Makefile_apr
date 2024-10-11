@@ -1,5 +1,5 @@
 # TCL scripts
-TOPLEVEL=cordic_wrapper
+TOPLEVEL=fsm
 PRJ=..
 
 SRC_TCL=$(PRJ)/src/apr
@@ -14,17 +14,19 @@ RESULTDIR=./results
 REPORTDIR=./reports
 MACRODIR=../src/macro_prep
 SCRIPTDIR=../scripts
+NDMDIR=/home/ece4804/tsmc/65GP/
 
 TCL_FILES:= $(shell find $(SRC_TCL) -type f)
 
-.PHONY = design, icc, clean, wipe, link_tcl, link_syn
+.PHONY = design, icc2, clean, wipe, link_tcl, link_syn
 
 design: 
+	-make clean
 	-make link_src
-	-make icc
+	-make icc2
 
 
-icc: results/$(TOPLEVEL).apr.v
+icc2: results/$(TOPLEVEL).apr.v
 	make results/$(TOPLEVEL).apr.v
 
 # $(SYN_FILES):$(SRC_VERILOG) 
@@ -36,11 +38,13 @@ link_src:
 	find $(SRC_TCL) -name '*.tcl' -exec ln -s -f {} ';'
 	find $(SRC_TCL) -name '*.tpl' -exec ln -s -f {} ';'
 	find $(SCRIPTDIR) -name '*.py' -exec ln -s -f {} ';'
-	ln -sf $(PRJ)/syn/results/$(TOPLEVEL).syn.v 
-	ln -sf $(PRJ)/syn/results/$(TOPLEVEL).sdc 
+	find $(PRJ)/syn/results/ -name '$(TOPLEVEL).*' -exec ln -s -f {} ';'
+	mkdir ndm
+	ln -s $(NDMDIR) ./ndm
+
 
 results/$(TOPLEVEL).apr.v: $(TCL_FILES) $(SYN_FILES)
-	icc_shell -64bit -shared_license -gui -output_log_file icc.log -f $(TCL_MAIN)
+	icc2_shell -output_log_file icc2.log -f $(TCL_MAIN)
 
 clean:
 	-@ rm -rf $(TOPLEVEL)_lib \
@@ -55,10 +59,16 @@ clean:
 			  *.txt \
 			  *.sdf \
 			  *.sdc \
+			  *.db \
+			  *.ddc \
+			  *.svf \
 			  DC_lib\
 			  *.syn.v\
 			  WORK \
 			  *.log \
 			  antenna.rule \
 			  net.acts \
-			  pna_output
+			  pna_output \
+			  default-* \
+			  ndm \
+			  work_dir 

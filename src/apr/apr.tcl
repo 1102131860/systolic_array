@@ -2,12 +2,11 @@
 # |  
 # | Created by         :PSyLab                                           
 # | Filename           :apr.tcl                                  
-# | Author             :sathe(Ga Tech.)                              
-# | Created On         :2022-09-23 11:22                   
+# | Author             :evren(Ga Tech.)                              
+# | Created On         :2024-08-14                  
 # | Last Modified      :                                                 
-# | Update Count       :2022-09-23 11:22                   
-# | Description        :                                                 
-# |                                                                      
+# | Update Count       :2024-09-23                 
+# | Description        :                                                                                                     
 # |                                                                      
 # |=======================================================================
 # This script is the "master-script" which sources all the other .tcl files.
@@ -18,136 +17,93 @@
 # Some instructions:
 # 1. Please go through it carefully, step by step. Hopefully for some of you, your experiences
 #    with tutorial 1 and tutorial 2 will have convinced you of the value in doing this
-# 2. Treat power.tcl as a black box. There's a lot of detail and other files hiding underneath that do
+# 2. Treat 03_powerplan.tcl as a black box. There's a lot of detail and other files hiding underneath that do
 #    not offer sufficient value to you guys. Your time (IMO) is better spent focusing on other more 
 #    important aspects of the design process.
 # 3. This flow is not a "2-level" flow. This scripts will call other .tcl files, which will call
 #    other .py, .tcl files. The only exception is the pinPlacement.txt file which is how you specify 
 #    pin locations in your design.
 #
-set TOOL_NAME "ICC"
-set SRC_DIR "."
+
+# begin timing
+set start_time [clock seconds]; set cpu_start [cputime]; set dates [exec date];
+puts "** INFO: START: $dates, CURRENT_WORK_DIR: [pwd]"
+
+# Import user-defined functions that are used commonly
+source ./common_func.tcl
+
+# This file defines the file paths to the libraries we use in APR 
+# Most of these (but not all) are unused in apr.tcl - they are used to generate the .ndm,
+# which is essentially a compressed version of your library in a common synopsys format,
+# using a different tool (library manager). We provide the .ndm to you as it only needs to be generated once.
+# The details of the .ndm generation can be found in library_manager.tcl
+source ./tech_node_config.tcl  -echo -verbose
+
+source ./user_config.tcl -echo -verbose 
+
+# set core num
+set_host_options -max_cores 8
+
+check_disk_space
+
+# 0. Read library
+source ./00_read_lib.tcl -echo -verbose
 
 
-# ==============================================================================================
-# CONFIGURATION: Read in config.tcl file with paths to essential SAPR "collateral" and synthesis 
-# netlist files. Collateral refers to all the technology, stdcell, macro (memory compilers, other 
-# design blocks used in the design. The phys_vars.tcl file will contain a lot of variables that are 
-# relevant to the physical geometry of the design. 
-# # ==============================================================================================
-
-# start timing the SAPR run
-set start_time [clock seconds]; echo [clock format $start_time -gmt false]
-
-remove_design -all
-
-source ${SRC_DIR}/config.tcl -echo -verbose
-source ${SRC_DIR}/phys_vars.tcl -echo -verbose
-
-file mkdir $results
-file mkdir $reports
-
-source ${SRC_DIR}/library.tcl -echo -verbose
-
-# READ IN THE SYNTHESIS NETLIST
-# ==========================================================================
-# Read in the verilog, uniquify and save the CEL view.
-import_designs $design_name.syn.v -format verilog -top $design_name
-link
-
-# ===============================================================================================
-# TIMING CONSTRAINTS 
-# Source all the timing constraints that have been summarized by the .sdc file in synthesis. 
-# In addition, create any path groups that you would like to and verify that you are able to do 
-# timing analysis on the synthesized netlist.
-# ===============================================================================================
-source ${SRC_DIR}/constraints.tcl -echo
-save_mw_cel -as ${design_name}_init
-
-# ==================================================================================================
-# FLOORPLAN CREATION: This floorplan does a number of tasks.
-# 1. Establish the location of a physical "pin" on the boundary for each port in your design
-# 2. Allow you to run floorplanning: There's 2 ways to do this
-#    a. Rectangular modules (the most common shape, and the only one you'll use in this class) can use 
-#    the core_utilization and aspect ratio method to first establish the approximate area that is needed.
-#    b. Then, once you know approximately what the geometry of your module is (in the aspect ratio that you wanted
-#    you can be more specific about the width and height of the module. REMEMBER, these geometries are not even
-#    multiples of routing track pitch (0.2um) - they are multiples of SPG (super-pg tiles, see earlier discussion i
-#    in phys_vars.tcl)
-# ==================================================================================================
-# Create core shape and pin placement
-source ${SRC_DIR}/floorplan.tcl -echo
-
-# ==========================================================================
-# PHYSICAL POWER NETWORK
-# Build a power network, rings and power mesh based on a power grid topology 
-# defined by power template files (.tpl files). Note that we don't need you 
-# to go through this one .tcl file to follow along each step of the way. 
-# It is of limited value.
-# ==========================================================================
-save_mw_cel -as ${design_name}_prepns
-source ${SRC_DIR}/power.tcl -echo
-
-#Now is the time to go back and measure the geometries of the rings, space to 
-#the core, space between rings, and space to the die-area to corroborate them 
-#with what is written in the phys_vars.tcl file.
+# 1. Read design
+source ./01_read_design.tcl -echo -verbose
 
 
-# ==========================================================================
-# PLACEMENT OPTIMIZATION
-# Place all logic and std-cells into the core area and place them based on
-# power/timing/congestion based objectives.
-# ==========================================================================
-save_mw_cel -as ${design_name}_preplaceopt
-source ${SRC_DIR}/placeopt.tcl -echo
+# 2. Floorplan
+source ./02_floorplan.tcl -echo -verbose
+save_block -as ${TOP_MODULE}_floorplan
 
-# ==========================================================================
-# CTS & CLOCK ROUTING
-# Route the clock. We do not perform mesh-based or H-Tree based topologies in
-# this course. We stick to the standard CTS-generated unstructured tree.
-# ==========================================================================
-save_mw_cel -as ${design_name}_preclock
-source ${SRC_DIR}/clocks.tcl
+# 3. Powerplan
+source ./03_powerplan.tcl -echo -verbose
+save_block -as ${TOP_MODULE}_powerplan
 
-# ==========================================================================
-# SIGNAL ROUTING, AND HOLD FIXING!
-# Connect up all the cells and perform hold fixing-insertion of user-configurable
-# delay cells to alleviate hold violations.
-# ==========================================================================
-save_mw_cel -as ${design_name}_preroute
-source ${SRC_DIR}/route.tcl -echo
+# 4. place_opt
+source ./04_place_opt.tcl -echo -verbose
+save_block -as ${TOP_MODULE}_place_opt
 
-# ==========================================================================
-# FINAL FINISHING
-# Add antenna diodes. Perform final checks for DRC/LVS replace fill with decap 
-# ==========================================================================
-save_mw_cel -as ${design_name}_prefinished
-source ${SRC_DIR}/finishing.tcl -echo
-
-# ==========================================================================
-# GENERATE DESIGN FILES AND REPORTS
-# ==========================================================================
-save_mw_cel -as ${design_name}_finished
-source ${SRC_DIR}/generate.tcl -echo
-save_mw_cel -as ${design_name}
+# 5. clock_opt
+source ./05_clock_opt.tcl -echo -verbose
+save_block -as ${TOP_MODULE}_clock_opt
 
 
-# ==========================================================================
-# FINAL DRC CHECK
-# ==========================================================================
-# report_drc -highlight -color green
-source ${SRC_DIR}/report_drc.tcl -echo
+# 6. route
+source ./06_route.tcl -echo -verbose
+save_block -as ${TOP_MODULE}_route
 
-# ==========================================================================
-# RUNTIME and MESSAGE SUMMARY
-# ==========================================================================
 
+# 7. finish
+source ./07_chip_finish.tcl -echo -verbose
+save_block -as ${TOP_MODULE}_finish
+
+
+# 8. Report
+source ./08_report.tcl -echo -verbose
+
+
+# 9. Outputs
+source ./09_outputs.tcl -echo -verbose
+save_block -as ${TOP_MODULE}
+save_lib -as ${TOP_MODULE} ${TOP_MODULE}
+
+# Shows the full block view of the chip along with all DRC errors
+# Comment these lines if running flow on VScode; does not support gui.
+start_gui
+gui_error_browser -show
+gui_open_error_data [get_drc_error_data -all]
+
+# Runtime and message summary
 print_message_info
 
-set end_time [clock seconds]; echo [string toupper inform:] End time [clock format ${end_time} -gmt false]
+# Elapsed Time
+set end_time [clock seconds]; set cpu_end [cputime]; set dates [exec date];
+puts "** INFO: elapsed time - [get_elapsed_time_string ${start_time}]"
+puts "** INFO: cpu running time (hh:mm:ss) - [rdt_to_seconds [expr ($cpu_end - $cpu_start)]]"
+puts "** INFO: memory : [mem] KB"
 
-# Total script wall clock run time
-echo "[string toupper inform:] Time elapsed: [format %02d \
-                     [expr ($end_time - $start_time)/86400]]d \
-                    [clock format [expr ($end_time - $start_time)] \
-                    -format %Hh%Mm%Ss -gmt true]"
+exit
+
