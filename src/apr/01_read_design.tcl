@@ -50,6 +50,12 @@ current_scenario func1_wc
 # The .sdc file is the output from synthesis; it contains all of the constraints we set (clock period, input/output delay, etc.) so we don't need to worry about re-initializing all of these constraints
 read_sdc ${GATE_SRC_DIR}/results/${TOP_MODULE}.sdc
 
+#The clock details are read from the .sdc; however, we likely will want to change this from synthesis. Syn has no wire delays, so these will kill timing
+remove_clock -all
+set cmd "create_clock \[get_ports i_clk\] -name clk  -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
+eval $cmd
+
+
 report_port -verbose
 
 
@@ -87,6 +93,10 @@ create_scenario -mode func1 -corner bc -name func1_bc
 current_scenario func1_bc
 
 read_sdc ${GATE_SRC_DIR}/results/${TOP_MODULE}.sdc
+#The clock details are read from the .sdc; however, we likely will want to change this from synthesis. Syn has no wire delays, so these will kill timing
+remove_clock -all
+set cmd "create_clock \{i_clk\} -name clk  -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
+eval $cmd
 
 report_port -verbose
 
@@ -107,3 +117,5 @@ current_scenario func1_wc
 # derate factorr
 set_timing_derate -early $DERATE_EARLY
 set_timing_derate -late  $DERATE_LATE
+
+set_app_options -name time.enable_non_sequential_checks -value false

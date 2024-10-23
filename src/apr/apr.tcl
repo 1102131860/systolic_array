@@ -105,5 +105,5 @@ puts "** INFO: elapsed time - [get_elapsed_time_string ${start_time}]"
 puts "** INFO: cpu running time (hh:mm:ss) - [rdt_to_seconds [expr ($cpu_end - $cpu_start)]]"
 puts "** INFO: memory : [mem] KB"
 
-exit
+#exit
 

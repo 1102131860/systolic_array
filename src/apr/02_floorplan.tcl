@@ -51,19 +51,19 @@ set side_length_b [expr $TILE_HEIGHT * $H_SUPER_TILE_MUL * $H_SUPER_TILE_NUM]; #
 # Qn: Where are all these geometric variables defined?
 
 #==== Method 1 =================================================================================
-#set cmd "initialize_floorplan   -control_type ${FP_CTRL_TYPE} \
-#                                -shape ${FP_SHAPE} \
-#                                -flip_first_row ${FP_FLIP_FIRST_ROW} \
-#                                -side_length {${side_length_a} ${side_length_b}} \
-#                                -core_offset $TILE_HEIGHT"
-#===============================================================================================
-
-#==== Method 2 =================================================================================
 set cmd "initialize_floorplan   -control_type ${FP_CTRL_TYPE} \
                                 -shape ${FP_SHAPE} \
                                 -flip_first_row ${FP_FLIP_FIRST_ROW} \
-                                -core_utilization ${CORE_UTIL_RATIO} \
+                                -side_length {${side_length_a} ${side_length_b}} \
                                 -core_offset $TILE_HEIGHT"
+#===============================================================================================
+
+#==== Method 2 =================================================================================
+# set cmd "initialize_floorplan   -control_type ${FP_CTRL_TYPE} \
+#                                 -shape ${FP_SHAPE} \
+#                                 -flip_first_row ${FP_FLIP_FIRST_ROW} \
+#                                 -core_utilization ${CORE_UTIL_RATIO} \
+#                                 -core_offset $TILE_HEIGHT"
 #===============================================================================================
 # Power straps are not created on the very top and bottom edges of the core, so to 
 # prevent cells (especially filler) from being placed there, later to create LVS 

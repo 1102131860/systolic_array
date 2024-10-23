@@ -10,9 +10,14 @@ set NDM_DIR                 "./ndm"
 set RTL_SRC_DIR             "../src/verilog"
 set GATE_SRC_DIR            "../syn"
 
-set TOP_MODULE              "fsm"
+set TOP_MODULE              "cordic_wrapper_<group_num>"
 
 set GATE_NETLIST            "${GATE_SRC_DIR}/results/${TOP_MODULE}.syn.v"
+
+#*****************************************************************************
+#**                     Clock                                               **
+#*****************************************************************************
+set APR_CLOCK_PERIOD        5
 
 #*****************************************************************************
 #**                     Floorplan + Routing layers                          **
@@ -36,8 +41,8 @@ set TILE_HEIGHT            1.8 ; # (um) Cell height
 set W_SUPER_TILE_MUL       8
 set H_SUPER_TILE_MUL       8
 
-set W_SUPER_TILE_NUM       14
-set H_SUPER_TILE_NUM       14
+set W_SUPER_TILE_NUM       8
+set H_SUPER_TILE_NUM       15
 
 set CORE_UTIL_RATIO        0.1
 
@@ -71,11 +76,12 @@ set GROUND_NET             [list "VSS"] ;# This is real ground net name.
 #*****************************************************************************
 #**                     Message Info                                        **
 #*****************************************************************************
-set_message_info -id ATTR-12 -limit 1
-set_message_info -id ATTR-13 -limit 1
+set_message_info -id ATTR-12 -limit 1;
+set_message_info -id ATTR-13 -limit 1;
 set_message_info -id ABS-214 -limit 1; # Pin has no timing pahts. No budget created
 set_message_info -id NDMUI-010 -limit 1; # The '%s' command cannot be used on library cell '%s' which has no logical model
-set_message_info -id NDMUI-461 -limit 1; ; # The application option <%s> is for R&D debug and can't be used outside Synopsys
+set_message_info -id NDMUI-461 -limit 1; # The application option <%s> is for R&D debug and can't be used outside Synopsys
+set_message_info -id CSTR-021 -limit 1;
 
 #*****************************************************************************
 #**                     Derates                                             **
