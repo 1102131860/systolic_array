@@ -136,7 +136,7 @@ set TECH2ITF_MAP_FILE "star.map_9M"
 #Leave PROJECT_DIR alone. To understand why
 #see where and how it's used in this directory
 #(Hint: grep for it)
-set DESIGN "fsm"
+set DESIGN "cordic_wrapper_<group_num>"
 set PROJECT_DIR ".."
 
 # Options that are used to direct the compiler. Look these up in the documentation.

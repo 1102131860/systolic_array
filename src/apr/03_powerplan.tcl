@@ -115,7 +115,10 @@ check_pg_connectivity
 
 # Pin placement
 
-set_block_pin_constraints -allowed_layers {M3 M4} -self -hard_constraints {layer location} \
+# We have provided pin placement constraints for you
+source pin_placement.tcl
+
+set_block_pin_constraints -allowed_layers {M2 M3 M4} -self -hard_constraints {layer location} \
 -corner_keepout_num_tracks 5 -width 0.1 -length 0.6
 report_block_pin_constraints -self
 
