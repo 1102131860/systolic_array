@@ -18,7 +18,7 @@ set CLOCK_PERIOD 2; #  300MHz
 create_clock -name "clk"    \
     -period   "$CLOCK_PERIOD"                        \
     -waveform "0 [expr $CLOCK_PERIOD*0.5]"             \
-    [get_ports clk_i]
+    [get_ports i_clk]
 
 #Your synthesis tool will automatically buffer nets if it sees
 #that they are driving a large capacitance. E.g. clocks, reset pins
@@ -31,9 +31,9 @@ create_clock -name "clk"    \
 #specify the clocks/nets you want. E.g. 
 # set_ideal_network all_clocks. 
 # Also, all inputs and outputs will have the same net name as their pin
-# so you don't have to [get_nets -of_objects [get_ports rst_i]]. 
-set_ideal_network [get_nets clk_i] 
-set_ideal_network [get_nets rst_i]
+# so you don't have to [get_nets -of_objects [get_ports i_async_rst]]. 
+set_ideal_network [get_nets i_clk] 
+set_ideal_network [get_nets i_async_rst]
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
 #set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate
@@ -52,8 +52,8 @@ set_ideal_network [get_nets rst_i]
 #The third groups is all direct input to output paths (no registers in the
 #middle. Those are called feedthroughs.
 group_path -name REGOUT      -to   [all_outputs]
-group_path -name REGIN       -from [remove_from_collection [all_inputs] [get_ports {clk_i}]]
-group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] [get_ports  {clk_i}]] -to [all_outputs]
+group_path -name REGIN       -from [remove_from_collection [all_inputs] [get_ports {i_clk}]]
+group_path -name FEEDTHROUGH -from [remove_from_collection [all_inputs] [get_ports  {i_clk}]] -to [all_outputs]
 
 
 ##############################################################################
@@ -100,7 +100,7 @@ set_load [load_of tcbn65gplustc/INVD8/I] [all_outputs]
 #=========================#
 #Review what set_input_delay means.
 #Find out what set_driving_cell does
-set_input_delay $INPUT_DELAY -clock clk [remove_from_collection [all_inputs] [get_ports {clk_i}]]
+set_input_delay $INPUT_DELAY -clock clk [remove_from_collection [all_inputs] [get_ports {i_clk}]]
 set_driving_cell -lib_cell INVD1 [get_ports [all_inputs]]
 
 #=========================#
