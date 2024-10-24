@@ -12,7 +12,6 @@ set BASE "$PROJECT_DIR/src/verilog"
 set TOPLEVEL "$DESIGN"
 
 # Set the verilog files that you would like to be read in
-
 set RTL_SOURCE_FILES "\
 $BASE/cordic_wrapper_pkg.sv \
 $BASE/pseudo_rand_num_gen_pkg.sv \
@@ -28,7 +27,7 @@ $BASE/cordic_wrapper_<group_num>.sv \
 set_svf ./$results/$TOPLEVEL.svf
 define_design_lib WORK -path ./WORK
 analyze -format sverilog $RTL_SOURCE_FILES
-elaborate fsm 
+elaborate $DESIGN 
 
 link
 current_design $TOPLEVEL

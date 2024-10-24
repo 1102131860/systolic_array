@@ -7,7 +7,7 @@
 source configuration.tcl
 
 #Units are in ns.
-set CLOCK_PERIOD 2; #  300MHz
+set CLOCK_PERIOD 10; #  100MHz
 
 #Create a clock that will establish the context needed for timing.
 #All timing  constraints are provided relative to a clock.Your 
@@ -31,9 +31,11 @@ create_clock -name "clk"    \
 #specify the clocks/nets you want. E.g. 
 # set_ideal_network all_clocks. 
 # Also, all inputs and outputs will have the same net name as their pin
-# so you don't have to [get_nets -of_objects [get_ports i_async_rst]]. 
-set_ideal_network [get_nets i_clk] 
-set_ideal_network [get_nets i_async_rst]
+
+# so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
+set_ideal_network [get_nets -of_objects [get_ports i_clk]] 
+set_ideal_network [get_nets -of_objects [get_ports i_async_rst]]
+
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
 #set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate
@@ -81,6 +83,13 @@ set_fix_hold [get_clocks]
 set_cost_priority {min_delay max_transition max_delay max_fanout max_capacitance}
 #set_min_delay 0.1 -from [get_cell rk0/random_key_reg*]
 
+#Default
+#set enable_recovery_removal_arcs false
+#set timing_disable_recovery_removal_checks true;
+
+#Test
+set enable_recovery_removal_arcs true
+set timing_disable_recovery_removal_checks false;
 #==========================#
 #      OUTPUT PORTS        #
 #==========================#
