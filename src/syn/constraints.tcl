@@ -33,6 +33,8 @@ create_clock -name "clk"    \
 # Also, all inputs and outputs will have the same net name as their pin
 
 # so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
+# i_en is the enable signal for the global gater; this is expected to be a static bit
+set_ideal_network [get_nets -of_objects [get_ports i_en]]  
 set_ideal_network [get_nets -of_objects [get_ports i_clk]] 
 set_ideal_network [get_nets -of_objects [get_ports i_async_rst]]
 
