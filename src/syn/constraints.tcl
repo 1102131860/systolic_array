@@ -34,9 +34,8 @@ create_clock -name "clk"    \
 
 # so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
 # i_en is the enable signal for the global gater; this is expected to be a static bit
-set_ideal_network [get_nets -of_objects [get_ports i_en]]  
-set_ideal_network [get_nets -of_objects [get_ports i_clk]] 
-set_ideal_network [get_nets -of_objects [get_ports i_async_rst]]
+set_ideal_network [get_nets -of_objects [get_ports i_clk]] -no_propagate
+set_ideal_network [get_nets -of_objects [get_ports i_async_rst]] -no_propagate
 
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
@@ -131,6 +130,7 @@ source set_dont_use.tcl
 # __simulates__ correctly, but will fail in silicon.
 
 #Some examples below
+set_false_path   -from [get_ports i_en]
 #set_false_path -through [get_pins trng_ns_0/reset_*]
 #set_false_path -to clk_pad_out
 # set_false_path -from nmi
