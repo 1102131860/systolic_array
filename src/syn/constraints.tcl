@@ -31,9 +31,11 @@ create_clock -name "clk"    \
 #specify the clocks/nets you want. E.g. 
 # set_ideal_network all_clocks. 
 # Also, all inputs and outputs will have the same net name as their pin
+
 # so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
 set_ideal_network [get_nets -of_objects [get_ports i_clk]] 
 set_ideal_network [get_nets -of_objects [get_ports i_async_rst]]
+
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
 #set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate

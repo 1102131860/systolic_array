@@ -90,7 +90,7 @@ Please start by running the simulation with the provided sequence in task.sv, al
 | 1a (solo)        | 09/22 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
 | 1b (solo)        | 10/13 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
 | 1 (team)        | 10/27 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
-| 2         | 11/04 | Verified, Post-synthesis CORDIC Module                              |
+| 2         | 10/27 | Verified, Post-synthesis CORDIC Module                              |
 | 3         | 11/03 | Verified, Post-APR CORDIC Module                                    |
 | 4         | 11/10 | Chip-level Validation, Final SAPR Delivery with post-review changes |
 | Peer      | 12/02 | Peer Review                                                         |
