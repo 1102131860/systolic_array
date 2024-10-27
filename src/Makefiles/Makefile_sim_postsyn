@@ -27,6 +27,7 @@ link_src:
 	find $(SRC_FOLDER) -name '*syn.include' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name 'tb_*syn.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*tasks*.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name '*.cfg' -exec ln -s -f {} ';'
 	find $(SYN_FOLDER) -name '*.v' -exec ln -s -f {} ';'
 	find $(SYN_FOLDER) -name '*.sdf' -exec ln -s -f {} ';'
 	ln -s $(SYN_FOLDER) syn_results
@@ -58,6 +59,10 @@ wipe:
 	rm -rf *.sv *.v *.svh
 	rm -rf csrc
 	rm -rf fsm.sdf
+	rm -rf *.fsdb
+	rm -rf verdi*
+	rm -rf novas*
+	rm -rf *.cfg
 
 clean:
 	rm -rf DVEfiles
@@ -69,5 +74,7 @@ clean:
 	rm -rf simv.daidir
 	rm -rf csrc
 	rm -rf simv
-
+	rm -rf *.fsdb
+	rm -rf verdi*
+	rm -rf novas*
 

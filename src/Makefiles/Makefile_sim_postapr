@@ -69,5 +69,7 @@ clean:
 	rm -rf simv.daidir
 	rm -rf csrc
 	rm -rf simv
-
+	rm -rf *.fsdb
+	rm -rf verdi*
+	rm -rf novas*
 
