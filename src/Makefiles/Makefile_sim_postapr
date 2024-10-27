@@ -27,6 +27,7 @@ link_files:
 	find $(SRC_FOLDER) -name '*apr.include' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name 'tb_*sapr.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*tasks*.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name '*.cfg' -exec ln -s -f {} ';'
 	find $(APR_FOLDER) -name '*.v' -exec ln -s -f {} ';'
 	find $(APR_FOLDER) -name '*.sdf' -exec ln -s -f {} ';'
 	ln -s $(APR_FOLDER) apr_results
@@ -53,6 +54,10 @@ wipe:
 	rm -rf simv
 	rm -rf *.sv *.v *.svh
 	rm -rf csrc
+	rm -rf *.fsdb
+	rm -rf verdi*
+	rm -rf novas*
+	rm -rf *.cfg
 
 clean:
 	rm -rf DVEfiles

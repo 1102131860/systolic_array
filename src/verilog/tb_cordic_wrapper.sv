@@ -53,7 +53,7 @@ module tb_cordic_wrapper;
       $fsdbDumpon;
       $fsdbDumpvars(0, cordic_wrapper_0, "+mda", "+all", "+trace_process");
       `ifdef SDF 
-         $sdf_annotate("./cordic_wrapper.sdf", cordic_wrapper_0);
+         $sdf_annotate("./cordic_wrapper.wc.sdf", cordic_wrapper_0, "./sdf.max.cfg");
       `endif
       returnval = $value$plusargs("testname=%s", testname);
       
