@@ -102,11 +102,29 @@ Please start by running the simulation with the provided sequence in task.sv, al
   1. A script written in a high level programing language such as python or C that models the CORDIC behavior on a bit level. Unlike the provided high level script, your high level should match the output of your CORDIC module. We have specified the format of the [input data file](scripts/cordic_input.txt).
   2. A Readme that clearly explains the organization of your design and how to run the high level simulation model.
  
- b.
-  1. A functionally correct and verified CORDIC RTL design integrated with the CORDIC wrapper.
+ ```bash
+<gtid>_ms1_a.tar.gz
+|
+|-scripts---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+```
+
+b.
+  1. A functionally correct and verified CORDIC RTL design **integrated with the CORDIC wrapper**.
   2. A test framework that is used to verify your design.
   3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
 
+```bash
+<gtid>_ms1_b.tar.gz
+|
+|-src---------------------------|
+|                                   |-file1
+|                                   |-file2
+|                                   |-...
+```
+ 
 # Team Portion:
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
  1. A functionally correct and verified CORDIC RTL design integrated with the CORDIC wrapper. Remember to rename the module cordic_top_groupnumber to have the appropriate group number.
