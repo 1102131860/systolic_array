@@ -1,6 +1,16 @@
 import math
 import sys
 
+############################ IMPORTANT NOTICE: ############################
+
+# This is an incomplete script. It is not meant to be used to model accurate
+# CORDIC results; do NOT use this script as a reference for your high-level
+# script or for verilog verification; you must confirm your results with the
+# CORDIC expected mathematical output (see doc/CORDIC_paper.pdf)
+
+############################ IMPORTANT NOTICE: ############################
+
+
 # Use:
 # python3.11 cordic_sim.py
 #
