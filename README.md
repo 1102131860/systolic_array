@@ -113,7 +113,7 @@ Please start by running the simulation with the provided sequence in task.sv, al
 
 b.
   1. A functionally correct and verified CORDIC RTL design **integrated with the CORDIC wrapper**.
-  2. A test framework that is used to verify your design.
+  2. A test framework that is used to verify your design. The provided script is a **necessary but not sufficient** condition for your verification; your design must meet the specifications of the CORDIC paper.
   3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
 
 ```bash
