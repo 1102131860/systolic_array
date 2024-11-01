@@ -76,7 +76,7 @@ if {$DC_SEQ_OUTPUT_INVERSION eq 0} {
 if {$DC_EXACT_MAP} {
     lappend COMPILE_ARGS "-exact_map"
 }
-if ($DC_CLK_GATING) {
+if {$DC_CLK_GATING} {
     lappend COMPILE_ARGS "-gate_clock"
 }
 
