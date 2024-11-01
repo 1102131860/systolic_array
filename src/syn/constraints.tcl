@@ -7,7 +7,7 @@
 source configuration.tcl
 
 #Units are in ns.
-set CLOCK_PERIOD 10; #  100MHz
+set CLOCK_PERIOD 4; #  300MHz
 
 #Create a clock that will establish the context needed for timing.
 #All timing  constraints are provided relative to a clock.Your 
@@ -31,12 +31,10 @@ create_clock -name "clk"    \
 #specify the clocks/nets you want. E.g. 
 # set_ideal_network all_clocks. 
 # Also, all inputs and outputs will have the same net name as their pin
-
 # so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
 # i_en is the enable signal for the global gater; this is expected to be a static bit
 set_ideal_network [get_nets -of_objects [get_ports i_clk]] -no_propagate
 set_ideal_network [get_nets -of_objects [get_ports i_async_rst]] -no_propagate
-
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
 #set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate
@@ -91,6 +89,21 @@ set_cost_priority {min_delay max_transition max_delay max_fanout max_capacitance
 #Test
 set enable_recovery_removal_arcs true
 set timing_disable_recovery_removal_checks false;
+
+############################################################################
+# CLOCK GATING
+############################################################################
+# Balanced clock tree -> best clock tree timing results
+# the setup recommendation before iserting the integrated cg cells
+# Use a small maximum clock-gating fanout value
+set_clock_gating_style \
+    -sequential_cell latch \
+    -control_point before \
+    -control_signal scan_enable \
+    -minimum_bitwidth 10 \
+    -max_fanout 128 \
+    -positive_edge_logic {integrated}
+
 #==========================#
 #      OUTPUT PORTS        #
 #==========================#
@@ -130,7 +143,7 @@ source set_dont_use.tcl
 # __simulates__ correctly, but will fail in silicon.
 
 #Some examples below
-set_false_path   -from [get_ports i_en]
 #set_false_path -through [get_pins trng_ns_0/reset_*]
 #set_false_path -to clk_pad_out
 # set_false_path -from nmi
+set_false_path   -from [get_ports i_en]
