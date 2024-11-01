@@ -7,7 +7,7 @@
 source configuration.tcl
 
 #Units are in ns.
-set CLOCK_PERIOD 4; #  300MHz
+set CLOCK_PERIOD 1; #  100MHz
 
 #Create a clock that will establish the context needed for timing.
 #All timing  constraints are provided relative to a clock.Your 
