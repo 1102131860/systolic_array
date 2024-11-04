@@ -51,7 +51,7 @@ current_scenario func1_wc
 read_sdc ${GATE_SRC_DIR}/results/${TOP_MODULE}.sdc
 
 #The clock details are read from the .sdc; however, we likely will want to change this from synthesis. Syn has no wire delays, so these will kill timing
-set cmd "create_clock -add -name clk -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
+set cmd "create_clock \{i_clk\} -add -name clk -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
 eval $cmd
 
 
@@ -93,7 +93,7 @@ current_scenario func1_bc
 
 read_sdc ${GATE_SRC_DIR}/results/${TOP_MODULE}.sdc
 #The clock details are read from the .sdc; however, we likely will want to change this from synthesis. Syn has no wire delays, so these will kill timing
-set cmd "create_clock -add -name clk -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
+set cmd "create_clock \{i_clk\} -add -name clk -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
 eval $cmd
 
 report_port -verbose
