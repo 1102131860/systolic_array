@@ -46,6 +46,8 @@ set H_SUPER_TILE_NUM       15
 
 set CORE_UTIL_RATIO        0.1
 
+set ITER                   40 ; #Number of routing iterations to perform; default is 40. The more you add, the better results you will see, but the longer it will take
+
 #*****************************************************************************
 #**                     Power                                               **
 #*****************************************************************************

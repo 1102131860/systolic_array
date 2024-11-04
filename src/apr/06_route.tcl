@@ -15,7 +15,8 @@ set_app_options -name route.detail.timing_driven -value true
 set_app_options -name opt.common.user_instance_name_prefix -value "RO_"
 
 # Route - critical command
-route_auto
+set cmd "route_auto -max_detail_route_iterations $ITER"
+eval $cmd
 
 # DRC violation search
 check_route

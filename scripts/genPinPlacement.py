@@ -147,6 +147,6 @@ def findLegalPinLoc(loc, trackPitch, trackOffset, routeWidth):
 wfh=open(options.outFile,'w')
 pinList=readInputFile(options.inFile, options.pgr)
 for pin in pinList:
-    wfh.write("set_individual_pin_constraints -nets {%s} -allowed_layers {%s} -width 0.1 -length 0.1 -sides %s -offset %.2f\n" %(pin[0],pin[1],pin[3],pin[2]))
+    wfh.write("set_individual_pin_constraints -ports {%s} -allowed_layers {%s} -width 0.1 -length 0.1 -sides %s -offset %.2f\n" %(pin[0],pin[1],pin[3],pin[2]))
 wfh.close()
     # print pinList
