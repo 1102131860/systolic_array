@@ -63,31 +63,22 @@ StrapConfig: PG_M5_M6_MESH {
     }
 }
 
-StrapConfig: PG_M7_M8_MESH {
+StrapConfig: PG_M7_MESH {
     target_area: pg_regions CORE_EXPAND
     category: mesh
     nets: {VDD VSS}
     extension: {{stop: outermost_ring}}
-    tag: PG_M7_M8_MESH
-
+    tag: PG_M7_MESH
     layer: M7 {
-        widths: 2.0
-        direction: vertical
-        spacings: interleaving
-        pitch: 14.4
-        offset: 0
-        trim: false
-    }
-
-    layer: M8 {
-        widths: 2.0
-        direction: horizontal
-        spacings: interleaving
-        pitch: 14.4
-        offset: 0.33
-        trim: false
+       widths: 2.0
+       direction: vertical
+       spacings: interleaving
+       pitch: 14.4
+       offset: 0
+       trim: false
     }
 }
+
 
 ViaConfig: DEFAULT_VIA {
     ViaRule: PG_VIA_M2_M3 {
@@ -142,19 +133,6 @@ ViaConfig: DEFAULT_VIA {
 	    upper_layer: M7
 	    lower_layer: M6
         via_def: {VIA67 FATVIA67}
-	    allow_parallel: false
-    }
-
-    ViaRule: PG_VIA_M7_M8 {
-        target_area: pg_regions CORE_EXPAND
-	    category: wire_to_wire
-
-	    category: wire_to_wire
-	    nets : {VDD VSS}
-	    upper_layer: M8
-	    lower_layer: M7
-        tag: PG_VIA_M7_M8
-        via_def: {VIA78 FATVIA78}
 	    allow_parallel: false
     }
 }
