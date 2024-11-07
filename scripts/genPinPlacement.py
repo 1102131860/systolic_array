@@ -83,7 +83,7 @@ def readInputFile(inFile, pgr):
                     for i in range(left,right+incr,incr):
                         last=1 if i==right else 0
                         signal=prefix + "[" + str(i) + "]"
-                        if(bool(pgr)):
+                        if(pgr in ['t', 'T', 'true', 'True', '1', 'y', 'Y', 'yes', 'Yes']):
                             currentPos,pinInfoList=unpackLinePGR(lineList,signal,metalLayer,pitch,last,mode,currentPos,offset,side)
                         else:
                             currentPos,pinInfoList=unpackLineNoPGR(lineList,signal,metalLayer,pitch,last,mode,currentPos,offset,side)
