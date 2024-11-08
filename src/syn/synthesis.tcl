@@ -35,19 +35,17 @@ source -echo -verbose ./constraints.tcl
 #              Set operating conditions & wire-load models                    #
 #=============================================================================#
 
+# Set operating conditions
 # min/max not compatible with icc2
 set_operating_conditions
 
 #=============================================================================#
 #                                Synthesize                                   #
 #=============================================================================#
-
 # Prevent assignment statements in the **Verilog netlist.**
 set_fix_multiple_port_nets -all -buffer_constants
-
 # Run topdown synthesis
 current_design $TOPLEVEL
-
 # Set the compilation options
 if {$DC_FLATTEN} {
    set_flatten true -effort $DC_FLATTEN_EFFORT
@@ -76,31 +74,109 @@ if {$DC_SEQ_OUTPUT_INVERSION eq 0} {
 if {$DC_EXACT_MAP} {
     lappend COMPILE_ARGS "-exact_map"
 }
-if {$DC_CLK_GATING} {
-    lappend COMPILE_ARGS "-gate_clock"
+
+if {$DC_FLATTEN} {
+   set_flatten true -effort $DC_FLATTEN_EFFORT
 }
+if {$DC_STRUCTURE} {
+   set_structure true -timing $DC_STRUCTURE_TIMING -boolean $DC_STRUCTURE_LOGIC
+}
+
+set COMPILE_ARGS [list]
+if {$DC_KEEP_HIER} {
+    lappend COMPILE_ARGS "-no_autoungroup"
+    # lappend COMPILE_ARGS "-no_boundary_optimization"
+}
+if {$DC_REG_RETIME} {
+    set_optimize_registers -async_transform $DC_REG_RETIME_XFORM \
+    -sync_transform  $DC_REG_RETIME_XFORM
+    lappend COMPILE_ARGS "-retime"
+}
+
+## Set the compilation options
+#if {$DC_FLATTEN} {
+#   set_flatten true -effort $DC_FLATTEN_EFFORT
+#}
+#if {$DC_STRUCTURE} {
+#   set_structure true -timing $DC_STRUCTURE_TIMING -boolean $DC_STRUCTURE_LOGIC
+#}
+#if {$DC_PREFER_RUNTIME} {
+#   compile_prefer_runtime
+#}
+#set COMPILE_ARGS [list]
+#if {$DC_KEEP_HIER} {
+#   lappend COMPILE_ARGS "-no_autoungroup"
+#}
+#if {$DC_REG_RETIME} {
+#   set_optimize_registers -async_transform $DC_REG_RETIME_XFORM \
+#                          -sync_transform  $DC_REG_RETIME_XFORM
+#   lappend COMPILE_ARGS "-retime"
+#}
+#if {$DC_BOUNDARY_OPTIMIZATION eq 0} {
+#    lappend COMPILE_ARGS "-no_boundary_optimization"
+#}
+#if {$DC_SEQ_OUTPUT_INVERSION eq 0} {
+#    lappend COMPILE_ARGS "-no_seq_output_inversion"
+#}
+#if {$DC_EXACT_MAP} {
+#    lappend COMPILE_ARGS "-exact_map"
+#}
 
 #=============================================================================#
 #                            Synthesis                                        #
 #=============================================================================#
 
-# Check for design errors
+#   Check for design errors
 check_design -summary
 check_design > "./$reports/check_design.rpt"
 
 # Compile, first pass
 eval compile_ultra $COMPILE_ARGS
 
-# Second pass, if enabled
+
+# Prepare to optionally compile second pass for incremental compile or clock gating
+set INCR_COMPILE_ARGS [list]
 if {$DC_COMPILE_ADDITIONAL} {
-   compile_ultra -incremental
+     lappend INCR_COMPILE_ARGS "-incremental"
+    }
+
+if {$DC_CLK_GATING} {
+
+lappend INCR_COMPILE_ARGS "-gate_clock"
+lappend INCR_COMPILE_ARGS "-no_autoungroup"
+
+set_clock_gating_style \
+        -sequential_cell latch \
+        -control_point before \
+        -control_signal scan_enable \
+        -minimum_bitwidth 1 \
+        -max_fanout 64 \
+        -positive_edge_logic {integrated}
+
+#You may want only certain registers of modules to be clock gated. List them here
+#Alternatively, you may want to -exclude   instances or -include instances, or even -force_include them instead ...
+# set_clock_gating_objects -exclude_instances [get_designs *]
+
 }
+
+if {$DC_COMPILE_ADDITIONAL || $DC_CLK_GATING} {    
+    eval compile_ultra $INCR_COMPILE_ARGS
+}
+
+check_design
+
+if {$DC_CLK_GATING} {
+# clock gating report
+    report_clock_gating -style > "reports/cg.rpt"
+    report_clock_gating_check -significant_digits 3 >> "reports/cg.rpt"
+    report_clock_gating -structure >> "reports/cg.rpt"
+}
+
 
 # Perform any custom hold fixing. This is almost never done in the synthesis phase
 # unless of course, you know you have lots of regular, known shift register structures
 # in which case you can proceed to run a limited hold-fix effort
 #source hold_fixing.tcl
-
 #=============================================================================#
 #                            Reports generation                               #
 #=============================================================================#
@@ -110,10 +186,10 @@ if {$DC_COMPILE_ADDITIONAL} {
 # handy for this. 
 # What is the difference between the fullpath and the regular reports
 report_constraints -all_violators -verbose > "./$reports/constraints.rpt"
-report_timing -path end  -delay max -max_paths 200 -nworst 2 > "./$reports/timing.max.rpt"
-report_timing -path full -delay max -max_paths 5   -nworst 2 > "./$reports/timing.max.fullpath.rpt"
-report_timing -path end  -delay min -max_paths 200 -nworst 2 > "./$reports/timing.min.rpt"
-report_timing -path full -delay min -max_paths 5   -nworst 2 > "./$reports/timing.min.fullpath.rpt"
+report_timing -path end -derate  -delay max -max_paths 200 -nworst 2 > "./$reports/timing.max.rpt"
+report_timing -path full -derate -delay max -max_paths 5   -nworst 2 > "./$reports/timing.max.fullpath.rpt"
+report_timing -path end  -derate -delay min -max_paths 200 -nworst 2 > "./$reports/timing.min.rpt"
+report_timing -path full -derate -delay min -max_paths 5   -nworst 2 > "./$reports/timing.min.fullpath.rpt"
 report_area -physical -hier -nosplit   > "./$reports/area.rpt"
 report_power -hier -nosplit            > "./$reports/power.hier.rpt"
 report_power -verbose -nosplit         > "./$reports/power.rpt"
@@ -161,10 +237,8 @@ current_design $TOPLEVEL
 #Next apply name change to all elements in the hierarchy
 define_name_rules verilog  -add_dummy_nets  -case_insensitive
 change_name -rules verilog -hierarchy
-
 write -hierarchy -format verilog -output "./$results/$TOPLEVEL.syn.v"
 write -hierarchy -format ddc     -output "./$results/$TOPLEVEL.ddc"
-
 #The sdc, or the Standard Design Constraints summarize all the constraints you have put on the design into a single file.
 #This file will be fed to the APR tool so you don't have to go create every single constraint all over again.
 #The SDF is the standard delay format. Open the file and look at it. It encapsulates delays for every cell in the design
@@ -176,8 +250,6 @@ write -hierarchy -format ddc     -output "./$results/$TOPLEVEL.ddc"
 write_sdc                               "./$results/$TOPLEVEL.sdc"
 write -h $TOPLEVEL -output              "./$results/$TOPLEVEL.db"
 write_sdf -context verilog -version 1.0 "./$results/$TOPLEVEL.sdf"
-
-
 #This last command is VERY USEFUL. It contains a summary of all the messages (errors/warnings/information) that you encountered in your design.
 #All errors are problematic. Some warnings are problematic. You have to inspect them and clean them up before you can declare you have built a clean flow.
 if {[check_error -verbose] != 0} { echo "There was an error somewhere!" }

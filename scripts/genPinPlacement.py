@@ -1,4 +1,4 @@
-#!/usr/bin/python3 
+#!/usr/bin/python3.12
 import sys
 import os
 import re
@@ -33,29 +33,29 @@ def readInputFile(inFile, pgr):
         lines=rfh.readlines()
         for line in lines:
             line=line.strip()
-            if re.search('^\s*$',line): ## or re.search('^//',line):
+            if re.search(r'^\s*$',line): ## or re.search(r'^//',line):
                 continue
             ################3 Identify the type of mapping. Offset of direct-map ############
-            elif re.search ('^\s*type\s*=\s*(\w+)', line): #type=offset or #type=map
-                m=re.search ('^\s*type\s*=\s*(?P<mode>\w+)', line)
+            elif re.search (r'^\s*type\s*=\s*(\w+)', line): #type=offset or #type=map
+                m=re.search (r'^\s*type\s*=\s*(?P<mode>\w+)', line)
                 mode=m.group('mode')
                 if not( mode=='offset' or mode=='map'):
                     print("Invalid mode. Mode must be either offset or map. {0} selected. Please specify a valid mode".format(mode))
                 ###################### Identify the default Offset #############################
-                # elif re.search ('\s*defaultOffset', line): #default_offset=245.52
-            elif re.search ('\s*defaultOffset\s*=\s*[0-9.]+', line): #default_offset=245.52
-                m=re.search ('\s*defaultOffset\s*=\s*(?P<offset>[0-9.]+)', line)
+                # elif re.search (r'\s*defaultOffset', line): #default_offset=245.52
+            elif re.search (r'\s*defaultOffset\s*=\s*[0-9.]+', line): #default_offset=245.52
+                m=re.search (r'\s*defaultOffset\s*=\s*(?P<offset>[0-9.]+)', line)
                 defaultOffset=float(m.group('offset'))
                 ###################### Identify new "signpost" #############################
-            elif re.search('^#[ENWSenws],\s*[0-9.]*',line): #You have a marker #E, #W, #N, #S
-                line=re.sub('^#','',line)
+            elif re.search(r'^#[ENWSenws],\s*[0-9.]*',line): #You have a marker #E, #W, #N, #S
+                line=re.sub(r'^#','',line)
                 line=re.split(',',line)
                 side=faceDict[line[0]]
                 currentPos=float(line[1]) if len(line)>1 else 0
                 ###################### Pin statement #############################
             else: #Regular pin assignment nnnn
                 signal = "INVALID"
-                line=re.sub('\s+', '',line)
+                line=re.sub(r'\s+', '',line)
                 lineList=line.split(r',') #Break on a comma
                 #######Get the metal layer and the offset for the line###########
                 m=re.search(r'layer\s*=\s*(?P<metalLayer>M[0-9]+)',lineList[1])
@@ -64,9 +64,9 @@ def readInputFile(inFile, pgr):
                 offset = float(m.group('offset')) if m else defaultOffset
                 #Look for offset
                 ################# Is there a bus statement ###################
-                if(re.search('[\<\[]',lineList[0])):  #Check if signal is a bus
-                    if(re.search(':',lineList[0])):   #If bus, is it a range
-                        m=re.search('(?P<prefix>.*?)[\<\[]\s*(?P<max>[0-9]+):(?P<min>[0-9]+)\s*[\<\]]',lineList[0])
+                if(re.search(r'[\<\[]',lineList[0])):  #Check if signal is a bus
+                    if(re.search(r':',lineList[0])):   #If bus, is it a range
+                        m=re.search(r'(?P<prefix>.*?)[\<\[]\s*(?P<max>[0-9]+):(?P<min>[0-9]+)\s*[\<\]]',lineList[0])
                         prefix,left,right =m.group('prefix'), int(m.group('max')), int(m.group('min'))
                         # (stop,start)=(right,left) if left>right else (left,right)
                         incr = 1 if right>left else -1
@@ -76,7 +76,7 @@ def readInputFile(inFile, pgr):
                         # stop= m if m>n else n
                         ################# Is there a  ###################
                     else:
-                        m=re.search('(?P<prefix>.*?)[\<\[]\s*(?P<val>[0-9]+)\s*[\]\]]',lineList[0])
+                        m=re.search(r'(?P<prefix>.*?)[\<\[]\s*(?P<val>[0-9]+)\s*[\]\]]',lineList[0])
                         prefix,m =m.group('prefix'), int(m.group('val'))
                         left=m
                         right= m
