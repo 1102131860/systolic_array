@@ -115,16 +115,16 @@ def unpackLineNoPGR (lineList,signal,metalLayer,pitch,last,mode,currentPos,offse
     nextPos="invalid"
     if mode=='offset':
         if(pitch==0 or last==1):
-            nextPos=findLegalPinLoc(float(currentPos)+offset,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
+            nextPos=findLegalPinLoc(float(currentPos)+offset,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer], side)
         else:
-            nextPos=findLegalPinLoc(float(currentPos)+pitch,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
+            nextPos=findLegalPinLoc(float(currentPos)+pitch,trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer], side)
     else:
-        currentPos = findLegalPinLoc(float(lineList[-1]),trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer])
+        currentPos = findLegalPinLoc(float(lineList[-1]),trackPitch[metalLayer],trackOffset[metalLayer],routeWidth[metalLayer], side)
     signalList.extend((signal,metalLayer,currentPos,side))
     return nextPos,signalList
 
 #Find the nearest legal "on-track" location that is greater than the existing location
-def findLegalPinLoc(loc, trackPitch, trackOffset, routeWidth):
+def findLegalPinLoc(loc, trackPitch, trackOffset, routeWidth, side):
     # print(f"stdCellHeight:{stdCellHeight}")
     trackIndex=((loc-trackOffset) % stdCellHeight) / trackPitch
     # if(trackIndex== 0 or trackIndex == 1 or trackIndex==8): print("illegal pin location")
@@ -138,15 +138,23 @@ def findLegalPinLoc(loc, trackPitch, trackOffset, routeWidth):
             break
     if(found==0): #Pick next track over. Legal index defaults to iallowedTracks[0]
         stdCellCount+=1
-    finLoc = trackOffset+stdCellCount*stdCellHeight+trackPitch*legalIndex - routeWidth*0.5
+
+    # Snap final location to track based on side.
+    if side in [1,3]:
+        finLoc = trackOffset+stdCellCount*stdCellHeight+trackPitch*legalIndex; # - routeWidth*0.5
+    elif side in [2,4]:
+        finLoc = trackOffset+stdCellCount*stdCellHeight+trackPitch*legalIndex
+    else:
+        raise ValueError("Side can only be 1,2,3,4!")
+
     finLoc = round(finLoc,2)
-    # print(f"Init loc was {loc}. Final loc was {finLoc}")
+    print(f"Side = {side}. Init loc was {loc}. Final loc was {finLoc}.")
     return finLoc 
 
 (options,args) = parser.parse_args()
 wfh=open(options.outFile,'w')
 pinList=readInputFile(options.inFile, options.pgr)
 for pin in pinList:
-    wfh.write("set_individual_pin_constraints -ports {%s} -allowed_layers {%s} -width 0.1 -length 0.1 -sides %s -offset %.2f\n" %(pin[0],pin[1],pin[3],pin[2]))
+    wfh.write("create_pin_constraint -type individual -ports {%s} -layers {%s} -width 0.1 -length 0.1 -sides %s -offset %.2f\n" %(pin[0],pin[1],pin[3],pin[2]))
 wfh.close()
     # print pinList

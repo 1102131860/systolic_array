@@ -15,3 +15,5 @@ foreach_in_collection _scn [all_scenarios] {
     write_parasitics -format spef -corner $corner -no_name_mapping -output results/${TOP_MODULE}.${corner}.spef
 }
 
+create_abstract -read_only
+create_frame -block_all used_layers

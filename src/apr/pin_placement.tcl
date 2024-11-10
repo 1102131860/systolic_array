@@ -1,172 +1,172 @@
-set_individual_pin_constraints -ports {o_sample_clk} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 1.35
-set_individual_pin_constraints -ports {o_vld} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 2.35
-set_individual_pin_constraints -ports {o_data[55]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 3.95
-set_individual_pin_constraints -ports {o_data[54]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 4.75
-set_individual_pin_constraints -ports {o_data[53]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 5.75
-set_individual_pin_constraints -ports {o_data[52]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 6.55
-set_individual_pin_constraints -ports {o_data[51]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 7.55
-set_individual_pin_constraints -ports {o_data[50]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 8.35
-set_individual_pin_constraints -ports {o_data[49]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 9.35
-set_individual_pin_constraints -ports {o_data[48]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 10.15
-set_individual_pin_constraints -ports {o_data[47]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 11.15
-set_individual_pin_constraints -ports {o_data[46]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 11.95
-set_individual_pin_constraints -ports {o_data[45]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 12.95
-set_individual_pin_constraints -ports {o_data[44]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 13.75
-set_individual_pin_constraints -ports {o_data[43]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 14.75
-set_individual_pin_constraints -ports {o_data[42]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 15.55
-set_individual_pin_constraints -ports {o_data[41]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 16.55
-set_individual_pin_constraints -ports {o_data[40]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 17.35
-set_individual_pin_constraints -ports {o_data[39]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 18.35
-set_individual_pin_constraints -ports {o_data[38]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 19.15
-set_individual_pin_constraints -ports {o_data[37]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 20.15
-set_individual_pin_constraints -ports {o_data[36]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 20.95
-set_individual_pin_constraints -ports {o_data[35]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 21.95
-set_individual_pin_constraints -ports {o_data[34]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 22.75
-set_individual_pin_constraints -ports {o_data[33]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 23.75
-set_individual_pin_constraints -ports {o_data[32]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 24.55
-set_individual_pin_constraints -ports {o_data[31]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 25.55
-set_individual_pin_constraints -ports {o_data[30]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 26.35
-set_individual_pin_constraints -ports {o_data[29]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 27.35
-set_individual_pin_constraints -ports {o_data[28]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 28.15
-set_individual_pin_constraints -ports {o_data[27]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 29.15
-set_individual_pin_constraints -ports {o_data[26]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 29.95
-set_individual_pin_constraints -ports {o_data[25]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 30.95
-set_individual_pin_constraints -ports {o_data[24]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 31.75
-set_individual_pin_constraints -ports {o_data[23]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 32.75
-set_individual_pin_constraints -ports {o_data[22]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 33.55
-set_individual_pin_constraints -ports {o_data[21]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 34.55
-set_individual_pin_constraints -ports {o_data[20]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 35.35
-set_individual_pin_constraints -ports {o_data[19]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 36.35
-set_individual_pin_constraints -ports {o_data[18]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 37.15
-set_individual_pin_constraints -ports {o_data[17]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 38.15
-set_individual_pin_constraints -ports {o_data[16]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 38.95
-set_individual_pin_constraints -ports {o_data[15]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 39.95
-set_individual_pin_constraints -ports {o_data[14]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 40.75
-set_individual_pin_constraints -ports {o_data[13]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 41.75
-set_individual_pin_constraints -ports {o_data[12]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 42.55
-set_individual_pin_constraints -ports {o_data[11]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 43.55
-set_individual_pin_constraints -ports {o_data[10]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 44.35
-set_individual_pin_constraints -ports {o_data[9]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 45.35
-set_individual_pin_constraints -ports {o_data[8]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 46.15
-set_individual_pin_constraints -ports {o_data[7]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 47.15
-set_individual_pin_constraints -ports {o_data[6]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 47.95
-set_individual_pin_constraints -ports {o_data[5]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 48.95
-set_individual_pin_constraints -ports {o_data[4]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 49.75
-set_individual_pin_constraints -ports {o_data[3]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 50.75
-set_individual_pin_constraints -ports {o_data[2]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 51.55
-set_individual_pin_constraints -ports {o_data[1]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 52.55
-set_individual_pin_constraints -ports {o_data[0]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 53.35
-set_individual_pin_constraints -ports {i_stop_code[48]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 83.35
-set_individual_pin_constraints -ports {i_stop_code[47]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 84.15
-set_individual_pin_constraints -ports {i_stop_code[46]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 84.95
-set_individual_pin_constraints -ports {i_stop_code[45]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 85.75
-set_individual_pin_constraints -ports {i_stop_code[44]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 86.75
-set_individual_pin_constraints -ports {i_stop_code[43]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 87.55
-set_individual_pin_constraints -ports {i_stop_code[42]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 88.55
-set_individual_pin_constraints -ports {i_stop_code[41]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 89.35
-set_individual_pin_constraints -ports {i_stop_code[40]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 90.35
-set_individual_pin_constraints -ports {i_stop_code[39]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 91.15
-set_individual_pin_constraints -ports {i_stop_code[38]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 92.15
-set_individual_pin_constraints -ports {i_stop_code[37]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 92.95
-set_individual_pin_constraints -ports {i_stop_code[36]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 93.95
-set_individual_pin_constraints -ports {i_stop_code[35]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 94.75
-set_individual_pin_constraints -ports {i_stop_code[34]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 95.75
-set_individual_pin_constraints -ports {i_stop_code[33]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 96.55
-set_individual_pin_constraints -ports {i_stop_code[32]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 97.55
-set_individual_pin_constraints -ports {i_stop_code[31]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 98.35
-set_individual_pin_constraints -ports {i_stop_code[30]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 99.35
-set_individual_pin_constraints -ports {i_stop_code[29]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 100.15
-set_individual_pin_constraints -ports {i_stop_code[28]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 101.15
-set_individual_pin_constraints -ports {i_stop_code[27]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 101.95
-set_individual_pin_constraints -ports {i_stop_code[26]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 102.95
-set_individual_pin_constraints -ports {i_stop_code[25]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 103.75
-set_individual_pin_constraints -ports {i_stop_code[24]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 104.75
-set_individual_pin_constraints -ports {i_stop_code[23]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 105.55
-set_individual_pin_constraints -ports {i_stop_code[22]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 106.55
-set_individual_pin_constraints -ports {i_stop_code[21]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 107.35
-set_individual_pin_constraints -ports {i_stop_code[20]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 108.35
-set_individual_pin_constraints -ports {i_stop_code[19]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 109.15
-set_individual_pin_constraints -ports {i_stop_code[18]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 110.15
-set_individual_pin_constraints -ports {i_stop_code[17]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 110.95
-set_individual_pin_constraints -ports {i_stop_code[16]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 111.95
-set_individual_pin_constraints -ports {i_stop_code[15]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 112.75
-set_individual_pin_constraints -ports {i_stop_code[14]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 113.75
-set_individual_pin_constraints -ports {i_stop_code[13]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 114.55
-set_individual_pin_constraints -ports {i_stop_code[12]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 115.55
-set_individual_pin_constraints -ports {i_stop_code[11]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 116.35
-set_individual_pin_constraints -ports {i_stop_code[10]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 117.35
-set_individual_pin_constraints -ports {i_stop_code[9]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 118.15
-set_individual_pin_constraints -ports {i_stop_code[8]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 119.15
-set_individual_pin_constraints -ports {i_stop_code[7]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 119.95
-set_individual_pin_constraints -ports {i_stop_code[6]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 120.95
-set_individual_pin_constraints -ports {i_stop_code[5]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 121.75
-set_individual_pin_constraints -ports {i_stop_code[4]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 122.75
-set_individual_pin_constraints -ports {i_stop_code[3]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 123.55
-set_individual_pin_constraints -ports {i_stop_code[2]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 124.55
-set_individual_pin_constraints -ports {i_stop_code[1]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 125.35
-set_individual_pin_constraints -ports {i_stop_code[0]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 126.35
-set_individual_pin_constraints -ports {i_data[55]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 128.35
-set_individual_pin_constraints -ports {i_data[54]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 129.15
-set_individual_pin_constraints -ports {i_data[53]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 129.95
-set_individual_pin_constraints -ports {i_data[52]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 130.75
-set_individual_pin_constraints -ports {i_data[51]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 131.75
-set_individual_pin_constraints -ports {i_data[50]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 132.55
-set_individual_pin_constraints -ports {i_data[49]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 133.55
-set_individual_pin_constraints -ports {i_data[48]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 134.35
-set_individual_pin_constraints -ports {i_data[47]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 135.35
-set_individual_pin_constraints -ports {i_data[46]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 136.15
-set_individual_pin_constraints -ports {i_data[45]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 137.15
-set_individual_pin_constraints -ports {i_data[44]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 137.95
-set_individual_pin_constraints -ports {i_data[43]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 138.95
-set_individual_pin_constraints -ports {i_data[42]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 139.75
-set_individual_pin_constraints -ports {i_data[41]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 140.75
-set_individual_pin_constraints -ports {i_data[40]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 141.55
-set_individual_pin_constraints -ports {i_data[39]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 142.55
-set_individual_pin_constraints -ports {i_data[38]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 143.35
-set_individual_pin_constraints -ports {i_data[37]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 144.35
-set_individual_pin_constraints -ports {i_data[36]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 145.15
-set_individual_pin_constraints -ports {i_data[35]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 146.15
-set_individual_pin_constraints -ports {i_data[34]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 146.95
-set_individual_pin_constraints -ports {i_data[33]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 147.95
-set_individual_pin_constraints -ports {i_data[32]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 148.75
-set_individual_pin_constraints -ports {i_data[31]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 149.75
-set_individual_pin_constraints -ports {i_data[30]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 150.55
-set_individual_pin_constraints -ports {i_data[29]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 151.55
-set_individual_pin_constraints -ports {i_data[28]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 152.35
-set_individual_pin_constraints -ports {i_data[27]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 153.35
-set_individual_pin_constraints -ports {i_data[26]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 154.15
-set_individual_pin_constraints -ports {i_data[25]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 155.15
-set_individual_pin_constraints -ports {i_data[24]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 155.95
-set_individual_pin_constraints -ports {i_data[23]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 156.95
-set_individual_pin_constraints -ports {i_data[22]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 157.75
-set_individual_pin_constraints -ports {i_data[21]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 158.75
-set_individual_pin_constraints -ports {i_data[20]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 159.55
-set_individual_pin_constraints -ports {i_data[19]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 160.55
-set_individual_pin_constraints -ports {i_data[18]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 161.35
-set_individual_pin_constraints -ports {i_data[17]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 162.35
-set_individual_pin_constraints -ports {i_data[16]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 163.15
-set_individual_pin_constraints -ports {i_data[15]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 164.15
-set_individual_pin_constraints -ports {i_data[14]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 164.95
-set_individual_pin_constraints -ports {i_data[13]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 165.95
-set_individual_pin_constraints -ports {i_data[12]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 166.75
-set_individual_pin_constraints -ports {i_data[11]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 167.75
-set_individual_pin_constraints -ports {i_data[10]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 168.55
-set_individual_pin_constraints -ports {i_data[9]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 169.55
-set_individual_pin_constraints -ports {i_data[8]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 170.35
-set_individual_pin_constraints -ports {i_data[7]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 171.35
-set_individual_pin_constraints -ports {i_data[6]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 172.15
-set_individual_pin_constraints -ports {i_data[5]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 173.15
-set_individual_pin_constraints -ports {i_data[4]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 173.95
-set_individual_pin_constraints -ports {i_data[3]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 174.95
-set_individual_pin_constraints -ports {i_data[2]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 175.75
-set_individual_pin_constraints -ports {i_data[1]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 176.75
-set_individual_pin_constraints -ports {i_data[0]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 177.55
-set_individual_pin_constraints -ports {i_vld} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 183.95
-set_individual_pin_constraints -ports {i_clk} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 185.95
-set_individual_pin_constraints -ports {i_async_rst} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 187.95
-set_individual_pin_constraints -ports {i_en} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 189.95
-set_individual_pin_constraints -ports {i_mode[1]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 191.95
-set_individual_pin_constraints -ports {i_mode[0]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 192.95
-set_individual_pin_constraints -ports {i_bypass[2]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 194.95
-set_individual_pin_constraints -ports {i_bypass[1]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 196.55
-set_individual_pin_constraints -ports {i_bypass[0]} -allowed_layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 197.55
+create_pin_constraint -type individual -ports {o_sample_clk} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 1.40
+create_pin_constraint -type individual -ports {o_vld} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 2.40
+create_pin_constraint -type individual -ports {o_data[55]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 4.00
+create_pin_constraint -type individual -ports {o_data[54]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 4.80
+create_pin_constraint -type individual -ports {o_data[53]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 5.80
+create_pin_constraint -type individual -ports {o_data[52]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 6.60
+create_pin_constraint -type individual -ports {o_data[51]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 7.60
+create_pin_constraint -type individual -ports {o_data[50]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 8.60
+create_pin_constraint -type individual -ports {o_data[49]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 9.60
+create_pin_constraint -type individual -ports {o_data[48]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 10.40
+create_pin_constraint -type individual -ports {o_data[47]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 11.40
+create_pin_constraint -type individual -ports {o_data[46]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 13.00
+create_pin_constraint -type individual -ports {o_data[45]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 14.00
+create_pin_constraint -type individual -ports {o_data[44]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 15.00
+create_pin_constraint -type individual -ports {o_data[43]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 16.60
+create_pin_constraint -type individual -ports {o_data[42]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 17.60
+create_pin_constraint -type individual -ports {o_data[41]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 18.60
+create_pin_constraint -type individual -ports {o_data[40]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 20.20
+create_pin_constraint -type individual -ports {o_data[39]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 21.00
+create_pin_constraint -type individual -ports {o_data[38]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 22.00
+create_pin_constraint -type individual -ports {o_data[37]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 23.00
+create_pin_constraint -type individual -ports {o_data[36]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 24.00
+create_pin_constraint -type individual -ports {o_data[35]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 24.80
+create_pin_constraint -type individual -ports {o_data[34]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 25.80
+create_pin_constraint -type individual -ports {o_data[33]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 27.40
+create_pin_constraint -type individual -ports {o_data[32]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 28.20
+create_pin_constraint -type individual -ports {o_data[31]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 29.20
+create_pin_constraint -type individual -ports {o_data[30]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 30.00
+create_pin_constraint -type individual -ports {o_data[29]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 31.00
+create_pin_constraint -type individual -ports {o_data[28]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 31.80
+create_pin_constraint -type individual -ports {o_data[27]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 32.80
+create_pin_constraint -type individual -ports {o_data[26]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 33.60
+create_pin_constraint -type individual -ports {o_data[25]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 34.60
+create_pin_constraint -type individual -ports {o_data[24]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 35.40
+create_pin_constraint -type individual -ports {o_data[23]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 36.40
+create_pin_constraint -type individual -ports {o_data[22]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 37.20
+create_pin_constraint -type individual -ports {o_data[21]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 38.20
+create_pin_constraint -type individual -ports {o_data[20]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 39.00
+create_pin_constraint -type individual -ports {o_data[19]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 40.00
+create_pin_constraint -type individual -ports {o_data[18]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 40.80
+create_pin_constraint -type individual -ports {o_data[17]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 41.80
+create_pin_constraint -type individual -ports {o_data[16]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 42.60
+create_pin_constraint -type individual -ports {o_data[15]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 43.60
+create_pin_constraint -type individual -ports {o_data[14]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 44.40
+create_pin_constraint -type individual -ports {o_data[13]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 45.40
+create_pin_constraint -type individual -ports {o_data[12]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 46.20
+create_pin_constraint -type individual -ports {o_data[11]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 47.20
+create_pin_constraint -type individual -ports {o_data[10]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 48.00
+create_pin_constraint -type individual -ports {o_data[9]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 49.00
+create_pin_constraint -type individual -ports {o_data[8]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 49.80
+create_pin_constraint -type individual -ports {o_data[7]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 50.80
+create_pin_constraint -type individual -ports {o_data[6]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 51.60
+create_pin_constraint -type individual -ports {o_data[5]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 52.60
+create_pin_constraint -type individual -ports {o_data[4]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 53.40
+create_pin_constraint -type individual -ports {o_data[3]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 54.40
+create_pin_constraint -type individual -ports {o_data[2]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 55.20
+create_pin_constraint -type individual -ports {o_data[1]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 56.20
+create_pin_constraint -type individual -ports {o_data[0]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 57.00
+create_pin_constraint -type individual -ports {i_stop_code[48]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 87.00
+create_pin_constraint -type individual -ports {i_stop_code[47]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 87.80
+create_pin_constraint -type individual -ports {i_stop_code[46]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 88.60
+create_pin_constraint -type individual -ports {i_stop_code[45]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 89.40
+create_pin_constraint -type individual -ports {i_stop_code[44]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 90.40
+create_pin_constraint -type individual -ports {i_stop_code[43]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 91.40
+create_pin_constraint -type individual -ports {i_stop_code[42]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 92.40
+create_pin_constraint -type individual -ports {i_stop_code[41]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 94.00
+create_pin_constraint -type individual -ports {i_stop_code[40]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 94.80
+create_pin_constraint -type individual -ports {i_stop_code[39]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 95.80
+create_pin_constraint -type individual -ports {i_stop_code[38]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 96.60
+create_pin_constraint -type individual -ports {i_stop_code[37]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 97.60
+create_pin_constraint -type individual -ports {i_stop_code[36]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 98.40
+create_pin_constraint -type individual -ports {i_stop_code[35]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 99.40
+create_pin_constraint -type individual -ports {i_stop_code[34]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 100.40
+create_pin_constraint -type individual -ports {i_stop_code[33]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 101.40
+create_pin_constraint -type individual -ports {i_stop_code[32]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 103.00
+create_pin_constraint -type individual -ports {i_stop_code[31]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 103.80
+create_pin_constraint -type individual -ports {i_stop_code[30]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 104.80
+create_pin_constraint -type individual -ports {i_stop_code[29]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 105.60
+create_pin_constraint -type individual -ports {i_stop_code[28]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 106.60
+create_pin_constraint -type individual -ports {i_stop_code[27]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 107.40
+create_pin_constraint -type individual -ports {i_stop_code[26]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 108.40
+create_pin_constraint -type individual -ports {i_stop_code[25]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 109.40
+create_pin_constraint -type individual -ports {i_stop_code[24]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 110.40
+create_pin_constraint -type individual -ports {i_stop_code[23]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 111.20
+create_pin_constraint -type individual -ports {i_stop_code[22]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 112.00
+create_pin_constraint -type individual -ports {i_stop_code[21]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 112.80
+create_pin_constraint -type individual -ports {i_stop_code[20]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 113.80
+create_pin_constraint -type individual -ports {i_stop_code[19]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 114.60
+create_pin_constraint -type individual -ports {i_stop_code[18]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 115.60
+create_pin_constraint -type individual -ports {i_stop_code[17]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 116.40
+create_pin_constraint -type individual -ports {i_stop_code[16]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 117.40
+create_pin_constraint -type individual -ports {i_stop_code[15]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 118.20
+create_pin_constraint -type individual -ports {i_stop_code[14]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 119.20
+create_pin_constraint -type individual -ports {i_stop_code[13]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 120.00
+create_pin_constraint -type individual -ports {i_stop_code[12]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 121.00
+create_pin_constraint -type individual -ports {i_stop_code[11]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 121.80
+create_pin_constraint -type individual -ports {i_stop_code[10]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 122.80
+create_pin_constraint -type individual -ports {i_stop_code[9]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 123.60
+create_pin_constraint -type individual -ports {i_stop_code[8]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 124.60
+create_pin_constraint -type individual -ports {i_stop_code[7]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 125.40
+create_pin_constraint -type individual -ports {i_stop_code[6]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 126.40
+create_pin_constraint -type individual -ports {i_stop_code[5]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 127.20
+create_pin_constraint -type individual -ports {i_stop_code[4]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 128.20
+create_pin_constraint -type individual -ports {i_stop_code[3]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 129.00
+create_pin_constraint -type individual -ports {i_stop_code[2]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 130.00
+create_pin_constraint -type individual -ports {i_stop_code[1]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 131.00
+create_pin_constraint -type individual -ports {i_stop_code[0]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 132.00
+create_pin_constraint -type individual -ports {i_data[55]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 134.00
+create_pin_constraint -type individual -ports {i_data[54]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 135.40
+create_pin_constraint -type individual -ports {i_data[53]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 136.40
+create_pin_constraint -type individual -ports {i_data[52]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 137.40
+create_pin_constraint -type individual -ports {i_data[51]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 139.00
+create_pin_constraint -type individual -ports {i_data[50]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 140.00
+create_pin_constraint -type individual -ports {i_data[49]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 141.00
+create_pin_constraint -type individual -ports {i_data[48]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 142.60
+create_pin_constraint -type individual -ports {i_data[47]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 143.60
+create_pin_constraint -type individual -ports {i_data[46]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 144.60
+create_pin_constraint -type individual -ports {i_data[45]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 146.20
+create_pin_constraint -type individual -ports {i_data[44]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 147.00
+create_pin_constraint -type individual -ports {i_data[43]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 148.00
+create_pin_constraint -type individual -ports {i_data[42]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 149.00
+create_pin_constraint -type individual -ports {i_data[41]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 150.00
+create_pin_constraint -type individual -ports {i_data[40]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 151.60
+create_pin_constraint -type individual -ports {i_data[39]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 152.60
+create_pin_constraint -type individual -ports {i_data[38]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 153.60
+create_pin_constraint -type individual -ports {i_data[37]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 155.20
+create_pin_constraint -type individual -ports {i_data[36]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 156.00
+create_pin_constraint -type individual -ports {i_data[35]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 157.00
+create_pin_constraint -type individual -ports {i_data[34]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 158.00
+create_pin_constraint -type individual -ports {i_data[33]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 159.00
+create_pin_constraint -type individual -ports {i_data[32]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 160.60
+create_pin_constraint -type individual -ports {i_data[31]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 161.60
+create_pin_constraint -type individual -ports {i_data[30]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 162.60
+create_pin_constraint -type individual -ports {i_data[29]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 164.20
+create_pin_constraint -type individual -ports {i_data[28]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 165.00
+create_pin_constraint -type individual -ports {i_data[27]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 166.00
+create_pin_constraint -type individual -ports {i_data[26]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 167.00
+create_pin_constraint -type individual -ports {i_data[25]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 168.00
+create_pin_constraint -type individual -ports {i_data[24]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 169.60
+create_pin_constraint -type individual -ports {i_data[23]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 170.60
+create_pin_constraint -type individual -ports {i_data[22]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 171.60
+create_pin_constraint -type individual -ports {i_data[21]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 173.20
+create_pin_constraint -type individual -ports {i_data[20]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 174.00
+create_pin_constraint -type individual -ports {i_data[19]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 175.00
+create_pin_constraint -type individual -ports {i_data[18]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 176.00
+create_pin_constraint -type individual -ports {i_data[17]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 177.00
+create_pin_constraint -type individual -ports {i_data[16]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 178.60
+create_pin_constraint -type individual -ports {i_data[15]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 179.60
+create_pin_constraint -type individual -ports {i_data[14]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 180.60
+create_pin_constraint -type individual -ports {i_data[13]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 182.20
+create_pin_constraint -type individual -ports {i_data[12]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 183.00
+create_pin_constraint -type individual -ports {i_data[11]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 184.00
+create_pin_constraint -type individual -ports {i_data[10]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 185.00
+create_pin_constraint -type individual -ports {i_data[9]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 186.00
+create_pin_constraint -type individual -ports {i_data[8]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 187.60
+create_pin_constraint -type individual -ports {i_data[7]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 188.60
+create_pin_constraint -type individual -ports {i_data[6]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 189.60
+create_pin_constraint -type individual -ports {i_data[5]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 191.20
+create_pin_constraint -type individual -ports {i_data[4]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 192.00
+create_pin_constraint -type individual -ports {i_data[3]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 193.00
+create_pin_constraint -type individual -ports {i_data[2]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 194.00
+create_pin_constraint -type individual -ports {i_data[1]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 195.00
+create_pin_constraint -type individual -ports {i_data[0]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 196.60
+create_pin_constraint -type individual -ports {i_vld} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 198.60
+create_pin_constraint -type individual -ports {i_clk} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 200.60
+create_pin_constraint -type individual -ports {i_async_rst} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 202.60
+create_pin_constraint -type individual -ports {i_en} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 204.60
+create_pin_constraint -type individual -ports {i_mode[1]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 206.60
+create_pin_constraint -type individual -ports {i_mode[0]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 207.60
+create_pin_constraint -type individual -ports {i_bypass[2]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 209.60
+create_pin_constraint -type individual -ports {i_bypass[1]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 212.80
+create_pin_constraint -type individual -ports {i_bypass[0]} -layers {M2} -width 0.1 -length 0.1 -sides 1 -offset 214.60

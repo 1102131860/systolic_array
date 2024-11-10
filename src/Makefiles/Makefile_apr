@@ -27,7 +27,6 @@ design:
 
 
 icc2: results/$(TOPLEVEL).apr.v
-	make results/$(TOPLEVEL).apr.v
 
 # $(SYN_FILES):$(SRC_VERILOG) 
 	# make -C $(PRJ)/syn
