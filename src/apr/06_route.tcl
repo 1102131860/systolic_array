@@ -18,6 +18,9 @@ set_app_options -name opt.common.user_instance_name_prefix -value "RO_"
 set cmd "route_auto -max_detail_route_iterations $ITER"
 eval $cmd
 
+# Fix any constraints violated by routing
+route_opt
+
 # DRC violation search
 check_route
 
