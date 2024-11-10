@@ -90,19 +90,7 @@ set_cost_priority {min_delay max_transition max_delay max_fanout max_capacitance
 set enable_recovery_removal_arcs true
 set timing_disable_recovery_removal_checks false;
 
-############################################################################
-# CLOCK GATING
-############################################################################
-# Balanced clock tree -> best clock tree timing results
-# the setup recommendation before iserting the integrated cg cells
-# Use a small maximum clock-gating fanout value
-set_clock_gating_style \
-    -sequential_cell latch \
-    -control_point before \
-    -control_signal scan_enable \
-    -minimum_bitwidth 10 \
-    -max_fanout 128 \
-    -positive_edge_logic {integrated}
+
 
 #==========================#
 #      OUTPUT PORTS        #

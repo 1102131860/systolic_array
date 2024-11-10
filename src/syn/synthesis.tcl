@@ -59,6 +59,7 @@ if {$DC_PREFER_RUNTIME} {
 set COMPILE_ARGS [list]
 if {$DC_KEEP_HIER} {
    lappend COMPILE_ARGS "-no_autoungroup"
+    # lappend COMPILE_ARGS "-no_boundary_optimization"
 }
 if {$DC_REG_RETIME} {
    set_optimize_registers -async_transform $DC_REG_RETIME_XFORM \
@@ -75,23 +76,6 @@ if {$DC_EXACT_MAP} {
     lappend COMPILE_ARGS "-exact_map"
 }
 
-if {$DC_FLATTEN} {
-   set_flatten true -effort $DC_FLATTEN_EFFORT
-}
-if {$DC_STRUCTURE} {
-   set_structure true -timing $DC_STRUCTURE_TIMING -boolean $DC_STRUCTURE_LOGIC
-}
-
-set COMPILE_ARGS [list]
-if {$DC_KEEP_HIER} {
-    lappend COMPILE_ARGS "-no_autoungroup"
-    # lappend COMPILE_ARGS "-no_boundary_optimization"
-}
-if {$DC_REG_RETIME} {
-    set_optimize_registers -async_transform $DC_REG_RETIME_XFORM \
-    -sync_transform  $DC_REG_RETIME_XFORM
-    lappend COMPILE_ARGS "-retime"
-}
 
 ## Set the compilation options
 #if {$DC_FLATTEN} {
@@ -145,6 +129,12 @@ if {$DC_CLK_GATING} {
 lappend INCR_COMPILE_ARGS "-gate_clock"
 lappend INCR_COMPILE_ARGS "-no_autoungroup"
 
+############################################################################
+# CLOCK GATING
+############################################################################
+# Balanced clock tree -> best clock tree timing results
+# the setup recommendation before iserting the integrated cg cells
+# Use a small maximum clock-gating fanout value
 set_clock_gating_style \
         -sequential_cell latch \
         -control_point before \
