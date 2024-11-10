@@ -75,6 +75,9 @@ set PGR_VLAYER             "M7"
 set POWER_NET              [list "VDD"] ;# This is real power net name.
 set GROUND_NET             [list "VSS"] ;# This is real ground net name.
 
+set TOP_LAYER_POWER_NET       [list "M7"]  ;# Should contain one element for each power net.
+set TOP_LAYER_GROUND_NET      [list "M7"]  ;# Should contain one element for each ground net.
+
 #*****************************************************************************
 #**                     Message Info                                        **
 #*****************************************************************************
