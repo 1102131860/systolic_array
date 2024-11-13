@@ -47,4 +47,4 @@ set LIB_TC_NAME   "tcbn65gplustc"
 set LIB_WC_OPCON  "NC1D0COM"
 set LIB_BC_OPCON  "BC1D1COM"
 
-set ANTENNA_RULES_FILE "$TSMC_PATH/Back_End/milkyway/tcbn65gplus_200a/clf/antennaRule_n65_9lm.tcl"
+set ANTENNA_RULES_FILE "antennaRule_n65_9lm.icc2.tcl"

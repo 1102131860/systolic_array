@@ -150,8 +150,7 @@ set DC_KEEP_HIER 0
 set DC_REG_RETIME 0
 set DC_REG_RETIME_XFORM "multiclass"
 
-# Logic flattening. Avoid flatting the design in our case.
-set DC_FLATTEN 0
+# Logic flattening - required for the wrapper
 set DC_FLATTEN_EFFORT "medium"
 
 # Logic structuring

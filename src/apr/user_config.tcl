@@ -87,6 +87,7 @@ set_message_info -id ABS-214 -limit 1; # Pin has no timing pahts. No budget crea
 set_message_info -id NDMUI-010 -limit 1; # The '%s' command cannot be used on library cell '%s' which has no logical model
 set_message_info -id NDMUI-461 -limit 1; # The application option <%s> is for R&D debug and can't be used outside Synopsys
 set_message_info -id CSTR-021 -limit 1;
+set_message_info -id ZRT-311 -limit 1; # skipping antenna check for input/output pins due to not enough area of gate
 
 #*****************************************************************************
 #**                     Derates                                             **

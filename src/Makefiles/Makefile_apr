@@ -14,7 +14,8 @@ RESULTDIR=./results
 REPORTDIR=./reports
 MACRODIR=../src/macro_prep
 SCRIPTDIR=../scripts
-NDMDIR=/home/ece4804/tsmc/65GP/
+4804TSMCDIR=/home/ece4804/tsmc
+NDMDIR=$(4804TSMCDIR)/65GP
 
 TCL_FILES:= $(shell find $(SRC_TCL) -type f)
 
@@ -38,6 +39,7 @@ link_src:
 	find $(SRC_TCL) -name '*.tpl' -exec ln -s -f {} ';'
 	find $(SCRIPTDIR) -name '*.py' -exec ln -s -f {} ';'
 	find $(PRJ)/syn/results/ -name '$(TOPLEVEL).*' -exec ln -s -f {} ';'
+	find $(4804TSMCDIR) -name '*.tcl' -exec ln -s -f {} ';'
 	mkdir ndm
 	ln -s $(NDMDIR) ./ndm
 

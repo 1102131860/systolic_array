@@ -47,9 +47,7 @@ set_fix_multiple_port_nets -all -buffer_constants
 # Run topdown synthesis
 current_design $TOPLEVEL
 # Set the compilation options
-if {$DC_FLATTEN} {
-   set_flatten true -effort $DC_FLATTEN_EFFORT
-}
+
 if {$DC_STRUCTURE} {
    set_structure true -timing $DC_STRUCTURE_TIMING -boolean $DC_STRUCTURE_LOGIC
 }
@@ -74,6 +72,16 @@ if {$DC_SEQ_OUTPUT_INVERSION eq 0} {
 }
 if {$DC_EXACT_MAP} {
     lappend COMPILE_ARGS "-exact_map"
+}
+
+#Flatten logic - required for the wrapper
+set_flatten true -effort $DC_FLATTEN_EFFORT
+
+# Flatten clock gate hierarchies - required for the wrapper
+set_app_var power_cg_flatten true 
+set hier_icg_cells [get_cells -hier -filter "ref_name =~ *SNPS_CLOCK_GATE*"]
+if { [sizeof_collection $hier_icg_cells] > 0 } {
+    ungroup -flatten $hier_icg_cells
 }
 
 
@@ -139,8 +147,6 @@ set_clock_gating_style \
         -sequential_cell latch \
         -control_point before \
         -control_signal scan_enable \
-        -minimum_bitwidth 1 \
-        -max_fanout 64 \
         -positive_edge_logic {integrated}
 
 #You may want only certain registers of modules to be clock gated. List them here
