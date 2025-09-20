@@ -7,7 +7,7 @@ You will implement and tapeout a **Systolic Array** in pre-assigned teams. This 
 
 1.1.2 Demonstrate your ability to implement a given algorithm in RTL using the best-practices learned in this class.
 
-1.1.3. Construct a good verification flow to ensure a successful tapeout.
+1.1.3. Construct a good verification flow that works across behavioral, post-syn, and post-apr to ensure a successful tapeout.
 
 1.2.1. Add input source and output select logic for your module, including LFSR and BIST function.
 
@@ -15,9 +15,7 @@ You will implement and tapeout a **Systolic Array** in pre-assigned teams. This 
 
 1.2.3. Perform auto place and route to generate a tapeout ready design.
 
-1.2.4. Construct a good verification flow to validate your post-apr design.
-
-1.2.5. Understand what files to provide for the final chip integration. Deliver the ndm of your design.
+1.2.4. Understand what files to provide for the final chip integration. Deliver the ndm of your design.
 
 1.3.1. Understand how your module is intergrated and interacts with the peripharals.
 
@@ -28,32 +26,32 @@ You will implement and tapeout a **Systolic Array** in pre-assigned teams. This 
 1.3.4. Successfully tapeout a Systolic Array that meets target specifications.
 
 ## Systolic Arrays
-A systolic array is a specialized hardware architecture consisting of a grid of interconnected processing elements (PEs) that perform parallel computations. Data "pulses" through the array in a synchronized rhythmic fashion like a heartbeat (hence the name "systolic") with each PE performing a simple operation and passing the result to its neighbors. Systolic Arrays are highly efficient for tasks that involve a series of repetitive, localized computations, such as matrix multiplication and convolutions which are the fundamental operations enabling modern Machine Learning models, and digital signal processing.
+A systolic array is a specialized hardware architecture consisting of a grid of interconnected processing elements (PEs) that perform parallel computations. Data "pulses" through the array in a synchronized rhythmic fashion like a heartbeat (hence the name "systolic") with each PE performing a simple operation and passing the result to its neighbors. 
 
-The primary objectives of a systolic array is to:
+Systolic Arrays are highly efficient for tasks that involve a series of repetitive, localized computations, such as matrix multiplication and convolutions which are the fundamental operations enabling modern Machine Learning models, and digital signal processing.
+
+The primary objectives of a systolic array are:
 1. **Minimize Data Movement**: data is fed into the array and re-used as much as possible minimizing how many times it needs to be fetched from memory.
 2. **Maximize Parallelism**: many PEs perform computations simultaneously, in fact, they are all active during steady-state.
 
-Industry examples: (maybe add this)
-
 ### Weight Stationary Dataflow
+For this project, you will be designing a Weight Stationary Systolic Array. Please use the [systolic overview slides](https://gatech.instructure.com/courses/468924/files/folder/References?preview=66116019) and any additional resources that you can find online as a reference for your design.
 
-## Specifications (NEED TO UPDATE TO NEW SYSTOLIC SPECS)
+## Specifications
 Here are the specifications of the Systolic Array design you are implementing:
 
 | Feature                             | Description                      |
 |-------------------------------------|----------------------------------|
-| Number of micro-rotations           | 12 (Programable by Designer)     |
-| Number of pipline stages            | Designer's Decision              |
-| Input data timing assumptions       | Data can appear every cycle      |
-| Input data format                   | Two's complement                 |
-| Input data width                    | 16 bits (1 sign, 2 int, 13 frac) |
-| Output data width                   | 18 bits (1 sign, 4 int, 13 frac) |
-| Scaling factor                      | Compensate for scaling           |
-| Coordinates supported               | Circular (m = 1)                 |
-| Modes supported                     | Rotation & Vectoring             |
-| IO ports                            | See [cordic_top.sv](src/verilog/cordic_top.sv)|
-| Reset                               | Positive Reset (Reset when 1)    |
+| Number of rows                      | 4 (Programable by Designer)      |
+| Number of columns                   | 4 (Programable by Designer)      |
+| Input data assumptions              | Data is stored on global buffers |
+| Input data format                   | Signed Fixed Point               |
+| Input data width                    | 16 bits (1 sign, 5 int, 10 frac) | ## we probably need more integer bits
+| Output data width                   | 16 bits (1 sign, 5 int, 10 frac) | ## Need to discuss this one
+| Handling data overflow              | Saturation or reduced input bits | ## Need to discuss this one
+| Modes supported                     | Memory & External                |
+| IO ports                            | See [cordic_top.sv](src/verilog/cordic_top.sv)| ## update link once files are updated
+| Reset                               | Active-High Reset (Reset when 1) |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
 | Power supply                        | 0.8 ~ 1 V                        |
@@ -62,7 +60,7 @@ Here are the specifications of the Systolic Array design you are implementing:
 | Highest metal allowed               | M7                               |
 
 Shown below is an example of the input and expected output pattern. Input data and function (equivalent to the mode mentioned in the paper and high level sim) are fed to your CORDIC module for one cycle when the enable bit is set. After processing, the output result is presented with done signal indicating the completion for one cycle.
-
+-------- NEED TO UPDATE IMAGE --------
 <p align="center">
 <img src="./img/behavior.png" alt="" width="700"/>
 </p>
@@ -94,23 +92,21 @@ Please start by running the simulation with the provided sequence in task.sv, al
 <img src="./img/cordic_wrapper.png" alt="" width="700"/>
 </p>
 
-## Milestone timeline (Kelvin TODO: update milestone timeline)
+## Milestone timeline
 | Milestone | Date            | Item                                                      |
 |-----------|-----------------|-----------------------------------------------------------|
-| 1a (solo)        | 09/22 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
-| 1b (solo)        | 10/13 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
-| 1 (team)        | 10/27 | A Functionally Complete and Verified CORDIC Module with high level bit accurate script and readme                 |
-| 2         | 10/27 | Verified, Post-synthesis CORDIC Module                              |
-| 3         | 11/03 | Verified, Post-APR CORDIC Module                                    |
-| 4         | 11/10 | Chip-level Validation, Final SAPR Delivery with post-review changes |
-| Peer      | 12/02 | Peer Review                                                         |
+| 1a (solo) | 10/03 | High-Level Bit-Accurate Weight Stationary Systolic Array Simulator  |
+| 1b (solo) | 10/12 | A Functionally Complete and Verified **Simplified** Systolic Module |
+| 1 (team)  | 10/23 | A Functionally Complete and Verified Systolic Module                |
+| 2         | 10/26 | Verified, Post-synthesis Systolic Module                            |
+| 3         | 11/02 | Verified, Post-APR Systolic Module                                  |
+| 4         | 11/09 | Chip-level Validation, Final SAPR Delivery with post-review changes |
+| Peer      | 11/29 | Peer Review                                                         |
 
 ## Milestone 1 Deliverables
-
-# Solo portion:
- a.
-  1. A script written in a high level programing language such as python or C that models the CORDIC behavior on a bit level. Unlike the provided high level script, your high level should match the output of your CORDIC module. We have specified the format of the [input data file](scripts/cordic_input.txt).
-  2. A Readme that clearly explains the organization of your design and how to run the high level simulation model.
+### Milestone 1-a (solo)
+1. A script written in a high level programing language such as python or C that models the behavior of your weight stationary systolic array on a bit level. Unlike the provided high level script, your high level should match the output of your systolic module. We have specified the format of the [input data file](scripts/cordic_input.txt). ------ UPDATE INPUT DATA FILE -------
+2. A Readme that clearly explains the organization of your design and how to run the high level simulation model.
  
  ```bash
 <gtid>_ms1_a.tar.gz
@@ -121,10 +117,15 @@ Please start by running the simulation with the provided sequence in task.sv, al
 |                                   |-...
 ```
 
-b.
-  1. A functionally correct and verified CORDIC RTL design **integrated with the CORDIC wrapper**.
-  2. A test framework that is used to verify your design. The provided script is a **necessary but not sufficient** condition for your verification; your design must meet the specifications of the CORDIC paper.
-  3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
+### Milestone 1-b (solo)
+For this milestone you will work by yourself to design a slightly simplified version of the final systolic array. You will use this implementation as a starting point when working together as groups.
+1. A functionally correct and verified **simplified** Systolic RTL design as specified below:
+   1. Design a 4x4 systolic compute array.
+   2. Your design only needs to handle a single matrix multiplication computation that fully fits on your compute array.
+   3. There's no strict requirements to read data from memory (inputs can be streamed during simulation). In other words, you do not need to design any form of memory controllers for this milestone.
+   4. Meet the other specifications listed on this repository.
+2. A test framework that is used to verify your design. The provided script is a **necessary but not sufficient** condition for your verification; your design must meet the specifications listed on this repository.
+3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
 
 ```bash
 <gtid>_ms1_b.tar.gz
@@ -135,11 +136,12 @@ b.
 |                                   |-...
 ```
  
-# Team Portion:
+### Team Portion:
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
- 1. A functionally correct and verified CORDIC RTL design integrated with the CORDIC wrapper. Remember to rename the module cordic_top_groupnumber to have the appropriate group number.
- 2. A test framework that is used to verify your design.
- 3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
+1. A functionally correct and verified Systolic RTL design integrated with the **Systolic wrapper**. Remember to rename the module systolic_top_<group_number> to have the appropriate group number.
+2. A test framework that is used to verify your design.
+3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
+**Note**: Your design must meet all of the specifications listed on this repository.
 
 ## Milestone 2 Deliverables
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms2.tar.gz_. The tar file should include the following deliverables, which can be found in your _syn_ directory, structured as below.
@@ -205,7 +207,7 @@ group<group_number>\_ms4.tar.gz
 Each team has been given a common directory for them to store files for their group. You only have the permission to write to files that are in your group. Please `cd` the full path directly to access. 
 
 ``` bash
-/tools/projects/ece4804/group<group_number>
+/home/ece4804/projects/group_<group_number>
 ```
 
 **Collaboration between groups is highly encouraged. However, NO COPYING**
