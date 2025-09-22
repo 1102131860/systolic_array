@@ -17,7 +17,7 @@ You will implement and tapeout a **Systolic Array** in pre-assigned teams. This 
 
 1.2.4. Understand what files to provide for the final chip integration. Deliver the ndm of your design.
 
-1.3.1. Understand how your module is intergrated and interacts with the peripharals.
+1.3.1. Understand how your module is intergrated and interacts with the peripherals.
 
 1.3.2. Understand and perform several methods to test the chip.
 
@@ -44,14 +44,14 @@ Here are the specifications of the Systolic Array design you are implementing:
 |-------------------------------------|----------------------------------|
 | Number of rows                      | 4 (Programable by Designer)      |
 | Number of columns                   | 4 (Programable by Designer)      |
-| Input data assumptions              | Data is stored on global buffers |
+| Input data assumptions              | Data is stored on global memories |
 | Input data format                   | Signed Fixed Point               |
-| Input data width                    | 16 bits (1 sign, 5 int, 10 frac) | ## we probably need more integer bits
-| Output data width                   | 16 bits (1 sign, 5 int, 10 frac) | ## Need to discuss this one
+| Input data width                    | 16 bits (1 sign, 10 int, 5 frac) | ## we probably need more integer bits
+| Output data width                   | 16 bits (1 sign, 10 int, 5 frac) | ## Need to discuss this one
 | Handling data overflow              | Saturation or reduced input bits | ## Need to discuss this one
 | Modes supported                     | Memory & External                |
 | IO ports                            | See [cordic_top.sv](src/verilog/cordic_top.sv)| ## update link once files are updated
-| Reset                               | Active-High Reset (Reset when 1) |
+| Reset                               | Active-Low Reset (Reset when 0) |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
 | Power supply                        | 0.8 ~ 1 V                        |
@@ -59,37 +59,57 @@ Here are the specifications of the Systolic Array design you are implementing:
 | Minimum clock frequency             | 100 Mhz                          |
 | Highest metal allowed               | M7                               |
 
-Shown below is an example of the input and expected output pattern. Input data and function (equivalent to the mode mentioned in the paper and high level sim) are fed to your CORDIC module for one cycle when the enable bit is set. After processing, the output result is presented with done signal indicating the completion for one cycle.
--------- NEED TO UPDATE IMAGE --------
+Your design should support two different modes:
+
+1. Normal mode: The memories are loaded and available. The control logic should load the weights into the array, process all inputs and partial sums, and save the results in the output memory.
+
+   Shown below is an example of the input and expected output pattern. Assume that the input, weights, and partial-sum memories have already been loaded. The input block configuration and data configuration are fed to your Systolic Array module when the start bit is set. After processing, the done signal indicates completion, and the results are written to the output memory.
+
 <p align="center">
-<img src="./img/behavior.png" alt="" width="700"/>
+<img src="./img/signals_normal.png" alt="" width="700"/>
+</p>
+
+2. External mode: The memories are not available, and all signals come from external sources. In this mode, the systolic array functions purely as a processing unit, while an external entity manages all inputs, control signals, and outputs. This mode is also used when testing your design at speed with the LFSR and signature analyzer.
+
+   Shown below is an example of the input and expected output pattern. Assume that the weights have already been loaded into the array. In this case, your testbench should manage all inputs, partial sums, and outputs.
+   
+<p align="center">
+<img src="./img/signals_ext.png" alt="" width="700"/>
 </p>
 
 Explore the use of _genvar_ to build a customizable number of stages.
 
-**The header verilog file for the design has been provided**
+**Your design should be parameterizable. You may be asked to change the number of rows, columns, data width, and the position of the fixed point before submitting the final version.**
+
+**The header verilog file for the design has been provided.**
 
 ## Systolic Array Wrapper
-The Systolic wrapper includes 3 main blocks: a driver, a monitor and the Systolic Array module. In driver mode 0, the driver flops the incoming test pattern, and sends it out to the Systolic module in the next cycle. In driver mode 1, the LFSR inside the driver generates the test patterns and feed it to the Systolic module. In monitor mode 0, the monitor flops the Systolic module's output and pops it out the next cycle to external modules. In monitor mode 1, the signature analyzer inside the monitor collects the Systolic module's ouputs and compresses those until it receives the stop signal. Then, one ouput will be sent out from the monitor.
+The Systolic wrapper includes 3 main blocks: a driver, a monitor and the Systolic Array module. In driver mode 1, the driver flops the incoming test pattern, and sends it out to the Systolic module in the next cycle. In driver mode 0, the LFSR inside the driver generates the test patterns and feed it to the Systolic module. In monitor mode 1, the monitor flops the Systolic module's output and pops it out the next cycle to external modules. In monitor mode 0, the signature analyzer inside the monitor collects the Systolic module's ouputs and compresses those until it receives the stop signal. Then, one ouput will be sent out from the monitor.
 
-The data input port is also used to set the seed of LFSR and SA when in driver mode 1 or monitor mode 1. Provide the seed when reset is high to set LFSR and SA seed. Once the reset goes low, LFSR will start to generate pattern automatically. LFSR stops and notifies SA to stop as well when the generated pattern matches the stop pattern on the stop code input port.
+The data input port is also used to set the seed of LFSR and SA when in driver mode 0 or monitor mode 0. Provide the seed when reset is high to set LFSR and SA seed. Once the reset goes high, LFSR will start to generate pattern automatically. LFSR stops and notifies SA to stop as well when the generated pattern matches the stop pattern on the stop code input port.
 
 Please start by running the simulation with the provided sequence in task.sv, alter the modes and see how driver and monitor behave when the Systolic module is bypassed. Other than the 3 main modules, there's also a reset synchronizer in the wrapper that makes sure the reset is in sync with the clock that the wrapper receives.
 
 | Driver Mode | Description      |
 |-------------|------------------|
-| 0           | External Input   |
-| 1           | LSFR             |
+| 0           | LSFR             |
+| 1           | External Input   |
 
 | Monitor Mode| Description      |
 |-------------|------------------|
-| 0           | Direct Output    |
-| 1           | Signature Analyzer  |
+| 0           | Signature Analyzer  |
+| 1           | Direct Output    |
 
+Driver Mode and Monitor mode can be seen as internal bypasses inside these modules.
 
-(NEED TO UPDATE FIGURE)
 <p align="center">
-<img src="./img/cordic_wrapper.png" alt="" width="700"/>
+<img src="./img/sys_array_wrapper.png" alt="" width="700"/>
+</p>
+
+There will be 4 memories shared with all groups. the simplified diagram is shown bellow.
+
+<p align="center">
+<img src="./img/memories.png" alt="" width="700"/>
 </p>
 
 ## Milestone timeline
