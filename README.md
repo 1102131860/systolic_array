@@ -1,6 +1,6 @@
 Project Description
 ====================
-You will implement and tapeout a **Systolic Array** in pre-assigned teams. This will involve (1) understanding the systolic array weight stationary dataflow and modeling its behavior using a high level programming language such as C or Python; (2) Describing your design in RTL; and (3) perform synthesis and APR on your design. You will verify that the module is functional, and meets target specifications at each intermediate stage of the process. Eventually, your Systolic Array design will be taped out and you will test the chip and characterize its performance and power.
+You will implement and tapeout a **Systolic Array-based Matrix Multiplication Unit** in pre-assigned teams. This will involve (1) understanding the systolic array weight stationary dataflow and modeling its behavior using a high level programming language such as C or Python; (2) Describing your design in RTL; and (3) perform synthesis and APR on your design. You will verify that the module is functional, and meets target specifications at each intermediate stage of the process. Eventually, your Systolic Array design will be taped out and you will test the chip and characterize its performance and power.
 
 ## Objectives
 1.1.1 Understand how a Weight Stationary Systolic Array works. Properly.
@@ -38,20 +38,20 @@ The primary objectives of a systolic array are:
 For this project, you will be designing a Weight Stationary Systolic Array. Please use the [systolic overview slides](https://gatech.instructure.com/courses/468924/files/folder/References?preview=66116019) and any additional resources that you can find online as a reference for your design.
 
 ## Specifications
-Here are the specifications of the Systolic Array design you are implementing:
+Here are the specifications of the Matrix Multiplication Unit you are implementing:
 
 | Feature                             | Description                      |
 |-------------------------------------|----------------------------------|
 | Number of rows                      | 4 (Programable by Designer)      |
 | Number of columns                   | 4 (Programable by Designer)      |
 | Input data assumptions              | Data is stored on global memories |
-| Input data format                   | Signed Fixed Point               |
-| Input data width                    | 16 bits (1 sign, 10 int, 5 frac) | ## we probably need more integer bits
-| Output data width                   | 16 bits (1 sign, 10 int, 5 frac) | ## Need to discuss this one
-| Handling data overflow              | Saturation or reduced input bits | ## Need to discuss this one
-| Modes supported                     | Memory & External                |
+| Input data format                   | Signed Integer (2's Complement)  |
+| Input data width                    | 8 bits                           | ## we probably need more integer bits
+| Output data width                   | 8 bits                           | ## Need to discuss this one
+| Handling data overflow              | Saturation                       | ## Need to discuss this one
+| Modes supported                     | Memory, External, & BiST         |
 | IO ports                            | See [cordic_top.sv](src/verilog/cordic_top.sv)| ## update link once files are updated
-| Reset                               | Active-Low Reset (Reset when 0) |
+| Reset                               | Active-Low Reset (Reset when 0)  |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
 | Power supply                        | 0.8 ~ 1 V                        |
@@ -59,9 +59,9 @@ Here are the specifications of the Systolic Array design you are implementing:
 | Minimum clock frequency             | 100 Mhz                          |
 | Highest metal allowed               | M7                               |
 
-Your design should support two different modes:
+Your design should support the following modes:
 
-1. Normal mode: The memories are loaded and available. The control logic should load the weights into the array, process all inputs and partial sums, and save the results in the output memory.
+1. Memory mode: The memories are loaded and available. The control logic should load the weights into the array, process all inputs and partial sums, and save the results in the output memory.
 
    Shown below is an example of the input and expected output pattern. Assume that the input, weights, and partial-sum memories have already been loaded. The input block configuration and data configuration are fed to your Systolic Array module when the start bit is set. After processing, the done signal indicates completion, and the results are written to the output memory.
 
@@ -69,7 +69,7 @@ Your design should support two different modes:
 <img src="./img/signals_normal.png" alt="" width="700"/>
 </p>
 
-2. External mode: The memories are not available, and all signals come from external sources. In this mode, the systolic array functions purely as a processing unit, while an external entity manages all inputs, control signals, and outputs. This mode is also used when testing your design at speed with the LFSR and signature analyzer.
+2. External mode: The memories are not available, and all signals come from external sources. In this mode, the systolic array functions purely as a processing unit, while an external entity manages all inputs, control signals, and outputs.
 
    Shown below is an example of the input and expected output pattern. Assume that the weights have already been loaded into the array. In this case, your testbench should manage all inputs, partial sums, and outputs.
    
@@ -77,14 +77,16 @@ Your design should support two different modes:
 <img src="./img/signals_ext.png" alt="" width="700"/>
 </p>
 
+3. BiST mode: This mode revolves around using the LFSR and Singature Analyzer to do at-speed testing. It is very similar to the External mode. Memories are not available and inputs, control, and outputs are managed by an external entity. The difference comes in that input activations are now generated by the LFSR, streamed into the systolic array, and then compressed on the Signature Analyzer. Once the Signature is ready (which is determined by the LFSR's stop code) it will be used to determine if incorrect values were produced. This mode helps us isolate the design from the memory interface, providing a setup to test the design at maximum speed.
+
 Explore the use of _genvar_ to build a customizable number of stages.
 
 **Your design should be parameterizable. You may be asked to change the number of rows, columns, data width, and the position of the fixed point before submitting the final version.**
 
 **The header verilog file for the design has been provided.**
 
-## Systolic Array Wrapper
-The Systolic wrapper includes 3 main blocks: a driver, a monitor and the Systolic Array module. In driver mode 1, the driver flops the incoming test pattern, and sends it out to the Systolic module in the next cycle. In driver mode 0, the LFSR inside the driver generates the test patterns and feed it to the Systolic module. In monitor mode 1, the monitor flops the Systolic module's output and pops it out the next cycle to external modules. In monitor mode 0, the signature analyzer inside the monitor collects the Systolic module's ouputs and compresses those until it receives the stop signal. Then, one ouput will be sent out from the monitor.
+## Matrix Multiplication Wrapper
+The Matrix Mult wrapper includes 3 main blocks: a driver, a monitor and the Matrix Mult module. In driver mode 1, the driver flops the incoming test pattern, and sends it out to the Matrix Mult module in the next cycle. In driver mode 0, the LFSR inside the driver generates the test patterns and feed it to the Matrix Mult module. In monitor mode 1, the monitor flops the Matrix Mult module's output and pops it out the next cycle to external modules. In monitor mode 0, the signature analyzer inside the monitor collects the Matrix Mult module's ouputs and compresses those until it receives the stop signal. Then, one ouput will be sent out from the monitor.
 
 The data input port is also used to set the seed of LFSR and SA when in driver mode 0 or monitor mode 0. Provide the seed when reset is low to set LFSR and SA seed. Once the reset goes high, LFSR will start to generate pattern automatically. LFSR stops and notifies SA to stop as well when the generated pattern matches the stop pattern on the stop code input port.
 
@@ -120,16 +122,16 @@ There will be 4 memories shared with all groups. the simplified diagram is shown
 | Milestone | Date            | Item                                                      |
 |-----------|-----------------|-----------------------------------------------------------|
 | 1a (solo) | 10/03 | High-Level Bit-Accurate Weight Stationary Systolic Array Simulator  |
-| 1b (solo) | 10/12 | A Functionally Complete and Verified **Simplified** Systolic Module |
-| 1 (team)  | 10/23 | A Functionally Complete and Verified Systolic Module                |
-| 2         | 10/26 | Verified, Post-synthesis Systolic Module                            |
-| 3         | 11/02 | Verified, Post-APR Systolic Module                                  |
+| 1b (solo) | 10/12 | A Functionally Complete and Verified **Simplified** Matrix Mult Module |
+| 1 (team)  | 10/23 | A Functionally Complete and Verified Matrix Mult Module             |
+| 2         | 10/26 | Verified, Post-synthesis Matrix Mult Module                         |
+| 3         | 11/02 | Verified, Post-APR Matrix Mult Module                               |
 | 4         | 11/09 | Chip-level Validation, Final SAPR Delivery with post-review changes |
 | Peer      | 11/29 | Peer Review                                                         |
 
 ## Milestone 1 Deliverables
 ### Milestone 1-a (solo)
-1. A script written in a high level programing language such as python or C that models the behavior of your weight stationary systolic array on a bit level. Unlike the provided high level script, your high level should match the output of your systolic module. We have specified the format of the [input data file](scripts/cordic_input.txt). ------ UPDATE INPUT DATA FILE -------
+1. A script written in a high level programing language such as python or C that models the behavior of your weight stationary systolic array based matrix multiplication unit on a bit level. Unlike the provided high level script, your high level should match the output of your module. We have specified the format of the [input data file](scripts/cordic_input.txt).
 2. A Readme that clearly explains the organization of your design and how to run the high level simulation model.
  
  ```bash
@@ -142,23 +144,8 @@ There will be 4 memories shared with all groups. the simplified diagram is shown
 ```
 
 ### Milestone 1-b (solo)
-For this milestone you will work by yourself to design a slightly simplified version of the final systolic array. You will use this implementation as a starting point when working together as groups.
-1. A functionally correct and verified **simplified** Systolic RTL design as specified below:
-   1. Design a 4x4 systolic compute array.
-   2. Your design only needs to handle a single matrix multiplication computation that fully fits on your compute array.
-   3. There's no strict requirements to read data from memory (inputs can be streamed during simulation). In other words, you do not need to design any form of memory controllers for this milestone.
-   4. Meet the other specifications listed on this repository.
-2. A test framework that is used to verify your design. The provided script is a **necessary but not sufficient** condition for your verification; your design must meet the specifications listed on this repository.
-3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
-
-```bash
-<gtid>_ms1_b.tar.gz
-|
-|-src---------------------------|
-|                                   |-file1
-|                                   |-file2
-|                                   |-...
-```
+For this milestone you will work by yourself to design a slightly simplified version of the final matrix mult unit. You will use this implementation as a starting point when working together as groups. 
+THe instructions for Milestone 1-b can be found on a separate repository: [Milestone 1-b](https://github.gatech.edu/ECE-4804-F22/milestone_1b).
  
 ### Team Portion:
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
