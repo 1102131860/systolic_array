@@ -86,7 +86,7 @@ Explore the use of _genvar_ to build a customizable number of stages.
 ## Systolic Array Wrapper
 The Systolic wrapper includes 3 main blocks: a driver, a monitor and the Systolic Array module. In driver mode 1, the driver flops the incoming test pattern, and sends it out to the Systolic module in the next cycle. In driver mode 0, the LFSR inside the driver generates the test patterns and feed it to the Systolic module. In monitor mode 1, the monitor flops the Systolic module's output and pops it out the next cycle to external modules. In monitor mode 0, the signature analyzer inside the monitor collects the Systolic module's ouputs and compresses those until it receives the stop signal. Then, one ouput will be sent out from the monitor.
 
-The data input port is also used to set the seed of LFSR and SA when in driver mode 0 or monitor mode 0. Provide the seed when reset is high to set LFSR and SA seed. Once the reset goes high, LFSR will start to generate pattern automatically. LFSR stops and notifies SA to stop as well when the generated pattern matches the stop pattern on the stop code input port.
+The data input port is also used to set the seed of LFSR and SA when in driver mode 0 or monitor mode 0. Provide the seed when reset is low to set LFSR and SA seed. Once the reset goes high, LFSR will start to generate pattern automatically. LFSR stops and notifies SA to stop as well when the generated pattern matches the stop pattern on the stop code input port.
 
 Please start by running the simulation with the provided sequence in task.sv, alter the modes and see how driver and monitor behave when the Systolic module is bypassed. Other than the 3 main modules, there's also a reset synchronizer in the wrapper that makes sure the reset is in sync with the clock that the wrapper receives.
 
@@ -103,7 +103,11 @@ Please start by running the simulation with the provided sequence in task.sv, al
 Driver Mode and Monitor mode can be seen as internal bypasses inside these modules.
 
 <p align="center">
-<img src="./img/sys_array_wrapper.png" alt="" width="700"/>
+<img src="./img/matrix_mult_wrapper.png" alt="" width="700"/>
+</p>
+
+<p align="center">
+<img src="./img/matrix_mult.png" alt="" width="400"/>
 </p>
 
 There will be 4 memories shared with all groups. the simplified diagram is shown bellow.
