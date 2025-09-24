@@ -7,7 +7,7 @@ module matrix_mult_wrapper #(
     parameter O_SIZE        = 256,
     parameter DRIVER_WIDTH  = WIDTH * ( ROW + COL )
 ) (
-  input  logic                        clk_i,
+  input  logic                        clk_i,            // clock signal
   input  logic                        rstn_async_i,     // active low reset signal
   input  logic                        start_i,          // active high start calculation, must reset back to 0 first to start a new calculation
   input  test_config_struct           test_config_i,    // test controls
@@ -38,6 +38,7 @@ module matrix_mult_wrapper #(
   input  logic                        ext_en_i,        // external mode enable, acitve high
   input  external_inputs_struct       ext_inputs_i,    // external inputs
   output logic [DRIVER_WIDTH-1:0]     ext_result_o,    // external outputs
+  output logic                        ext_valid_o,     // external valid output
   // done
   output logic                        done_o           // active high finish signal, goes to 1 after reset
 );
@@ -63,8 +64,10 @@ module matrix_mult_wrapper #(
 
 
   logic [ROW-1:0][WIDTH-1:0]  ext_input_w;
+  logic                       ext_valid_i_w;
   logic [COL-1:0][WIDTH-1:0]  ext_psum_w;
   logic [COL-1:0][WIDTH-1:0]  ext_result_w;
+  logic                       ext_valid_o_w;
 
   external_inputs_struct      ext_inputs_w;
 
@@ -81,6 +84,7 @@ module matrix_mult_wrapper #(
 
   assign ext_inputs_w.ext_weight_en   = ext_inputs_i.ext_weight_en;
   assign ext_inputs_w.ext_input       = ext_input_w;
+  assign ext_inputs_w.ext_valid       = ext_valid_i_w;
   assign ext_inputs_w.ext_weight      = ext_inputs_i.ext_weight ;
   assign ext_inputs_w.ext_psum        = ext_psum_w;
 
@@ -111,12 +115,13 @@ module matrix_mult_wrapper #(
 
   // driver bypass
   assign { ext_input_w, ext_psum_w } = ( driver_bypass_w)  ? { ext_inputs_i.ext_input, ext_inputs_i.ext_psum } : driver_data_w;
+  assign ext_valid_i_w               = ( driver_bypass_w)  ? ext_inputs_i.ext_valid : driver_valid_o_w; 
 
   //-------------------------------------------------------------------------//
   //    Matrix mult                                                          //
   //-------------------------------------------------------------------------//
   // matrix_mult #( .WIDTH(WIDTH) , .ROW(ROW) , .COL(COL) , .W_SIZE(W_SIZE) , .I_SIZE(I_SIZE) , .O_SIZE(O_SIZE) )
-  //   matrix_mult_GROUP_NUMBER (
+  //   matrix_mult_<GROUP_NUMBER> (
   //     .clk_i                (clk_i                ),
   //     .rstn_i               (rstn_i               ),
   //     .start_i              (start_i              ),
@@ -142,12 +147,13 @@ module matrix_mult_wrapper #(
   //     .ext_en_i             (ext_en_i             ),
   //     .ext_inputs_i         (ext_inputs_w         ),
   //     .ext_result_o         (ext_result_w         ),
+  //     .ext_valid_o          (ext_valid_o_w        ),
   //     .done_o               (done_o               )
   //   );
 
   // dut bypass
   assign sa_dut_data_w  = ( dut_bypass_w ) ? { ext_input_w, ext_psum_w } : { {(WIDTH*ROW){1'b0}}, ext_result_w } ;
-  assign sa_dut_valid_w = ( dut_bypass_w ) ? driver_valid_o_w : '1 ;
+  assign sa_dut_valid_w = ( dut_bypass_w ) ? ext_valid_i_w : ext_valid_o_w ;
   assign sa_stop_w      = driver_done_w;
 
   //-------------------------------------------------------------------------//
@@ -168,5 +174,6 @@ module matrix_mult_wrapper #(
 
   // signature analyzer bypass
   assign ext_result_o = (sa_bypass_w) ? sa_dut_data_w : sa_data_w ;
+  assign ext_valid_o  = (sa_bypass_w) ? sa_dut_valid_w : sa_valid_w ;
 
 endmodule

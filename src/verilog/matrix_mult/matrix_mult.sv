@@ -29,8 +29,9 @@ module matrix_mult #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_
   input  logic                          ext_en_i,         // external mode enable, acitve high
   input  external_inputs_struct         ext_inputs_i,     // external inputs
   output logic [COL-1:0][WIDTH-1:0]     ext_result_o,     // external outputs
-
-  output logic                          done_o            // active high finish signal, goes to 1 after reset
+  output logic                          ext_valid_o,      // external valid
+  // output done
+  output logic                          done_o            // data controls
 );
 
 endmodule

@@ -36,6 +36,7 @@ typedef struct packed{
 typedef struct packed{
     logic                        ext_weight_en;     // external weights push enable
     logic [ROW-1:0][WIDTH-1:0]   ext_input;         // external inputs
+    logic                        ext_valid;         // external valid input
     logic [COL-1:0][WIDTH-1:0]   ext_weight;        // external weights
     logic [COL-1:0][WIDTH-1:0]   ext_psum;          // external partial sums
 } external_inputs_struct;
