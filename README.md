@@ -46,9 +46,9 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 | Number of columns                   | 4 (Programable by Designer)      |
 | Input data assumptions              | Data is stored on global memories |
 | Input data format                   | Signed Integer (2's Complement)  |
-| Input data width                    | 8 bits                           | ## we probably need more integer bits
-| Output data width                   | 8 bits                           | ## Need to discuss this one
-| Handling data overflow              | Saturation                       | ## Need to discuss this one
+| Input data width                    | 8 bits                           |
+| Output data width                   | 8 bits                           |
+| Handling data overflow              | Saturation                       |
 | Modes supported                     | Memory, External, & BiST         |
 | IO ports                            | See [matrix_mult.sv](src/verilog/matrix_mult/matrix_mult.sv)|
 | Reset                               | Active-Low Reset (Reset when 0)  |
@@ -120,20 +120,20 @@ There will be 4 memories shared with all groups. the simplified diagram is shown
 <img src="./img/memories.png" alt="" width="700"/>
 </p>
 
-## Milestone timeline
+## Milestone Timeline
 | Milestone | Date            | Item                                                      |
 |-----------|-----------------|-----------------------------------------------------------|
 | 1a (solo) | 10/03 | High-Level Bit-Accurate Weight Stationary Systolic Array Simulator  |
 | 1b (solo) | 10/12 | A Functionally Complete and Verified **Simplified** Matrix Mult Module |
-| 1 (team)  | 10/23 | A Functionally Complete and Verified Matrix Mult Module             |
+| 1c (team) | 10/23 | A Functionally Complete and Verified Matrix Mult Module            |
 | 2         | 10/26 | Verified, Post-synthesis Matrix Mult Module                         |
 | 3         | 11/02 | Verified, Post-APR Matrix Mult Module                               |
 | 4         | 11/09 | Chip-level Validation, Final SAPR Delivery with post-review changes |
 | Peer      | 11/29 | Peer Review                                                         |
 
 ## Milestone 1 Deliverables
-### Milestone 1-a (solo)
-1. A script written in a high level programing language such as python or C that models the behavior of your weight stationary systolic array based matrix multiplication unit on a bit level. Unlike the provided high level script, your high level should match the output of your module. We have specified the format of the [input data file](scripts/cordic_input.txt).
+### Milestone 1-a (Individual)
+1. A script written in a high level programing language such as python or C that models the behavior of your weight stationary systolic array based matrix multiplication unit on a bit level. This means that you cannot just us an existing mathematical library like numpy.matmul. Instead, your high level should match the output of your module. For example think about how to model saturation overflow handling of signed 8 bit integers. We have specified the format of the [input data file](doc/examples/systolic_in.txt) and [output data file](doc/examples/systolic_out.txt). Note that satisfying th given example test cases is not sufficient. You should test your simulator with a much broader set of inputs.
 2. A Readme that clearly explains the organization of your design and how to run the high level simulation model.
  
  ```bash
@@ -145,13 +145,13 @@ There will be 4 memories shared with all groups. the simplified diagram is shown
 |                                   |-...
 ```
 
-### Milestone 1-b (solo)
+### Milestone 1-b (Individual)
 For this milestone you will work by yourself to design a slightly simplified version of the final matrix mult unit. You will use this implementation as a starting point when working together as groups. 
-THe instructions for Milestone 1-b can be found on a separate repository: [Milestone 1-b](https://github.gatech.edu/ECE-4804-F22/milestone_1b).
+THe instructions for Milestone 1-b can be found on a separate README: [Milestone 1-b](doc/Milestone_1b.md).
  
-### Team Portion:
+### Milestone 1-c (Team)
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
-1. A functionally correct and verified Systolic RTL design integrated with the **Systolic wrapper**. Remember to rename the module systolic_top_<group_number> to have the appropriate group number.
+1. A functionally correct and verified Matrix Mult RTL design integrated with the **Matrix Mult wrapper**. Remember to rename the module matrix_mult_<group_number> to have the appropriate group number.
 2. A test framework that is used to verify your design.
 3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
 **Note**: Your design must meet all of the specifications listed on this repository.
