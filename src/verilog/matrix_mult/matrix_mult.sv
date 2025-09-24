@@ -3,7 +3,6 @@ module matrix_mult #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_
   input  logic                          rstn_i,           // active low reset signal
   input  logic                          start_i,          // active high start calculation, must reset back to 0 first to start a new calculation
   input  data_config_struct             data_config_i,    // test controls
-  output logic                          done_o,           // data controls
   // output buffer memory
   output  logic                         ob_mem_cenb_o,    // memory enable, active low
   output  logic                         ob_mem_wenb_o,    // write enable, active low
@@ -29,7 +28,9 @@ module matrix_mult #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_
   // external mode
   input  logic                          ext_en_i,         // external mode enable, acitve high
   input  external_inputs_struct         ext_inputs_i,     // external inputs
-  output logic [COL-1:0][WIDTH-1:0]     ext_result_o      // external outputs
+  output logic [COL-1:0][WIDTH-1:0]     ext_result_o,     // external outputs
+
+  output logic                          done_o            // active high finish signal, goes to 1 after reset
 );
 
 endmodule

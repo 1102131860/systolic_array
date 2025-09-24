@@ -34,7 +34,7 @@ typedef struct packed{
 } test_config_struct;
 
 typedef struct packed{
-    logic                        ext_weight_en;     // external weights enable
+    logic                        ext_weight_en;     // external weights push enable
     logic [ROW-1:0][WIDTH-1:0]   ext_input;         // external inputs
     logic [COL-1:0][WIDTH-1:0]   ext_weight;        // external weights
     logic [COL-1:0][WIDTH-1:0]   ext_psum;          // external partial sums
