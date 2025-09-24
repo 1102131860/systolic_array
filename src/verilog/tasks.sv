@@ -1,12 +1,31 @@
 task initialize_signals();
    begin
-      #OFFSET i_async_rst=1'b1;
-              i_clk      =1'b0;
-      #OFFSET i_mode     = '0;
-      #OFFSET i_bypass   = '0;
-      #OFFSET i_stop_code= '0;
-      #OFFSET i_vld      = '0;
-      #OFFSET i_data     = '0;
+      rstn_async_i        = 1'b0;
+      start_i             = '0;
+      w_rows_i            = '0;
+      w_cols_i            = '0;
+      i_rows_i            = '0;
+      w_offset            = '0;
+      i_offset            = '0;
+      psum_offset_r       = '0;
+      o_offset_w          = '0;
+      accum_enb_i         = '0;
+
+      ob_mem_data_i       = '0;
+      ib_mem_data_i       = '0;
+      wb_mem_data_i       = '0;
+      ps_mem_data_i       = '0;
+
+      ext_en_i            = '0;
+      ext_input_i         = '0;
+      ext_weight_i        = '0;
+      ext_psum_i          = '0;
+      ext_weight_en_i     = '0;
+   
+      bypass_i            = '1;
+      mode_i              = '1;
+      driver_valid_i      = '0;
+      driver_stop_code_i  = '0;
    end
 endtask
 
@@ -17,31 +36,69 @@ task reset_signals();
    end
 endtask
 
-task simple();
+task external_mode();
    begin
       reset_signals();
         
       @(posedge i_clk);
-      #OFFSET i_mode       =  2'b10;
-      #OFFSET i_bypass     =  3'b010;
-      #OFFSET i_stop_code  = 49'd100;
-      #ASYNC_RST_OFFSET i_async_rst  =  1'b0;
+
+      // SET CONTROL SIGNALS
       
-      repeat (10) @(posedge i_clk);
-      @(posedge i_clk);
-      #OFFSET i_vld        =  1'b1;
-      #OFFSET i_data       = {2'b01,18'h0A3D6,18'h03C69,18'h05B48};
-      @(posedge i_clk);
-      #OFFSET i_vld        =  1'b0;
-      repeat (20) @(posedge i_clk);
-      @(posedge i_clk);
-      #OFFSET i_vld        =  1'b1;
-      #OFFSET i_data       = 56'd100;
-      @(posedge i_clk);
-      #OFFSET i_vld        =  1'b0;
+      rstn_async_i =  1'b1;
+
+      // LOAD WEIGHTS
+
+      // STREAM INPUTS AND PARTIAL SUMS
+
+      // COMPARE RESULTS
       
-      reset_signals();
+
     end
 endtask
 
+task memory_mode();
+   begin
+      reset_signals();
+        
+      @(posedge i_clk);
 
+      // SET CONTROL SIGNALS
+      
+      rstn_async_i =  1'b1;
+
+      // LOAD MEMORIES
+
+      @(negedge clk_i);
+      start_i  = '1;
+      @(negedge clk_i);
+      start_i  = '0;
+      @(posedge done_o);
+
+      // COMPARE RESULTS
+
+    end
+endtask
+
+task bist_mode();
+   begin
+      reset_signals();
+        
+      @(posedge i_clk);
+
+      // SET CONTROL SIGNALS
+
+      rstn_async_i =  1'b1;
+
+      // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
+
+      rstn_async_i =  1'b0;
+
+      // SET CONTROL SIGNALS
+      // SET STOP CODE
+      
+      rstn_async_i =  1'b1;
+
+      // CHECK RESULTS
+
+    end
+endtask
