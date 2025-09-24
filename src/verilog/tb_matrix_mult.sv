@@ -1,0 +1,137 @@
+module tb_matrix_mult;
+
+   parameter WIDTH         = 8;
+   parameter ROW           = 4;
+   parameter COL           = 4;
+   parameter W_SIZE        = 256;
+   parameter I_SIZE        = 256;
+   parameter O_SIZE        = 256;
+   parameter DRIVER_WIDTH  = WIDTH * ( ROW + COL );
+
+   parameter CLOCK_PERIOD        = 10;
+   parameter real DUTY_CYCLE     = 0.5;
+   parameter real OFFSET         = 2.5;
+   
+   logic                         clk_i;
+   logic                         rstn_async_i;
+   logic                         start_i;
+
+   // test config
+   logic [2:0]                   bypass_i;
+   logic [1:0]                   mode_i;
+   logic                         driver_valid_i;
+   logic [DRIVER_WIDTH-1:0]      driver_stop_code_i;
+   test_config_struct            test_config_i;
+
+   // data config
+   logic [$clog2(ROW)-1:0]       w_rows_i;
+   logic [$clog2(COL)-1:0]       w_cols_i;
+   logic [$clog2(I_SIZE)-1:0]    i_rows_i;
+   logic [$clog2(W_SIZE)-1:0]    w_offset;
+   logic [$clog2(I_SIZE)-1:0]    i_offset;
+   logic [$clog2(O_SIZE)-1:0]    psum_offset_r;
+   logic [$clog2(O_SIZE)-1:0]    o_offset_w;
+   logic                         accum_enb_i;
+   data_config_struct            data_config_i;
+
+   // output buffer memory
+   logic                         ob_mem_cenb_o;
+   logic                         ob_mem_wenb_o;
+   logic [$clog2(O_SIZE)-1:0]    ob_mem_addr_o;
+   logic [COL-1:0][WIDTH-1:0]    ob_mem_data_i;
+   logic [COL-1:0][WIDTH-1:0]    ob_mem_data_o;
+   // input buffer memory
+   logic                         ib_mem_cenb_o;
+   logic                         ib_mem_wenb_o;
+   logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_o;
+   logic [ROW-1:0][WIDTH-1:0]    ib_mem_data_i;
+   // weights buffer memory
+   logic                         wb_mem_cenb_o;
+   logic                         wb_mem_wenb_o;
+   logic [$clog2(W_SIZE)-1:0]    wb_mem_addr_o;
+   logic [COL-1:0][WIDTH-1:0]    wb_mem_data_i;
+   // partial sum buffer memory
+   logic                         ps_mem_cenb_o;
+   logic                         ps_mem_wenb_o;
+   logic [$clog2(W_SIZE)-1:0]    ps_mem_addr_o;
+   logic [COL-1:0][WIDTH-1:0]    ps_mem_data_i;
+   logic [COL-1:0][WIDTH-1:0]    ps_mem_data_o;
+
+   // external config
+   logic                         ext_en_i;
+   logic [ROW-1:0][WIDTH-1:0]    ext_input_i;
+   logic [COL-1:0][WIDTH-1:0]    ext_weight_i;
+   logic [COL-1:0][WIDTH-1:0]    ext_psum_i;
+   logic                         ext_weight_en_i;
+   external_inputs_struct        ext_inputs_i;
+   logic [DRIVER_WIDTH-1:0]      ext_result_o;
+
+   logic                         done_o;
+
+   assign test_config_i.bypass                 = bypass_i;
+   assign test_config_i.mode                   = mode_i;
+   assign test_config_i.driver_valid           = driver_valid_i;
+   assign test_config_i.driver_stop_code       = driver_stop_code_i;
+
+   assign data_config_i.w_rows                 = w_rows_i;
+   assign data_config_i.w_cols                 = w_cols_i;
+   assign data_config_i.i_rows                 = i_rows_i;
+   assign data_config_i.w_offset               = w_offset;
+   assign data_config_i.i_offset               = i_offset;
+   assign data_config_i.psum_offset            = psum_offset_r;
+   assign data_config_i.o_offset_w             = o_offset_w;
+   assign data_config_i.accum_en               = accum_enb_i;
+
+   assign ext_inputs_i.ext_input               = ext_input_i;
+   assign ext_inputs_i.ext_weight              = ext_weight_i;
+   assign ext_inputs_i.ext_psum                = ext_psum_i;
+   assign ext_inputs_i.ext_weight_en           = ext_weight_en_i;
+   
+   logic [1000:0] testname;
+   integer        returnval;
+   string         filename;
+   integer        f;
+   
+   initial begin
+      #OFFSET;
+      forever begin
+         clk_i = 1'b0;
+         #(CLOCK_PERIOD-(CLOCK_PERIOD*DUTY_CYCLE)) clk_i = 1'b1;
+         #(CLOCK_PERIOD*DUTY_CYCLE);
+      end
+   end
+
+   matrix_mult_wrapper #(
+      .WIDTH   (WIDTH   ),
+      .ROW     (ROW     ),
+      .COL     (COL     ),
+      .W_SIZE  (W_SIZE  ),
+      .I_SIZE  (I_SIZE  ),
+      .O_SIZE  (O_SIZE  )
+   ) matrix_mult_0 (.*);
+
+   initial begin : TEST_CASE
+      $fsdbDumpfile("matrix_mult.fsdb");
+      $fsdbDumpon;
+      $fsdbDumpvars(0, matrix_mult_0, "+mda", "+all", "+trace_process");
+      `ifdef SDF 
+         $sdf_annotate("./matrix_mult.wc.sdf", matrix_mult_0, "./sdf.max.cfg");
+      `endif
+      returnval = $value$plusargs("testname=%s", testname);
+      
+      initialize_signals();
+      repeat (10) @(posedge clk_i);	
+      
+      case(testname)
+      	 "external":   external_mode();
+      	 "memory":     memory_mode();
+      	 "bist":       bist();
+      	 default:      memory_mode();
+      endcase
+      #1000 
+      //$fclose(f);
+      $finish;
+   end
+
+`include "./tasks.sv"
+endmodule 
