@@ -68,6 +68,13 @@ module tb_matrix_mult;
 
    logic                         done_o;
 
+   // outputs memory
+   logic                         ob_mem_cenb_w;
+   logic                         ob_mem_wenb_w;
+   logic [$clog2(O_SIZE)-1:0]    ob_mem_addr_w;
+   logic [COL*WIDTH-1:0]         ob_mem_d_i_w;
+   logic [COL*WIDTH-1:0]         ob_mem_q_o_w;
+
    assign test_config_i.bypass                 = bypass_i;
    assign test_config_i.mode                   = mode_i;
    assign test_config_i.driver_valid           = driver_valid_i;
@@ -87,6 +94,12 @@ module tb_matrix_mult;
    assign ext_inputs_i.ext_psum                = ext_psum_i;
    assign ext_inputs_i.ext_weight_en           = ext_weight_en_i;
    
+   assign ob_mem_cenb_w                        = ob_mem_cenb_o;
+   assign ob_mem_wenb_w                        = ob_mem_wenb_o;
+   assign ob_mem_addr_w                        = ob_mem_addr_o;
+   assign ob_mem_d_i_w                         = ob_mem_data_o;
+   assign ob_mem_data_i                        = ob_mem_q_o_w;
+
    logic [1000:0] testname;
    integer        returnval;
    string         filename;
@@ -109,6 +122,16 @@ module tb_matrix_mult;
       .I_SIZE  (I_SIZE  ),
       .O_SIZE  (O_SIZE  )
    ) matrix_mult_0 (.*);
+
+   mem_emulator #(.WIDTH(COL*WIDTH), .SIZE(O_SIZE))
+      ob_mem (
+         .clk_i   (clk_i            ),
+         .cenb_i  (ob_mem_cenb_w    ),
+         .wenb_i  (ob_mem_wenb_w    ),
+         .addr_i  (ob_mem_addr_w    ),
+         .d_i     (ob_mem_d_i_w     ),
+         .q_o     (ob_mem_q_o_w     )
+   );
 
    initial begin : TEST_CASE
       $fsdbDumpfile("matrix_mult.fsdb");
