@@ -15,13 +15,11 @@ module matrix_mult #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_
   output  logic                         ib_mem_wenb_o,    // write enable, active low
   output  logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_o,    // address
   input   logic [ROW-1:0][WIDTH-1:0]    ib_mem_data_i,    // input data
-  // output  logic [ROW-1:0][WIDTH-1:0]   ib_mem_data_o,    // output data
   // weights buffer memory
   output  logic                         wb_mem_cenb_o,    // memory enable, active low
   output  logic                         wb_mem_wenb_o,    // write enable, active low
   output  logic [$clog2(W_SIZE)-1:0]    wb_mem_addr_o,    // address
   input   logic [COL-1:0][WIDTH-1:0]    wb_mem_data_i,    // input data
-  // output  logic [COL-1:0][WIDTH-1:0]   wb_mem_data_o,    // output data
   // partial sum buffer memory
   output  logic                         ps_mem_cenb_o,    // memory enable, active low
   output  logic                         ps_mem_wenb_o,    // write enable, active low
