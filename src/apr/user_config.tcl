@@ -10,7 +10,7 @@ set NDM_DIR                 "./ndm"
 set RTL_SRC_DIR             "../src/verilog"
 set GATE_SRC_DIR            "../syn"
 
-set TOP_MODULE              "cordic_wrapper_<group_num>"
+set TOP_MODULE              "matrix_mult_wrapper_<group_num>"
 
 set GATE_NETLIST            "${GATE_SRC_DIR}/results/${TOP_MODULE}.syn.v"
 

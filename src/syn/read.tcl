@@ -13,15 +13,15 @@ set TOPLEVEL "$DESIGN"
 
 # Set the verilog files that you would like to be read in
 set RTL_SOURCE_FILES "\
-$BASE/cordic_wrapper_pkg.sv \
+$BASE/matrix_mult_pkg.sv \
 $BASE/pseudo_rand_num_gen_pkg.sv \
-$BASE/async_reset.sv \
+$BASE/async_nreset_synchronizer.sv \
 $BASE/lfsr.sv \
 $BASE/misr.sv \
 $BASE/pseudo_rand_num_gen.sv \
 $BASE/signature_analyzer.sv \
-$BASE/cordic_top_<group_num>.sv \
-$BASE/cordic_wrapper_<group_num>.sv \
+$BASE/matrix_mult_<group_num>.sv \
+$BASE/matrix_mult_wrapper_<group_num>.sv \
 "
 
 set_svf ./$results/$TOPLEVEL.svf

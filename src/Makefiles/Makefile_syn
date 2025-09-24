@@ -1,5 +1,5 @@
 # TCL scripts
-TOPLEVEL=cordic_wrapper
+TOPLEVEL=matrix_mult_wrapper
 PRJ=..
 
 SRC_VERILOG=$(PRJ)/src/verilog
