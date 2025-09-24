@@ -29,13 +29,13 @@ endif
 if ($1 == 3) then
     echo "Tarring APR Files"
     cd ..
-    tar -czf "group$2_ms3.tar.gz" apr/results apr/reports apr/cordic_wrapper_$2_lib
+    tar -czf "group$2_ms3.tar.gz" apr/results apr/reports apr/matrix_mult_wrapper_$2_lib
     cd scripts
 endif
 
 if ($1 == 4) then
     echo "Tarring APR Files"
     cd ..
-    tar -czf "group$2_ms4.tar.gz" apr/results apr/reports apr/cordic_wrapper_$2_lib
+    tar -czf "group$2_ms4.tar.gz" apr/results apr/reports apr/matrix_mult_wrapper_$2_lib
     cd scripts
 endif

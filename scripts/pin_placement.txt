@@ -1,17 +1,46 @@
 type = offset
 defaultOffset = 10.0
 
-#W, 1.4
-o_sample_clk      , layer=M2  +1.0
-o_vld             , layer=M2  +1.0
-o_data      [55:0], layer=M2  +30.0 pitch=0.8
+#W, 4.5
 
-i_stop_code [48:0], layer=M2  +2.0 pitch=0.8
-i_data      [55:0], layer=M2  +2.0 pitch=0.8    
-i_vld             , layer=M2  +2.0
+clk_i                       , layer=M2  +2.0
+rstn_async_i                , layer=M2  +2.0
+start_i                     , layer=M2  +2.0
+done_o                      , layer=M2  +2.0
 
-i_clk             , layer=M2  +2.0
-i_async_rst       , layer=M2  +2.0
-i_en              , layer=M2  +2.0
-i_mode      [1:0] , layer=M2  +2.0 pitch=1.0
-i_bypass    [2:0] , layer=M2  +2.0 pitch=1.0
+test_config_i  [69:0]       , layer=M2  +2.0 pitch=1.0
+
+data_config_i  [44:0]       , layer=M2  +2.0 pitch=1.0
+
+ib_mem_cenb_o               , layer=M2  +2.0
+ib_mem_wenb_o               , layer=M2  +2.0
+ib_mem_addr_o  [7:0]        , layer=M2  +2.0 pitch=1.0
+ib_mem_data_i  [31:0]       , layer=M2  +2.0 pitch=1.0
+
+#E, 4.5
+
+ps_mem_cenb_o               , layer=M2  +2.0
+ps_mem_wenb_o               , layer=M2  +2.0
+ps_mem_addr_o  [7:0]        , layer=M2  +2.0 pitch=1.0
+ps_mem_data_o  [31:0]       , layer=M2  +2.0 pitch=1.0
+ps_mem_data_i  [31:0]       , layer=M2  +2.0 pitch=1.0
+
+
+#N, 4.5
+
+wb_mem_cenb_o               , layer=M3  +2.0
+wb_mem_wenb_o               , layer=M3  +2.0
+wb_mem_addr_o  [7:0]        , layer=M3  +2.0 pitch=1.0
+wb_mem_data_i  [31:0]       , layer=M3  +2.0 pitch=1.0
+
+ob_mem_cenb_o               , layer=M3  +2.0
+ob_mem_wenb_o               , layer=M3  +2.0
+ob_mem_addr_o  [7:0]        , layer=M3  +2.0 pitch=1.0
+ob_mem_data_o  [31:0]       , layer=M3  +2.0 pitch=1.0
+ob_mem_data_i  [31:0]       , layer=M3  +2.0 pitch=1.0
+
+#S, 4.5
+
+ext_en_i                    , layer=M3  +2.0
+ext_inputs_i   [96:0]       , layer=M3  +2.0 pitch=1.0
+ext_result_o   [63:0]       , layer=M3  +2.0 pitch=1.0

@@ -1,4 +1,4 @@
-TOPLEVEL= cordic_wrapper
+TOPLEVEL= matrix_mult_wrapper
 TESTNAME=default
 SRC_VERILOG=../../src/verilog
 SYN_FOLDER=../../syn/results
