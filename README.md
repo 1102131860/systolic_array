@@ -35,7 +35,7 @@ The primary objectives of a systolic array are:
 2. **Maximize Parallelism**: many PEs perform computations simultaneously, in fact, they are all active during steady-state.
 
 ### Weight Stationary Dataflow
-For this project, you will be designing a Weight Stationary Systolic Array. Please use the [systolic overview slides](https://gatech.instructure.com/courses/468924/files/folder/References?preview=66116019) and any additional resources that you can find online as a reference for your design.
+For this project, you will be designing a Weight Stationary Systolic Array. Please use the [systolic overview slides](https://gatech.instructure.com/courses/468924/files/folder/References?preview=66374089) and any additional resources that you can find online as a reference for your design.
 
 ## Specifications
 Here are the specifications of the Matrix Multiplication Unit you are implementing:
