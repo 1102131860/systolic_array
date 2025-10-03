@@ -1,4 +1,4 @@
-module matrix_mult_wrapper #(
+module matrix_mult_wrapper_<GROUP_NUMBER> #(
     parameter WIDTH         = 8, 
     parameter ROW           = 4, 
     parameter COL           = 4, 
@@ -120,7 +120,7 @@ module matrix_mult_wrapper #(
   //-------------------------------------------------------------------------//
   //    Matrix mult                                                          //
   //-------------------------------------------------------------------------//
-  // matrix_mult #( .WIDTH(WIDTH) , .ROW(ROW) , .COL(COL) , .W_SIZE(W_SIZE) , .I_SIZE(I_SIZE) , .O_SIZE(O_SIZE) )
+  // matrix_mult_<GROUP_NUMBER> #( .WIDTH(WIDTH) , .ROW(ROW) , .COL(COL) , .W_SIZE(W_SIZE) , .I_SIZE(I_SIZE) , .O_SIZE(O_SIZE) )
   //   matrix_mult_<GROUP_NUMBER> (
   //     .clk_i                (clk_i                ),
   //     .rstn_i               (rstn_i               ),

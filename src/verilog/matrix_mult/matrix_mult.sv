@@ -1,4 +1,4 @@
-module matrix_mult #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_SIZE=256) (
+module matrix_mult_<GROUP_NUMBER> #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_SIZE=256) (
   input  logic                          clk_i,            // clock signal
   input  logic                          rstn_i,           // active low reset signal
   input  logic                          start_i,          // active high start calculation, must reset back to 0 first to start a new calculation
