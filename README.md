@@ -38,6 +38,10 @@ The primary objectives of a systolic array are:
 For this project, you will be designing a Weight Stationary Systolic Array. Please use the [systolic overview slides](https://gatech.instructure.com/courses/468924/files/folder/References?preview=66374089) and any additional resources that you can find online as a reference for your design.
 
 ## Specifications
+
+The following section describes the baseline specifications as well as add-ons. Baseline specifications must be met by all designs. In other words, all student groups (ECE 4804 and ECE 8804) **must** abide by the baseline specifications. ECE 8804 student groups are **required** to implement 2 additional specification add-ons which are descrbied in the corresponding add-ons section. ECE 4804 student groups are encouraged but not required to implement add-ons.
+
+### Baseline
 Here are the specifications of the Matrix Multiplication Unit you are implementing:
 
 | Feature                             | Description                      |
@@ -86,6 +90,20 @@ Your design should support the following modes:
 **Your design should be parameterizable. You may be asked to change the number of rows, columns, data width, and the position of the fixed point before submitting the final version.**
 
 **The header verilog file for the design has been provided.**
+
+### Add-ons
+Add-ons are classified into the following categories:
+1. Architectural Add-ons:
+   1. **Tiling support at the hardware level**: Your design must be capable of handling arbitrary input activations and input weight matrix dimensions, in particular, weight matrix dimensions larger than the physical systolic array.
+   2. **Felxible Dataflow support**: Your matrix multiplication unit supports both Weight Stationary dataflow as well as Output Stationary dataflow which must be programmable at run time.
+2. Methodology Add-ons:
+   1. Extension of the given Physical Design (PD) flow to support PrimeTime and PrimeTimePX for improved Satic Timing Analysis (STA) and Power Analysis.
+   2. **Custom Macros**: Design a custom cell (with layout) and adapt the given PD flow to support said Macro. E.g. custom multiplier.
+3. Testing Add-ons:
+   1. **Custom PCB design for chip testing**: Your team will design (Fall 2025) a custom test board, and test your chips (Spring 2026) with said board.
+   2. (Tentative) **Microprocessor Testing**: Your chip will be equipped with a RISC-V processor which can be enabled during testing. The idea is to program the processor to execute your test program, therefore, testing your Matrix Multiplication Unit through the RISC-V.
+
+For more details on Add-ons please reach out to your TA.
 
 ## Matrix Multiplication Wrapper
 The Matrix Mult wrapper includes 3 main blocks: a driver, a monitor and the Matrix Mult module. In driver mode 1, the driver flops the incoming test pattern, and sends it out to the Matrix Mult module in the next cycle. In driver mode 0, the LFSR inside the driver generates the test patterns and feed it to the Matrix Mult module. In monitor mode 1, the monitor flops the Matrix Mult module's output and pops it out the next cycle to external modules. In monitor mode 0, the signature analyzer inside the monitor collects the Matrix Mult module's ouputs and compresses those until it receives the stop signal. Then, one ouput will be sent out from the monitor.
