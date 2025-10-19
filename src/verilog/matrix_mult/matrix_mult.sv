@@ -34,4 +34,28 @@ module matrix_mult_<GROUP_NUMBER> #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256,
   output logic                          done_o            // data controls
 );
 
+// declare interfacing signals between systolic array and controller
+logic [ROW*COL-1:0]         ctrl_load_b; 
+logic [ROW*COL-1:0]         ctrl_sum_out_b;
+
+//=========================================================================//
+//  SYSTOLIC ARRAY                                                         //
+//=========================================================================//
+systolic_array #(.WIDTH(WIDTH), .ROW(ROW), .COL(COL))
+    sys_array (
+        .ctrl_load_i        (ctrl_load_b        ),
+        .ctrl_sum_out_i     (ctrl_sum_out_b     ),
+        .*
+);
+
+//=========================================================================//
+//  CONTROLLER                                                             //
+//=========================================================================//
+controller #(.WIDTH(WIDTH), .ROW(ROW), .COL(COL), .W_SIZE(W_SIZE), .I_SIZE(I_SIZE), .O_SIZE(O_SIZE))
+    sys_ctrl (
+        .ctrl_load_o        (ctrl_load_b        ),
+        .ctrl_sum_out_o     (ctrl_sum_out_b     ),
+        .*
+);
+
 endmodule

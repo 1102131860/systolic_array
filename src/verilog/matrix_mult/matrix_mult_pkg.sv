@@ -3,6 +3,7 @@
 
 package matrix_mult_pkg;
 
+// localparam is like parameter, but can't be modified by the USER
 localparam WIDTH    = 8;
 localparam ROW      = 4;
 localparam COL      = 4;
@@ -40,6 +41,17 @@ typedef struct packed{
     logic [COL-1:0][WIDTH-1:0]   ext_weight;        // external weights
     logic [COL-1:0][WIDTH-1:0]   ext_psum;          // external partial sums
 } external_inputs_struct;
+
+// define states for control path
+typedef enum logic[2:0] {
+    IDLE            = 3'b000, // idle state
+    LOAD            = 3'b001, // load in weight registers
+    IN              = 3'b011, // reading inputs and computing
+    IN_OUT          = 3'b010, // reading inputs and outputs, and computing
+    OUT             = 3'b110, // reading outputs and computing
+    DONE            = 3'b111, // finished
+    STATEX          = 3'bxxx
+} state_struct;
 
 endpackage
 
