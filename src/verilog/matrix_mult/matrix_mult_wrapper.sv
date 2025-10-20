@@ -2,9 +2,9 @@ module matrix_mult_wrapper_<GROUP_NUMBER> #(
     parameter WIDTH         = 8, 
     parameter ROW           = 4, 
     parameter COL           = 4, 
-    parameter W_SIZE        = 256, 
-    parameter I_SIZE        = 256, 
-    parameter O_SIZE        = 256,
+    parameter W_SIZE        = 512, 
+    parameter I_SIZE        = 512, 
+    parameter O_SIZE        = 512,
     parameter MEM_R_WIDTH   = WIDTH * ROW ,
     parameter MEM_C_WIDTH   = WIDTH * COL ,
     parameter DRIVER_WIDTH  = WIDTH * ( ROW + COL )
@@ -106,7 +106,7 @@ module matrix_mult_wrapper_<GROUP_NUMBER> #(
 
   // connect seeds
   assign driver_seed_w    = { ext_inputs_i.ext_input, ext_inputs_i.ext_psum };
-  assign sa_seed_w        = ext_inputs_i.ext_psum;
+  assign sa_seed_w        = { ext_inputs_i.ext_psum, ext_inputs_i.ext_input }; // if driver seed and sa seed are the same, weird things happen
 
   // bypass external inputs that never go through the driver
   assign ext_inputs_w.ext_weight_en   = ext_inputs_i.ext_weight_en;
