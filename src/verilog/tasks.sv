@@ -106,9 +106,9 @@ task external_mode();
 
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = ROW;
-      w_cols_i             = COL;
-      i_rows_i             = ROW;
+      w_rows_i             = ROW - 1;
+      w_cols_i             = COL - 1;
+      i_rows_i             = w_rows_i;
       w_offset             = '0;
       i_offset             = '0;
       psum_offset_r        = '0;
