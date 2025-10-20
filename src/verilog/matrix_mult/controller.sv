@@ -1,5 +1,5 @@
 /*
-* Name: controller.sv
+* Name: controller_external.sv
 *
 * Description:
 * This is the control path implemenation of the matrix multipler.
@@ -12,6 +12,9 @@ module controller #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_S
   // output done
   input  logic                          start_i,          // active high start calculation, must pull down to 0 first to start a new calculation
   output logic                          done_o,           // data controls
+
+  // data configuration, used to configure matrix demension and memory size, not used in external mode
+  input  data_config_struct             data_config_i,    // test controls
 
   // output buffer memory control
   output  logic                         ob_mem_cenb_o,    // memory enable, active low
@@ -31,8 +34,13 @@ module controller #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=256, O_S
   // partial sum buffer memory
   // not using partial sum buffer memory for now (no tiling)
 
+  // external mode
+  input  logic                          ext_en_i,           // external mode enable, acitve high
+  input  external_inputs_struct         ext_inputs_i,       // external inputs
+  output logic                          ext_valid_o,        // external valid
+
   // pe control signals
-  output  logic [ROW*COL-1:0]           ctrl_load_o,        // if high, load into weights register; else, maintain weights register
+  output  logic [ROW*COL-1:0]           ctrl_load_o,       // if high, load into weights register; else, maintain weights register
   output  logic [ROW*COL-1:0]           ctrl_sum_out_o     // if high, send adder result to output; else, send north_i to south_o
 );
 
@@ -41,10 +49,31 @@ localparam LOAD_CNT = ROW + 2;
 localparam IN_CNT = LOAD_CNT + COL + 1;
 localparam IN_OUT_CNT = IN_CNT + I_SIZE - 3;
 localparam OUT_CNT = IN_OUT_CNT + COL + 1;
+// declare local parameters for external mode
+localparam EXT_OUT_OFFSET = ROW;
 
 // declare internal signals
 state_struct                            state_r, next_state_r;  // present & next states
 logic [$clog2(OUT_CNT)-1:0]             count_r;
+// declare internal signals for external mode
+logic [$clog2(EXT_OUT_OFFSET)-1:0]      ext_count_r;
+
+// Synchronous counter for controlling ext_valid_o
+always_ff @(posedge clk_i or negedge rstn_i) begin : Control_ext_valid_o
+    if (!rstn_i) begin
+        ext_valid_o <= '0;
+        ext_count_r <= '0;
+    end
+    else begin
+        ext_valid_o <= '0;
+        if (!start_i && ext_en_i && ext_inputs_i.ext_valid) begin
+            ext_valid_o <= (ext_count_r == EXT_OUT_OFFSET - 1);
+            if (ext_count_r < EXT_OUT_OFFSET - 1)
+                ext_count_r <= ext_count_r + 1;
+        end else
+            ext_count_r <= '0;
+    end
+end
 
 // present state logic
 always_ff @(posedge clk_i or negedge rstn_i) // active low asynch reset

@@ -20,12 +20,40 @@ module systolic_array #(parameter WIDTH=8, ROW=4, COL=4) (
   input   logic [COL-1:0][WIDTH-1:0]    wb_mem_data_i,      // input data
 
   // output buffer memory
-  output  logic [COL-1:0][WIDTH-1:0]    ob_mem_data_o      // output data
+  output  logic [COL-1:0][WIDTH-1:0]    ob_mem_data_o,      // output data
+
+  // external mode
+  input  logic                          ext_en_i,           // external mode enable, acitve high
+  input  external_inputs_struct         ext_inputs_i,       // external inputs
+  output logic [COL-1:0][WIDTH-1:0]     ext_result_o        // external outputs
 );
 
 // declare internal busses
 logic [ROW*(COL-1)-1:0][WIDTH-1:0]      east_b;             // pe east outputs
 logic [COL*(ROW-1)-1:0][WIDTH-1:0]      south_b;            // pe south outputs
+
+logic [ROW-1:0][WIDTH-1:0]              ib_data_muxed;      // muxed input ib memory data
+logic [COL-1:0][WIDTH-1:0]              wb_data_muxed;      // muxed weight wb memory data
+logic [COL-1:0][WIDTH-1:0]              pe_result_b;        // internal bus for PE results
+
+logic [ROW*COL-1:0]                     ctrl_load_muxed;    // muxed ctrl load signal
+logic [ROW*COL-1:0]                     ctrl_sum_out_muxed; // muxed ctrl sum out signal
+
+always_comb begin : Input_Weight_Output_Control_Mux
+    if (ext_en_i) begin
+        ib_data_muxed = ext_inputs_i.ext_input;
+        wb_data_muxed = ext_inputs_i.ext_weight;
+        ext_result_o = pe_result_b;
+        ctrl_load_muxed = {ROW*COL{ext_inputs_i.ext_weight_en}};
+        ctrl_sum_out_muxed = {ROW*COL{ext_inputs_i.ext_valid}};
+    end else begin
+        ib_data_muxed = ib_mem_data_i;
+        wb_data_muxed = wb_mem_data_i;
+        ob_mem_data_o = pe_result_b;
+        ctrl_load_muxed = ctrl_load_i;
+        ctrl_sum_out_muxed = ctrl_sum_out_i;
+    end
+end
 
 // instantiate ROW x COL processing elements
 genvar i, j;
@@ -38,11 +66,11 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[0]             ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[0]          ),
+                            .ctrl_load_i        (ctrl_load_muxed[0]         ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[0]      ),
                             .ctrl_ps_in_i       (1'b0                       ),
-                            .north_i            (wb_mem_data_i[0]           ),
-                            .west_i             (ib_mem_data_i[0]           ),
+                            .north_i            (wb_data_muxed[0]           ),
+                            .west_i             (ib_data_muxed[0]           ),
                             .east_o             (east_b[0]                  ),
                             .south_o            (south_b[0]                 )
                     );
@@ -52,12 +80,12 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[j]             ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[j]          ),
+                            .ctrl_load_i        (ctrl_load_muxed[j]         ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[j]      ),
                             .ctrl_ps_in_i       (1'b0                       ),
-                            .north_i            (wb_mem_data_i[j]           ),
+                            .north_i            (wb_data_muxed[j]           ),
                             .west_i             (east_b[j - 1]              ),
-                            .east_o             (   ),
+                            .east_o             (                           ),
                             .south_o            (south_b[j]                 )
                     );
                 end
@@ -66,10 +94,10 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[j]             ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[j]          ),
+                            .ctrl_load_i        (ctrl_load_muxed[j]         ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[j]      ),
                             .ctrl_ps_in_i       (1'b0                       ),
-                            .north_i            (wb_mem_data_i[j]           ),
+                            .north_i            (wb_data_muxed[j]           ),
                             .west_i             (east_b[j - 1]              ),
                             .east_o             (east_b[j]                  ),
                             .south_o            (south_b[j]                 )
@@ -84,13 +112,13 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[i*ROW]         ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[i*ROW]      ),
+                            .ctrl_load_i        (ctrl_load_muxed[i*ROW]     ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW]  ),
                             .ctrl_ps_in_i       (1'b1                       ),
                             .north_i            (south_b[(i-1)*ROW]         ),
-                            .west_i             (ib_mem_data_i[i]           ),
+                            .west_i             (ib_data_muxed[i]           ),
                             .east_o             (east_b[i*(ROW-1)]          ),
-                            .south_o            (ob_mem_data_o[0]           )
+                            .south_o            (pe_result_b[0]             )
                     );
                 end
                 else if (j == (COL - 1)) begin // last row, last col pe
@@ -98,13 +126,13 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[i*ROW + j]     ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[i*ROW + j]  ),
+                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
                             .ctrl_ps_in_i       (1'b1                       ),
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
-                            .east_o             (   ),
-                            .south_o            (ob_mem_data_o[j]           ) 
+                            .east_o             (                           ),
+                            .south_o            (pe_result_b[j]             )
                     );
                 end
                 else begin // last row, intermediate col pe
@@ -112,13 +140,13 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[i*ROW + j]     ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[i*ROW + j]  ),
+                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
                             .ctrl_ps_in_i       (1'b1                       ),
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
                             .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (ob_mem_data_o[j]           )  
+                            .south_o            (pe_result_b[j]             )
                     );
                 end
             end
@@ -130,13 +158,13 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[i*ROW + j]     ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[i*ROW + j]  ),
+                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
                             .ctrl_ps_in_i       (1'b1                       ),
                             .north_i            (south_b[(i-1)*ROW + j]     ),
-                            .west_i             (ib_mem_data_i[i]           ),
+                            .west_i             (ib_data_muxed[i]           ),
                             .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (south_b[i*ROW + j]         )   
+                            .south_o            (south_b[i*ROW + j]         )
                     );
                 end
                 else if (j == (COL - 1)) begin // intermediate row, last col pe
@@ -144,13 +172,13 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[i*ROW + j]     ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[i*ROW + j]  ),
+                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
                             .ctrl_ps_in_i       (1'b1                       ),
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
-                            .east_o             (   ),
-                            .south_o            (south_b[i*ROW + j]         )  
+                            .east_o             (                           ),
+                            .south_o            (south_b[i*ROW + j]         )
                     );
                 end
                 else begin // intermediate row, intermediate col pe
@@ -158,8 +186,8 @@ generate
                         pe (
                             .clk_i              (clk_i                      ),
                             .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_i[i*ROW + j]     ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_i[i*ROW + j]  ),
+                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
+                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
                             .ctrl_ps_in_i       (1'b1                       ),
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),

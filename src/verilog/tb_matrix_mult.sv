@@ -15,6 +15,7 @@ module tb_matrix_mult;
    logic                         clk_i;
    logic                         rstn_async_i;
    logic                         start_i;
+   logic                         en_i;                               // gate clocking enable, active high
 
    // test config
    logic [2:0]                   bypass_i;
@@ -62,10 +63,13 @@ module tb_matrix_mult;
    logic [ROW-1:0][WIDTH-1:0]    ext_input_i;
    logic [COL-1:0][WIDTH-1:0]    ext_weight_i;
    logic [COL-1:0][WIDTH-1:0]    ext_psum_i;
+   logic                         ext_valid_en_i;
    logic                         ext_weight_en_i;
    external_inputs_struct        ext_inputs_i;
    logic [DRIVER_WIDTH-1:0]      ext_result_o;
+   logic                         ext_valid_o;
 
+   logic                         sample_clk_o;
    logic                         done_o;
 
    // outputs memory
@@ -92,6 +96,7 @@ module tb_matrix_mult;
    assign ext_inputs_i.ext_input               = ext_input_i;
    assign ext_inputs_i.ext_weight              = ext_weight_i;
    assign ext_inputs_i.ext_psum                = ext_psum_i;
+   assign ext_inputs_i.ext_valid               = ext_valid_en_i;
    assign ext_inputs_i.ext_weight_en           = ext_weight_en_i;
    
    assign ob_mem_cenb_w                        = ob_mem_cenb_o;
@@ -114,7 +119,7 @@ module tb_matrix_mult;
       end
    end
 
-   matrix_mult_wrapper #(
+   matrix_mult_wrapper_group3 #(
       .WIDTH   (WIDTH   ),
       .ROW     (ROW     ),
       .COL     (COL     ),
@@ -148,7 +153,7 @@ module tb_matrix_mult;
       case(testname)
       	 "external":   external_mode();
       	 "memory":     memory_mode();
-      	 "bist":       bist();
+      	 "bist":       bist_mode();
       	 default:      memory_mode();
       endcase
       #1000 

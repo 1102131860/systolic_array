@@ -60,7 +60,7 @@ always_comb begin
     // multiplication operation
     long_mult_b = weight_r * west_i;
     long_sum_b = ps_b + saturation(long_mult_b);
-    result_b = saturation(long_sum_b);        
+    result_b = saturation(long_sum_b);
 end
 
 endmodule

@@ -1,9 +1,10 @@
-TOPLEVEL= matrix_mult_wrapper
-TESTNAME=default
+TOPLEVEL=matrix_mult_wrapper
+TESTNAME=external
 SRC_VERILOG=../../src/verilog
-SRC_FOLDER= $(SRC_VERILOG)
+SRC_FOLDER=$(SRC_VERILOG)
 SIM=1
 SDF=0
+DDEBUG?=0
 
 #Build up a list of verilog define statements to be used by vcs
 
@@ -14,12 +15,9 @@ endif
 ifeq ($(SDF), 1)
 		VERILOG_DEFINES := $(VERILOG_DEFINES)+SDF=1
 endif
-
-
-
-# SRC=./fsm_pkg.sv \
-	# ./$(TOPLEVEL).sv \
-	# ./tb_fsm.sv
+ifeq ($(DDEBUG), 1)
+		VERILOG_DEFINES := $(VERILOG_DEFINES)+DEBUG=1
+endif
 
 .DEFAULT_GOAL := vcs
 
@@ -45,9 +43,15 @@ vcs:$(TOPLEVEL).include
 	vcs -f $(TOPLEVEL).include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
 		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
+		-cm fsm+line+cond+tgl \
 		-lca -kdb
 		# simv 
 
+vrd:
+	verdi -dbdir ./simv.daidir/ &
+
+urg:
+	urg -dir simv.vdb -format text -report cover_report
 
 wipe:
 	rm -rf $(TOPLEVEL).include
