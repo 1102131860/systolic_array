@@ -170,15 +170,12 @@ endtask
 task memory_mode();
    begin
       reset_signals();
-      // clear up only for 1 cycle
       @(posedge clk_i);
 
       // SET CONTROL SIGNALS
 
       // back to normal state
       rstn_async_i = '1;
-      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
-      // when rstn_async_i is asserted as high
       repeat(2) @(posedge clk_i);
 
       // LOAD MEMORIES
@@ -197,28 +194,22 @@ endtask
 task bist_mode();
    begin
       reset_signals();
-      // clear up only for 1 cycle
       @(posedge clk_i);
 
       // SET CONTROL SIGNALS
 
       rstn_async_i =  1'b1;
-      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
-      // when rstn_async_i is asserted as high
       repeat(2) @(posedge clk_i);
 
       // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
 
       rstn_async_i =  1'b0;
-      // clear up only for 1 cycle
       @(posedge clk_i);
 
       // SET CONTROL SIGNALS
       // SET STOP CODE
       
       rstn_async_i =  1'b1;
-      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
-      // when rstn_async_i is asserted as high
       repeat(2) @(posedge clk_i);
 
       // CHECK RESULTS
