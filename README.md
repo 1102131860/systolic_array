@@ -55,7 +55,6 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 | Modes supported                     | Memory, External, & BiST         |
 | IO ports                            | See [matrix_mult.sv](src/verilog/matrix_mult/matrix_mult.sv)|
 | Reset                               | Active-Low Reset (Reset when 0)  |
-| Start Condition                     | At Posedge of start_i signal     |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
 | Power supply                        | 0.8 ~ 1 V                        |
@@ -68,6 +67,8 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 Your design should support the following modes:
 
 1. Memory mode: The memories are loaded and available. Your internal controller should load the weights into the array, process all inputs and partial sums, and save the results in the output memory. The input test configuration and data configuration are fed to your Matrix Multiplication module, as well as the start bit. After processing, the done signal indicates completion, and the results are written to the output memory.
+
+   Due to the nature of our testing infrastructure, the start condition of your internal controller must be at the **posedge** of the start_i signal (note that this is different from reading a high start_i value). You can assume that no other posedge will show during the computation. The start_i signal might remain high for an indefinite amount of time (relative to your module's computation time).
 
    Shown below is an example of the input and expected output pattern. Assume that the input, weights, and partial-sum memories have already been loaded.
    
