@@ -1,0 +1,14 @@
+./matrix_mult_pkg.sv
+./processing_element.sv
+./systolic_array.sv
+./controller.sv
+./matrix_mult.sv 
+./mem_emulator.sv
+./async_nreset_synchronizer.sv
+./pseudo_rand_num_gen_pkg.sv
+./lfsr.sv
+./misr.sv
+./pseudo_rand_num_gen.sv
+./signature_analizer.sv
+./matrix_mult_wrapper.sv
+./tb_matrix_mult.sv
