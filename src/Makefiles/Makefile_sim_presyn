@@ -1,5 +1,5 @@
 TOPLEVEL=matrix_mult_wrapper
-TESTNAME=external
+TESTNAME?=bist
 SRC_VERILOG=../../src/verilog
 SRC_FOLDER=$(SRC_VERILOG)
 SIM=1

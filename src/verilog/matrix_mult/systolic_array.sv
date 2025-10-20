@@ -39,6 +39,10 @@ logic [COL-1:0][WIDTH-1:0]              pe_result_b;        // internal bus for 
 logic [ROW*COL-1:0]                     ctrl_load_muxed;    // muxed ctrl load signal
 logic [ROW*COL-1:0]                     ctrl_sum_out_muxed; // muxed ctrl sum out signal
 
+// for verification
+logic [COL-1:0][WIDTH-1:0]              weight_b[0:ROW-1];
+logic [COL-1:0][WIDTH-1:0]              result_b[0:ROW-1];
+
 always_comb begin : Input_Weight_Output_Control_Mux
     if (ext_en_i) begin
         ib_data_muxed = ext_inputs_i.ext_input;
@@ -54,6 +58,27 @@ always_comb begin : Input_Weight_Output_Control_Mux
         ctrl_sum_out_muxed = ctrl_sum_out_i;
     end
 end
+
+`ifdef DEBUG
+always_ff @(posedge clk_i) begin : DEBUG_BLOCKING
+    if (ext_en_i) begin
+        $display("=========Systolic Array Internal=========");
+        $write("@%0t: weight_b ", $realtime);
+        for (int i = 0; i < ROW; i++)
+            $write("%x ", weight_b[i]);
+        $display("");
+
+        $write("@%0t: result_b ", $realtime);
+        for (int i = 0; i < ROW; i++)
+            $write("%x ", result_b[i]);
+        $display("");
+
+        $display("@%0t: ib_data_muxed: %x", $realtime, ib_data_muxed);
+        $display("@%0t: wb_data_muxed: %x", $realtime, wb_data_muxed);
+    end
+end
+
+`endif
 
 // instantiate ROW x COL processing elements
 genvar i, j;
@@ -72,7 +97,9 @@ generate
                             .north_i            (wb_data_muxed[0]           ),
                             .west_i             (ib_data_muxed[0]           ),
                             .east_o             (east_b[0]                  ),
-                            .south_o            (south_b[0]                 )
+                            .south_o            (south_b[0]                 ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
                 else if (j == (COL - 1)) begin // first row, last col pe
@@ -86,7 +113,9 @@ generate
                             .north_i            (wb_data_muxed[j]           ),
                             .west_i             (east_b[j - 1]              ),
                             .east_o             (                           ),
-                            .south_o            (south_b[j]                 )
+                            .south_o            (south_b[j]                 ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
                 else begin // first row, intermediate col pe
@@ -100,7 +129,9 @@ generate
                             .north_i            (wb_data_muxed[j]           ),
                             .west_i             (east_b[j - 1]              ),
                             .east_o             (east_b[j]                  ),
-                            .south_o            (south_b[j]                 )
+                            .south_o            (south_b[j]                 ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
             end
@@ -118,7 +149,9 @@ generate
                             .north_i            (south_b[(i-1)*ROW]         ),
                             .west_i             (ib_data_muxed[i]           ),
                             .east_o             (east_b[i*(ROW-1)]          ),
-                            .south_o            (pe_result_b[0]             )
+                            .south_o            (pe_result_b[0]             ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
                 else if (j == (COL - 1)) begin // last row, last col pe
@@ -132,7 +165,9 @@ generate
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
                             .east_o             (                           ),
-                            .south_o            (pe_result_b[j]             )
+                            .south_o            (pe_result_b[j]             ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
                 else begin // last row, intermediate col pe
@@ -146,7 +181,9 @@ generate
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
                             .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (pe_result_b[j]             )
+                            .south_o            (pe_result_b[j]             ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
             end
@@ -164,7 +201,9 @@ generate
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (ib_data_muxed[i]           ),
                             .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (south_b[i*ROW + j]         )
+                            .south_o            (south_b[i*ROW + j]         ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
                 else if (j == (COL - 1)) begin // intermediate row, last col pe
@@ -178,7 +217,9 @@ generate
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
                             .east_o             (                           ),
-                            .south_o            (south_b[i*ROW + j]         )
+                            .south_o            (south_b[i*ROW + j]         ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
                 else begin // intermediate row, intermediate col pe
@@ -192,7 +233,9 @@ generate
                             .north_i            (south_b[(i-1)*ROW + j]     ),
                             .west_i             (east_b[i*(ROW-1) + j - 1]  ),
                             .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (south_b[i*ROW + j]         )
+                            .south_o            (south_b[i*ROW + j]         ),
+                            .weight_o           (weight_b[i][j]             ),
+                            .result_o           (result_b[i][j]             )
                     );
                 end
             end

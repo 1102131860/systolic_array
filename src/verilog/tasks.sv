@@ -82,7 +82,6 @@ task external_mode();
    begin
       mem_trans input_trans;
       mem_trans weight_trans;
-      mem_trans output_trans;
 
       input_trans = new("input_trans");
       weight_trans = new("weight_trans");
@@ -195,26 +194,88 @@ endtask
 
 task bist_mode();
    begin
+      mem_trans weight_trans;
+      weight_trans = new("weight_trans");
+      weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+
+      // Clear all the signals
       reset_signals();
       @(posedge clk_i);
 
+      ///////////////////////////////////////////
       // SET CONTROL SIGNALS
-
-      rstn_async_i =  1'b1;
-      repeat(2) @(posedge clk_i);
-
-      // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
-
-      rstn_async_i =  1'b0;
-      @(posedge clk_i);
-
-      // SET CONTROL SIGNALS
-      // SET STOP CODE
+      ///////////////////////////////////////////
+      driver_valid_i       = '0;
+      // set lsfr stop code here
+      driver_stop_code_i   = 64'h0000000123456789;
+      // set lsfr and signature analyzer seeds here
+      {ext_input_i, ext_psum_i} = 64'h7865342144441234;
+      mode_i               = 2'b11;
+      bypass_i             = 3'b101;
       
-      rstn_async_i =  1'b1;
+      // data configuration
+      start_i              = '0;
+      en_i                 = '1;
+      w_rows_i             = ROW - 1;
+      w_cols_i             = COL - 1;
+      i_rows_i             = w_rows_i;
+      w_offset             = '0;
+      i_offset             = '0;
+      psum_offset_r        = '0;
+      o_offset_w           = '0;
+      accum_enb_i          = '0;
+      
+      // reset to set lsfr and signature analyzer's stop code and seeds
+      rstn_async_i         = 1'b0;
+      // clear signals for 1 cycle
+      @(posedge clk_i);
+      // back to noraml state by asserting rstn_async_i
+      rstn_async_i         =  1'b1;
+      // wait 2 cycles for the asynchronous reset synchronizer sample
       repeat(2) @(posedge clk_i);
 
-      // CHECK RESULTS
+      ///////////////////////////////////////////
+      // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
+      ///////////////////////////////////////////
+      ext_en_i             = '1;
+      // LOAD WEIGHTS
+      foreach(weight_trans.data[i]) begin
+         ext_input_i       <= '0;
+         ext_weight_i      <= weight_trans.data[i];
+         ext_valid_en_i    <= '0;
+         ext_weight_en_i   <= '1;
+         ext_psum_i        <= '0;
+         @(posedge clk_i);
+      end
+      ext_weight_en_i      = '0;
+      ext_weight_i         = '0;
 
-    end
+      ///////////////////////////////////////////
+      // STREAM INPUTS AND PARTIAL SUMS
+      ///////////////////////////////////////////
+      // set LSFR and Signature Analyzer Mode
+      // mode_i[0]: Driver should be 0, LSFR 
+      // mode_i[1]: Mointor shoule be 0, Signature Analyzer
+      // bypass_i[0]: drive_bypass_w should be 0 (not bypass)
+      // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
+      // bypass_i[2]: sa_bypass_w should be 0 (not bypass)
+      bypass_i             = 3'b000;
+      mode_i               = 2'b00;
+      driver_valid_i       = '1;
+      // enable input activation as well
+      ext_valid_en_i       = '1;
+      
+      ///////////////////////////////////////////
+      // COMPARE RESULTS
+      ///////////////////////////////////////////
+      fork
+         forever @(posedge clk_i) begin
+            if (ext_valid_o) begin
+               $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
+               $fwrite(f, "%x\n", ext_result_o);
+            end
+         end
+      join_none
+
+   end
 endtask
