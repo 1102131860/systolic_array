@@ -111,11 +111,6 @@ task external_mode();
       driver_valid_i       <= '0;
       driver_stop_code_i   <= '0;
 
-      // ob_mem_data_i        <= '0;
-      // ib_mem_data_i        <= '0;
-      // wb_mem_data_i        <= '0;
-      // ps_mem_data_i        <= '0;
-
       start_i              <= '0;
       en_i                 <= '1;
       w_rows_i             <= ROW;
@@ -141,7 +136,7 @@ task external_mode();
 
       // COMPARE RESULTS
       fork
-         forever @(posedge clk_i) begin
+         forever @(negedge clk_i) begin
             if (ext_valid_o)
                $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
          end
@@ -175,12 +170,8 @@ endtask
 task memory_mode();
    begin
       reset_signals();
-        
-      @(posedge clk_i);
 
       // SET CONTROL SIGNALS
-      
-      rstn_async_i =  1'b1;
 
       // LOAD MEMORIES
 
@@ -198,21 +189,22 @@ endtask
 task bist_mode();
    begin
       reset_signals();
-        
-      @(posedge clk_i);
 
       // SET CONTROL SIGNALS
 
       rstn_async_i =  1'b1;
+      // wait two more cycles
 
       // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
 
       rstn_async_i =  1'b0;
+      // clear up 1 cycle
 
       // SET CONTROL SIGNALS
       // SET STOP CODE
       
       rstn_async_i =  1'b1;
+      // wait two more cycles
 
       // CHECK RESULTS
 
