@@ -30,7 +30,7 @@ module matrix_mult_wrapper_<GROUP_NUMBER> #(
   output  logic                       wb_mem_cenb_o,   // memory enable, active low
   output  logic                       wb_mem_wenb_o,   // write enable, active low
   output  logic [$clog2(W_SIZE)-1:0]  wb_mem_addr_o,   // address
-  input   logic [MEM_C_WIDTH-1:0]      wb_mem_data_i,   // input data
+  input   logic [MEM_C_WIDTH-1:0]     wb_mem_data_i,   // input data
   // partial sum buffer memory
   output  logic                       ps_mem_cenb_o,   // memory enable, active low
   output  logic                       ps_mem_wenb_o,   // write enable, active low
