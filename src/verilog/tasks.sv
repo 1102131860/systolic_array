@@ -91,7 +91,6 @@ task external_mode();
       weight_trans.read_mem_file("inputs/systolic_in_2_weight.hex");
 
       reset_signals();
-      // clear up only for 1 cycle
       @(posedge clk_i);
 
       // SET CONTROL SIGNALS
@@ -123,7 +122,8 @@ task external_mode();
       repeat(2) @(posedge clk_i);
       
       // Assert ext_en_i
-      ext_en_i             <= '1;
+      ext_en_i              = '1;
+
       // LOAD WEIGHTS
       foreach(weight_trans.data[i]) begin
          ext_input_i       <= '0;
@@ -136,9 +136,11 @@ task external_mode();
 
       // COMPARE RESULTS
       fork
-         forever @(negedge clk_i) begin
-            if (ext_valid_o)
+         forever @(posedge clk_i) begin
+            if (ext_valid_o) begin
                $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
+               $fwrite(f, "%x\n", ext_result_o);
+            end
          end
       join_none
 
@@ -162,8 +164,8 @@ task external_mode();
       end
 
       // Deassert ext_en_i
-      ext_en_i <= '0;
-      ext_valid_en_i <= '0;
+      ext_en_i = '0;
+      ext_valid_en_i = '0;
    end
 endtask
 

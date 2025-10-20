@@ -146,6 +146,12 @@ module tb_matrix_mult;
          $sdf_annotate("./matrix_mult.wc.sdf", matrix_mult_0, "./sdf.max.cfg");
       `endif
       returnval = $value$plusargs("testname=%s", testname);
+      $display("@%0t: testname = %0s", $realtime, testname);
+
+      filename = $sformatf("logs/%0s.log", testname);
+      f = $fopen(filename, "w");
+      if (f == 0)
+         $fatal("@%0t: Cannot open %s for writing", $realtime, filename);
       
       initialize_signals();
       repeat (10) @(posedge clk_i);	
@@ -157,7 +163,7 @@ module tb_matrix_mult;
       	 default:      memory_mode();
       endcase
       #1000 
-      //$fclose(f);
+      $fclose(f);
       $finish;
    end
 
