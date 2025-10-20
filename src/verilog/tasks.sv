@@ -75,14 +75,6 @@ task reset_signals();
    begin
       repeat (10) @(posedge clk_i);
       initialize_signals();
-
-      // clear up only for 1 cycle
-      @(posedge clk_i);
-      // back to normal state
-      rstn_async_i = '1;
-      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
-      // when rstn_async_i is asserted as high
-      repeat(2) @(posedge clk_i);
    end
 endtask
 
@@ -99,6 +91,8 @@ task external_mode();
       weight_trans.read_mem_file("inputs/systolic_in_2_weight.hex");
 
       reset_signals();
+      // clear up only for 1 cycle
+      @(posedge clk_i);
 
       // SET CONTROL SIGNALS
       // mode_i[0]: Driver should be 1, External Input
@@ -106,21 +100,27 @@ task external_mode();
       // bypass_i[0]: drive_bypass_w should be 1 (bypass)
       // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
       // bypass_i[2]: sa_bypass_w should be 1 (bypass)
-      mode_i               <= 2'b11;
-      bypass_i             <= 3'b101;
-      driver_valid_i       <= '0;
-      driver_stop_code_i   <= '0;
+      mode_i               = 2'b11;
+      bypass_i             = 3'b101;
+      driver_valid_i       = '0;
+      driver_stop_code_i   = '0;
 
-      start_i              <= '0;
-      en_i                 <= '1;
-      w_rows_i             <= ROW;
-      w_cols_i             <= COL;
-      i_rows_i             <= ROW;
-      w_offset             <= '0;
-      i_offset             <= '0;
-      psum_offset_r        <= '0;
-      o_offset_w           <= '0;
-      accum_enb_i          <= '0;
+      start_i              = '0;
+      en_i                 = '1;
+      w_rows_i             = ROW;
+      w_cols_i             = COL;
+      i_rows_i             = ROW;
+      w_offset             = '0;
+      i_offset             = '0;
+      psum_offset_r        = '0;
+      o_offset_w           = '0;
+      accum_enb_i          = '0;
+
+      // back to normal state
+      rstn_async_i = '1;
+      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
+      // when rstn_async_i is asserted as high
+      repeat(2) @(posedge clk_i);
       
       // Assert ext_en_i
       ext_en_i             <= '1;
@@ -170,8 +170,16 @@ endtask
 task memory_mode();
    begin
       reset_signals();
+      // clear up only for 1 cycle
+      @(posedge clk_i);
 
       // SET CONTROL SIGNALS
+
+      // back to normal state
+      rstn_async_i = '1;
+      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
+      // when rstn_async_i is asserted as high
+      repeat(2) @(posedge clk_i);
 
       // LOAD MEMORIES
 
@@ -189,22 +197,29 @@ endtask
 task bist_mode();
    begin
       reset_signals();
+      // clear up only for 1 cycle
+      @(posedge clk_i);
 
       // SET CONTROL SIGNALS
 
       rstn_async_i =  1'b1;
-      // wait two more cycles
+      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
+      // when rstn_async_i is asserted as high
+      repeat(2) @(posedge clk_i);
 
       // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
 
       rstn_async_i =  1'b0;
-      // clear up 1 cycle
+      // clear up only for 1 cycle
+      @(posedge clk_i);
 
       // SET CONTROL SIGNALS
       // SET STOP CODE
       
       rstn_async_i =  1'b1;
-      // wait two more cycles
+      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
+      // when rstn_async_i is asserted as high
+      repeat(2) @(posedge clk_i);
 
       // CHECK RESULTS
 
