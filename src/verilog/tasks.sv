@@ -52,11 +52,6 @@ task initialize_signals();
       o_offset_w          = '0;
       accum_enb_i         = '0;
 
-      // ob_mem_data_i       = '0;
-      // ib_mem_data_i       = '0;
-      // wb_mem_data_i       = '0;
-      // ps_mem_data_i       = '0;
-
       ext_en_i            = '0;
       ext_input_i         = '0;
       ext_weight_i        = '0;
@@ -170,26 +165,107 @@ endtask
 
 task memory_mode();
    begin
+      mem_trans input_trans;
+      mem_trans weight_trans;
+
+      input_trans = new("input_trans");
+      weight_trans = new("weight_trans");
+
+      input_trans.read_mem_file("inputs/systolic_in_1_input.hex");
+      weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+
       reset_signals();
       @(posedge clk_i);
 
+      ///////////////////////////////////////////
       // SET CONTROL SIGNALS
+      ///////////////////////////////////////////
+      w_rows_i            = ROW - 1;
+      w_cols_i            = COL - 1;
+      i_rows_i            = w_rows_i;
+      w_offset            = '0;
+      i_offset            = '0;
+      psum_offset_r       = '0;
+      o_offset_w          = '0;
+      accum_enb_i         = '0;
 
       // back to normal state
-      rstn_async_i = '1;
+      rstn_async_i        = '1;
       repeat(2) @(posedge clk_i);
 
+      ///////////////////////////////////////////
       // LOAD MEMORIES
+      ///////////////////////////////////////////
+      // enable external mode to load input and weight
+      ext_en_i            = '1;
+      foreach(input_trans.data[i]) begin
+         ib_mem_cenb_ext_i <= '0;
+         ib_mem_wenb_ext_i <= '0;
+         ib_mem_addr_ext_i <= i;
+         ib_mem_d_i_r      <= input_trans.data[i];
+         @(posedge clk_i);
+      end
+      // not select ib_mem any more
+      ib_mem_cenb_ext_i   = '1;
+      foreach(weight_trans.data[i]) begin
+         wb_mem_cenb_ext_i <= '0;
+         wb_mem_wenb_ext_i <= '0;
+         wb_mem_addr_ext_i <= i;
+         wb_mem_d_i_r      <= weight_trans.data[i];
+         @(posedge clk_i);
+      end
+      // not select wb_mem any more
+      wb_mem_cenb_ext_i   = '1;
+      // clear up output memory with O_SIZE data as well
+      foreach(input_trans.data[i]) begin
+         ob_mem_cenb_ext_i <= '0;
+         ob_mem_wenb_ext_i <= '0;
+         ob_mem_addr_ext_i <= i;
+         ob_mem_d_i_ext_i  <= '0;
+         @(posedge clk_i);
+      end
+      // not select ob_mem any more
+      ob_mem_cenb_ext_i   = '1;
+      // exits external mode
+      ext_en_i            = '0;
+      @(posedge clk_i);
 
+      // display initialized memory
+      $display("==========Initial Memory==========");
+      $write("@%0t: ib_mem.data: ", $realtime);
+      foreach(input_trans.data[i])
+         $write("%x ", ib_mem.data[i]);
+      $display("");
+      $write("@%0t: wb_mem.data: ", $realtime);
+      foreach(weight_trans.data[i])
+         $write("%x ", wb_mem.data[i]);
+      $display("");
+      $write("@%0t: ob_mem.data: ", $realtime);
+      foreach(input_trans.data[i])
+         $write("%x ", ob_mem.data[i]);
+      $display("");
+
+      ///////////////////////////////////////////
+      // Start Computing
+      ///////////////////////////////////////////
+      $display("==========Start Computing==========");
       @(negedge clk_i);
       start_i  = '1;
       @(negedge clk_i);
       start_i  = '0;
+      // wait for done_o to be high
       @(posedge done_o);
 
+      ///////////////////////////////////////////
       // COMPARE RESULTS
-
-    end
+      ///////////////////////////////////////////
+      $display("==========Computation Finished==========");
+      $write("@%0t: ob_mem.data: ", $realtime);
+      foreach(input_trans.data[i])
+         $write("%x ", ob_mem.data[i]);
+      $display("");
+      $writememh(f, ob_mem.data);
+   end
 endtask
 
 task bist_mode();
@@ -271,11 +347,13 @@ task bist_mode();
       fork
          forever @(posedge clk_i) begin
             if (ext_valid_o) begin
-               $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
+               $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
                $fwrite(f, "%x\n", ext_result_o);
+            end
+            if (matrix_mult_0.sa_dut_valid_w) begin
+               $display("@%0t: matrix_mult_0.sa_dut_valid_w is asserted, ext_result_o = %x", $realtime, ext_result_o);
             end
          end
       join_none
-
    end
 endtask

@@ -61,7 +61,7 @@ end
 
 `ifdef DEBUG
 always_ff @(posedge clk_i) begin : DEBUG_BLOCKING
-    if (ext_en_i) begin
+    if (ext_en_i || ctrl_load_i || ctrl_sum_out_i) begin
         $display("=========Systolic Array Internal=========");
         $write("@%0t: weight_b ", $realtime);
         for (int i = 0; i < ROW; i++)
@@ -75,6 +75,7 @@ always_ff @(posedge clk_i) begin : DEBUG_BLOCKING
 
         $display("@%0t: ib_data_muxed: %x", $realtime, ib_data_muxed);
         $display("@%0t: wb_data_muxed: %x", $realtime, wb_data_muxed);
+        $display("@%0t: ob_mem_data_o: %x", $realtime, ob_mem_data_o);
     end
 end
 

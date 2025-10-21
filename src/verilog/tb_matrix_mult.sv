@@ -72,12 +72,42 @@ module tb_matrix_mult;
    logic                         sample_clk_o;
    logic                         done_o;
 
+   // input Memory
+   logic                         ib_mem_cenb_r;
+   logic                         ib_mem_wenb_r;
+   logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_r;
+   logic [ROW*WIDTH-1:0]         ib_mem_d_i_r;
+   logic [ROW*WIDTH-1:0]         ib_mem_q_o_r;
+
+   // external input memory control
+   logic                         ib_mem_cenb_ext_i;
+   logic                         ib_mem_wenb_ext_i;
+   logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_ext_i;
+
+   // weight Memory
+   logic                         wb_mem_cenb_r;
+   logic                         wb_mem_wenb_r;
+   logic [$clog2(W_SIZE)-1:0]    wb_mem_addr_r;
+   logic [COL*WIDTH-1:0]         wb_mem_d_i_r;
+   logic [COL*WIDTH-1:0]         wb_mem_q_o_r;
+
+   // external weight memory control
+   logic                         wb_mem_cenb_ext_i;
+   logic                         wb_mem_wenb_ext_i;
+   logic [$clog2(I_SIZE)-1:0]    wb_mem_addr_ext_i;
+
    // outputs memory
    logic                         ob_mem_cenb_w;
    logic                         ob_mem_wenb_w;
    logic [$clog2(O_SIZE)-1:0]    ob_mem_addr_w;
    logic [COL*WIDTH-1:0]         ob_mem_d_i_w;
    logic [COL*WIDTH-1:0]         ob_mem_q_o_w;
+
+   // external output memory control
+   logic                         ob_mem_cenb_ext_i;
+   logic                         ob_mem_wenb_ext_i;
+   logic [$clog2(I_SIZE)-1:0]    ob_mem_addr_ext_i;
+   logic [COL*WIDTH-1:0]         ob_mem_d_i_ext_i;
 
    assign test_config_i.bypass                 = bypass_i;
    assign test_config_i.mode                   = mode_i;
@@ -99,10 +129,20 @@ module tb_matrix_mult;
    assign ext_inputs_i.ext_valid               = ext_valid_en_i;
    assign ext_inputs_i.ext_weight_en           = ext_weight_en_i;
    
-   assign ob_mem_cenb_w                        = ob_mem_cenb_o;
-   assign ob_mem_wenb_w                        = ob_mem_wenb_o;
-   assign ob_mem_addr_w                        = ob_mem_addr_o;
-   assign ob_mem_d_i_w                         = ob_mem_data_o;
+   assign ib_mem_cenb_r                        = ext_en_i ? ib_mem_cenb_ext_i : ib_mem_cenb_o;
+   assign ib_mem_wenb_r                        = ext_en_i ? ib_mem_wenb_ext_i : ib_mem_wenb_o;
+   assign ib_mem_addr_r                        = ext_en_i ? ib_mem_addr_ext_i : ib_mem_addr_o;
+   assign ib_mem_data_i                        = ib_mem_q_o_r;
+
+   assign wb_mem_cenb_r                        = ext_en_i ? wb_mem_cenb_ext_i : wb_mem_cenb_o;
+   assign wb_mem_wenb_r                        = ext_en_i ? wb_mem_wenb_ext_i : wb_mem_wenb_o;
+   assign wb_mem_addr_r                        = ext_en_i ? wb_mem_addr_ext_i : wb_mem_addr_o;
+   assign wb_mem_data_i                        = wb_mem_q_o_r;
+
+   assign ob_mem_cenb_w                        = ext_en_i ? ob_mem_cenb_ext_i : ob_mem_cenb_o;
+   assign ob_mem_wenb_w                        = ext_en_i ? ob_mem_wenb_ext_i : ob_mem_wenb_o;
+   assign ob_mem_addr_w                        = ext_en_i ? ob_mem_addr_ext_i : ob_mem_addr_o;
+   assign ob_mem_d_i_w                         = ext_en_i ? ob_mem_d_i_ext_i  : ob_mem_data_o;
    assign ob_mem_data_i                        = ob_mem_q_o_w;
 
    logic [1000:0] testname;
@@ -127,6 +167,26 @@ module tb_matrix_mult;
       .I_SIZE  (I_SIZE  ),
       .O_SIZE  (O_SIZE  )
    ) matrix_mult_0 (.*);
+
+   mem_emulator #(.WIDTH(ROW*WIDTH), .SIZE(I_SIZE))
+      ib_mem (
+         .clk_i   (clk_i            ),
+         .cenb_i  (ib_mem_cenb_r    ),
+         .wenb_i  (ib_mem_wenb_r    ),
+         .addr_i  (ib_mem_addr_r    ),
+         .d_i     (ib_mem_d_i_r     ),
+         .q_o     (ib_mem_q_o_r     )
+   );
+
+   mem_emulator #(.WIDTH(COL*WIDTH), .SIZE(W_SIZE))
+      wb_mem (
+         .clk_i   (clk_i            ),
+         .cenb_i  (wb_mem_cenb_r    ),
+         .wenb_i  (wb_mem_wenb_r    ),
+         .addr_i  (wb_mem_addr_r    ),
+         .d_i     (wb_mem_d_i_r     ),
+         .q_o     (wb_mem_q_o_r     )
+   );
 
    mem_emulator #(.WIDTH(COL*WIDTH), .SIZE(O_SIZE))
       ob_mem (
