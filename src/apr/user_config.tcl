@@ -41,7 +41,7 @@ set TILE_HEIGHT            1.8 ; # (um) Cell height
 set W_SUPER_TILE_MUL       8
 set H_SUPER_TILE_MUL       8
 
-set W_SUPER_TILE_NUM       8
+set W_SUPER_TILE_NUM       15
 set H_SUPER_TILE_NUM       15
 
 set CORE_UTIL_RATIO        0.1
