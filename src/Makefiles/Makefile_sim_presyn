@@ -5,6 +5,7 @@ SRC_FOLDER=$(SRC_VERILOG)
 SIM=1
 SDF=0
 DDEBUG?=0
+RAND_SEED?=42
 
 #Build up a list of verilog define statements to be used by vcs
 
@@ -27,22 +28,12 @@ link_src:
 	find $(SRC_FOLDER) -name '*.v' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*.svh' -exec ln -s -f {} ';'
-	
-
-# $(TOPLEVEL).include: Makefile
-	# echo $(SRC) > $(TOPLEVEL).include
-
-# vcs:$(TOPLEVEL).include
-	# vcs -f $(TOPLEVEL).include +v2k -R +lint=all -sverilog -full64 \
-		# -timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
-		# -debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) \
-		# simv +vpdfile+./$(TOPLEVEL).vpd
-
 
 vcs:$(TOPLEVEL).include
 	vcs -f $(TOPLEVEL).include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
 		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
+		+ntb_random_seed=$(RAND_SEED) \
 		-cm fsm+line+cond+tgl \
 		-lca -kdb
 		# simv 

@@ -183,13 +183,13 @@ task memory_mode();
       ///////////////////////////////////////////
       // SET CONTROL SIGNALS
       ///////////////////////////////////////////
-      w_rows_i            = ROW;
+      w_rows_i            = weight_trans.data.size();
       w_cols_i            = COL;
-      i_rows_i            = w_rows_i;
-      w_offset            = '0;
-      i_offset            = '0;
+      i_rows_i            = input_trans.data.size();
+      w_offset            = $urandom_range(W_SIZE - w_rows_i - 1);
+      i_offset            = $urandom_range(I_SIZE - i_rows_i - 1);
       psum_offset_r       = '0;
-      o_offset_w          = '0;
+      o_offset_w          = $urandom_range(O_SIZE - i_rows_i - 1);
       accum_enb_i         = '0;
       extra_config_i      = 4'b0000; // weight stationary mode
 
@@ -234,19 +234,27 @@ task memory_mode();
       ext_en_i            = '0;
       @(posedge clk_i);
 
+      // Monitor how the addr is updated
+   `ifdef DEBUG
+      fork
+         $monitor("@%0t: ib_mem_addr_o = %0d, wb_mem_addr_o = %0d, ob_mem_addr_o = %0d",
+         $realtime, ib_mem_addr_o, wb_mem_addr_o, ob_mem_addr_o);
+      join_none
+   `endif
+
       // display initialized memory
       $display("==========Initial Memory==========");
       $write("@%0t: ib_mem.data: ", $realtime);
       foreach(input_trans.data[i])
-         $write("%x ", ib_mem.data[i + i_offset]);
+         $write("%0d: %x ", i + i_offset, ib_mem.data[i + i_offset]);
       $display("");
       $write("@%0t: wb_mem.data: ", $realtime);
       foreach(weight_trans.data[i])
-         $write("%x ", wb_mem.data[i + w_offset]);
+         $write("%0d: %x ", i + w_offset, wb_mem.data[i + w_offset]);
       $display("");
       $write("@%0t: ob_mem.data: ", $realtime);
       foreach(input_trans.data[i])
-         $write("%x ", ob_mem.data[i + o_offset_w]);
+         $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
       $display("");
 
       ///////////////////////////////////////////
@@ -266,7 +274,7 @@ task memory_mode();
       $display("==========Computation Finished==========");
       $write("@%0t: ob_mem.data: ", $realtime);
       foreach(input_trans.data[i]) begin
-         $write("%x ", ob_mem.data[i + o_offset_w]);
+         $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
          $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
       end
       $display("");
