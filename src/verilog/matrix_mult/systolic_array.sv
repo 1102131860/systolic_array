@@ -8,239 +8,98 @@
 module systolic_array #(parameter WIDTH=8, ROW=4, COL=4) (
   input  logic                          clk_i,              // clock signal
   input  logic                          rstn_i,             // active low reset signal
+  input  data_config_struct             data_config_i,      // test controls
 
   // pe control signals
-  input  logic [ROW*COL-1:0]            ctrl_load_i,        // if high, load into weights register; else, send north_i to south_o
-  input  logic [ROW*COL-1:0]            ctrl_sum_out_i,     // if high, send adder result to output; else, send north_i to south_o
+  input  logic [0:ROW-1][0:COL-1]       ctrl_load_i,        // control weights register
+  input  logic [0:ROW-1][0:COL-1]       ctrl_sum_out_i,     // control output selection
+  input  logic [0:ROW-1][0:COL-1]       ctrl_ps_in_i,       // control addition carry-in
+  input  logic [0:ROW-1][0:COL-1]       ctrl_ps_valid_i,    // control partial sums register validity
 
-  // input buffer memory
-  input   logic [ROW-1:0][WIDTH-1:0]    ib_mem_data_i,      // input data
-
-  // weights buffer memory
-  input   logic [COL-1:0][WIDTH-1:0]    wb_mem_data_i,      // input data
-
-  // output buffer memory
-  output  logic [COL-1:0][WIDTH-1:0]    ob_mem_data_o,      // output data
-
-  // external mode
-  input  logic                          ext_en_i,           // external mode enable, acitve high
-  input  external_inputs_struct         ext_inputs_i,       // external inputs
-  output logic [COL-1:0][WIDTH-1:0]     ext_result_o        // external outputs
+  // peripheral I/O ports
+  input  logic [COL-1:0][WIDTH-1:0]     north_i,     // input data
+  input  logic [ROW-1:0][WIDTH-1:0]     west_i,      // input data
+  output logic [COL-1:0][WIDTH-1:0]     south_o      // output data
 );
 
 // declare internal busses
-logic [ROW*(COL-1)-1:0][WIDTH-1:0]      east_b;             // pe east outputs
-logic [COL*(ROW-1)-1:0][WIDTH-1:0]      south_b;            // pe south outputs
-
-logic [ROW-1:0][WIDTH-1:0]              ib_data_muxed;      // muxed input ib memory data
-logic [COL-1:0][WIDTH-1:0]              wb_data_muxed;      // muxed weight wb memory data
-logic [COL-1:0][WIDTH-1:0]              pe_result_b;        // internal bus for PE results
-
-logic [ROW*COL-1:0]                     ctrl_load_muxed;    // muxed ctrl load signal
-logic [ROW*COL-1:0]                     ctrl_sum_out_muxed; // muxed ctrl sum out signal
+logic signed [WIDTH-1:0]                we_b    [0:ROW-1][0:COL];
+logic signed [WIDTH-1:0]                ns_b    [0:ROW][0:COL-1];
 
 // for verification
-logic [COL-1:0][WIDTH-1:0]              weight_b[0:ROW-1];
-logic [COL-1:0][WIDTH-1:0]              result_b[0:ROW-1];
-
-always_comb begin : Input_Weight_Output_Control_Mux
-    if (ext_en_i) begin
-        ib_data_muxed = ext_inputs_i.ext_input;
-        wb_data_muxed = ext_inputs_i.ext_weight;
-        ext_result_o = pe_result_b;
-        ctrl_load_muxed = {ROW*COL{ext_inputs_i.ext_weight_en}};
-        ctrl_sum_out_muxed = {ROW*COL{ext_inputs_i.ext_valid}};
-    end else begin
-        ib_data_muxed = ib_mem_data_i;
-        wb_data_muxed = wb_mem_data_i;
-        ob_mem_data_o = pe_result_b;
-        ctrl_load_muxed = ctrl_load_i;
-        ctrl_sum_out_muxed = ctrl_sum_out_i;
-    end
-end
+logic signed [WIDTH-1:0]  ps_b              [0:ROW][0:COL-1];
+logic signed [WIDTH-1:0]  weight_b          [0:ROW][0:COL-1];
+logic signed [WIDTH-1:0]  result_b          [0:ROW][0:COL-1];
 
 `ifdef DEBUG
-always_ff @(posedge clk_i) begin : DEBUG_BLOCKING
-    if (ext_en_i || ctrl_load_i || ctrl_sum_out_i) begin
-        $display("=========Systolic Array Internal=========");
-        $write("@%0t: weight_b ", $realtime);
-        for (int i = 0; i < ROW; i++)
-            $write("%x ", weight_b[i]);
-        $display("");
+    always_ff @(posedge clk_i or negedge rstn_i) begin
+        if (ctrl_load_i[0] || ctrl_sum_out_i[0]) begin
+            $display("==========Internal States==========");
 
-        $write("@%0t: result_b ", $realtime);
-        for (int i = 0; i < ROW; i++)
-            $write("%x ", result_b[i]);
-        $display("");
+            $write("@%0t: weight_b: ", $realtime);
+            for (int i = 0; i < ROW; i++) begin
+               for (int j = COL - 1; j >= 0; j--) begin
+                    $write("%x", weight_b[i][j]);
+               end
+               $write(" ");
+            end
+            $display("");
 
-        $display("@%0t: ib_data_muxed: %x", $realtime, ib_data_muxed);
-        $display("@%0t: wb_data_muxed: %x", $realtime, wb_data_muxed);
-        $display("@%0t: ob_mem_data_o: %x", $realtime, ob_mem_data_o);
+            $write("@%0t: result_b: ", $realtime);
+            for (int i = 0; i < ROW; i++) begin
+               for (int j = COL - 1; j >= 0; j--) begin
+                    $write("%x", result_b[i][j]);
+               end
+               $write(" ");
+            end
+            $display("");
+
+            $write("@%0t: ps_b: ", $realtime);
+            for (int i = 0; i < ROW; i++) begin
+               for (int j = COL - 1; j >= 0; j--) begin
+                    $write("%x", ps_b[i][j]);
+               end
+               $write(" ");
+            end
+            $display("");
+        end
     end
-end
-
 `endif
 
 // instantiate ROW x COL processing elements
-genvar i, j;
+genvar r, c;
 generate
-    for (i = 0; i < ROW; i = i + 1) begin
-        if (i == 0) begin // first row of pe
-            for (j = 0; j < COL; j = j + 1) begin
-                if (j == 0) begin // first row, first col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[0]         ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[0]      ),
-                            .ctrl_ps_in_i       (1'b0                       ),
-                            .north_i            (wb_data_muxed[0]           ),
-                            .west_i             (ib_data_muxed[0]           ),
-                            .east_o             (east_b[0]                  ),
-                            .south_o            (south_b[0]                 ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-                else if (j == (COL - 1)) begin // first row, last col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[j]         ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[j]      ),
-                            .ctrl_ps_in_i       (1'b0                       ),
-                            .north_i            (wb_data_muxed[j]           ),
-                            .west_i             (east_b[j - 1]              ),
-                            .east_o             (                           ),
-                            .south_o            (south_b[j]                 ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-                else begin // first row, intermediate col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[j]         ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[j]      ),
-                            .ctrl_ps_in_i       (1'b0                       ),
-                            .north_i            (wb_data_muxed[j]           ),
-                            .west_i             (east_b[j - 1]              ),
-                            .east_o             (east_b[j]                  ),
-                            .south_o            (south_b[j]                 ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-            end
+    for (r=0; r<ROW; r++) begin : sys_ROW
+        for (c=0; c<COL; c++) begin : sys_COL
+            processing_element #(.WIDTH(WIDTH)) u_pe (
+                .clk_i              (clk_i                          ),
+                .rstn_i             (rstn_i                         ),
+                .ctrl_out_stat_i    (data_config_i.extra_config[0]  ),
+                .ctrl_load_i        (ctrl_load_i[r][c]              ),
+                .ctrl_sum_out_i     (ctrl_sum_out_i[r][c]           ),
+                .ctrl_ps_in_i       (ctrl_ps_in_i[r][c]             ),    
+                .ctrl_ps_valid_i    (ctrl_ps_valid_i[r][c]          ),  
+                .north_i            (ns_b[r][c]                     ),
+                .west_i             (we_b[r][c]                     ),            
+                .east_o             (we_b[r][c + 1]                 ),
+                .south_o            (ns_b[r + 1][c]                 ),
+                .ps_o               (ps_b[r][c]             ),
+                .weight_o           (weight_b[r][c]         ),
+                .result_o           (result_b[r][c]         )
+            );
         end
-        else if (i == (ROW - 1)) begin // last row of pe
-            for (j = 0; j < COL; j = j + 1) begin
-                if (j == 0) begin // last row, first col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[i*ROW]     ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW]  ),
-                            .ctrl_ps_in_i       (1'b1                       ),
-                            .north_i            (south_b[(i-1)*ROW]         ),
-                            .west_i             (ib_data_muxed[i]           ),
-                            .east_o             (east_b[i*(ROW-1)]          ),
-                            .south_o            (pe_result_b[0]             ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-                else if (j == (COL - 1)) begin // last row, last col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
-                            .ctrl_ps_in_i       (1'b1                       ),
-                            .north_i            (south_b[(i-1)*ROW + j]     ),
-                            .west_i             (east_b[i*(ROW-1) + j - 1]  ),
-                            .east_o             (                           ),
-                            .south_o            (pe_result_b[j]             ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-                else begin // last row, intermediate col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
-                            .ctrl_ps_in_i       (1'b1                       ),
-                            .north_i            (south_b[(i-1)*ROW + j]     ),
-                            .west_i             (east_b[i*(ROW-1) + j - 1]  ),
-                            .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (pe_result_b[j]             ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-            end
-        end
-        else begin // intermediate row of pe
-            for (j = 0; j < COL; j = j + 1) begin
-                if (j == 0) begin // intermediate row, first col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
-                            .ctrl_ps_in_i       (1'b1                       ),
-                            .north_i            (south_b[(i-1)*ROW + j]     ),
-                            .west_i             (ib_data_muxed[i]           ),
-                            .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (south_b[i*ROW + j]         ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-                else if (j == (COL - 1)) begin // intermediate row, last col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
-                            .ctrl_ps_in_i       (1'b1                       ),
-                            .north_i            (south_b[(i-1)*ROW + j]     ),
-                            .west_i             (east_b[i*(ROW-1) + j - 1]  ),
-                            .east_o             (                           ),
-                            .south_o            (south_b[i*ROW + j]         ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-                else begin // intermediate row, intermediate col pe
-                    processing_element #(.WIDTH(WIDTH))
-                        pe (
-                            .clk_i              (clk_i                      ),
-                            .rstn_i             (rstn_i                     ),
-                            .ctrl_load_i        (ctrl_load_muxed[i*ROW + j] ),
-                            .ctrl_sum_out_i     (ctrl_sum_out_muxed[i*ROW + j]),
-                            .ctrl_ps_in_i       (1'b1                       ),
-                            .north_i            (south_b[(i-1)*ROW + j]     ),
-                            .west_i             (east_b[i*(ROW-1) + j - 1]  ),
-                            .east_o             (east_b[i*(ROW-1) + j]      ),
-                            .south_o            (south_b[i*ROW + j]         ),
-                            .weight_o           (weight_b[i][j]             ),
-                            .result_o           (result_b[i][j]             )
-                    );
-                end
-            end
-        end
+
+        // assign busses to inputs/outputs
+        assign we_b[r][0] = west_i[r];
+    end
+endgenerate
+
+genvar j;
+generate
+    for (j=0; j<COL; j++) begin
+        // assign busses to inputs/outputs
+        assign ns_b[0][j] = north_i[j];
+        assign south_o[j] = ns_b[ROW][j];
     end
 endgenerate
 

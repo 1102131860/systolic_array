@@ -3,10 +3,14 @@ module tb_matrix_mult;
    parameter WIDTH         = 8;
    parameter ROW           = 4;
    parameter COL           = 4;
-   parameter W_SIZE        = 256;
-   parameter I_SIZE        = 256;
-   parameter O_SIZE        = 256;
+   parameter W_SIZE        = 512;
+   parameter I_SIZE        = 512;
+   parameter O_SIZE        = 512;
    parameter DRIVER_WIDTH  = WIDTH * ( ROW + COL );
+
+   parameter MAX_ROW       = 16;
+   parameter MAX_COL       = 16;
+   parameter EXTRA_BITS    = 4;
 
    parameter CLOCK_PERIOD        = 10;
    parameter real DUTY_CYCLE     = 0.5;
@@ -25,14 +29,15 @@ module tb_matrix_mult;
    test_config_struct            test_config_i;
 
    // data config
-   logic [$clog2(ROW)-1:0]       w_rows_i;
-   logic [$clog2(COL)-1:0]       w_cols_i;
+   logic [$clog2(MAX_ROW)-1:0]   w_rows_i;
+   logic [$clog2(MAX_COL)-1:0]   w_cols_i;
    logic [$clog2(I_SIZE)-1:0]    i_rows_i;
    logic [$clog2(W_SIZE)-1:0]    w_offset;
    logic [$clog2(I_SIZE)-1:0]    i_offset;
    logic [$clog2(O_SIZE)-1:0]    psum_offset_r;
    logic [$clog2(O_SIZE)-1:0]    o_offset_w;
    logic                         accum_enb_i;
+   logic [EXTRA_BITS-1:0]        extra_config_i;                     // extra configuration bits for grad students
    data_config_struct            data_config_i;
 
    // output buffer memory
@@ -72,7 +77,7 @@ module tb_matrix_mult;
    logic                         sample_clk_o;
    logic                         done_o;
 
-   // input Memory
+   // input Memory ports
    logic                         ib_mem_cenb_r;
    logic                         ib_mem_wenb_r;
    logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_r;
@@ -84,7 +89,7 @@ module tb_matrix_mult;
    logic                         ib_mem_wenb_ext_i;
    logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_ext_i;
 
-   // weight Memory
+   // weight Memory ports
    logic                         wb_mem_cenb_r;
    logic                         wb_mem_wenb_r;
    logic [$clog2(W_SIZE)-1:0]    wb_mem_addr_r;
@@ -96,7 +101,7 @@ module tb_matrix_mult;
    logic                         wb_mem_wenb_ext_i;
    logic [$clog2(I_SIZE)-1:0]    wb_mem_addr_ext_i;
 
-   // outputs memory
+   // outputs memory ports
    logic                         ob_mem_cenb_w;
    logic                         ob_mem_wenb_w;
    logic [$clog2(O_SIZE)-1:0]    ob_mem_addr_w;
@@ -122,6 +127,7 @@ module tb_matrix_mult;
    assign data_config_i.psum_offset            = psum_offset_r;
    assign data_config_i.o_offset_w             = o_offset_w;
    assign data_config_i.accum_en               = accum_enb_i;
+   assign data_config_i.extra_config           = extra_config_i;
 
    assign ext_inputs_i.ext_input               = ext_input_i;
    assign ext_inputs_i.ext_weight              = ext_weight_i;

@@ -51,6 +51,7 @@ task initialize_signals();
       psum_offset_r       = '0;
       o_offset_w          = '0;
       accum_enb_i         = '0;
+      extra_config_i      = '0;
 
       ext_en_i            = '0;
       ext_input_i         = '0;
@@ -100,14 +101,15 @@ task external_mode();
 
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = ROW - 1;
-      w_cols_i             = COL - 1;
+      w_rows_i             = ROW;
+      w_cols_i             = COL;
       i_rows_i             = w_rows_i;
       w_offset             = '0;
       i_offset             = '0;
       psum_offset_r        = '0;
       o_offset_w           = '0;
       accum_enb_i          = '0;
+      extra_config_i       = '0; // extra_config_i[0]: weight_stationary mode (0); output_stationary mode(1)
 
       // back to normal state
       rstn_async_i = '1;
@@ -163,6 +165,7 @@ task external_mode();
    end
 endtask
 
+// This only test the weight stationary mode
 task memory_mode();
    begin
       mem_trans input_trans;
@@ -180,14 +183,15 @@ task memory_mode();
       ///////////////////////////////////////////
       // SET CONTROL SIGNALS
       ///////////////////////////////////////////
-      w_rows_i            = ROW - 1;
-      w_cols_i            = COL - 1;
+      w_rows_i            = ROW;
+      w_cols_i            = COL;
       i_rows_i            = w_rows_i;
       w_offset            = '0;
       i_offset            = '0;
       psum_offset_r       = '0;
       o_offset_w          = '0;
       accum_enb_i         = '0;
+      extra_config_i      = 4'b0000; // weight stationary mode
 
       // back to normal state
       rstn_async_i        = '1;
@@ -201,7 +205,7 @@ task memory_mode();
       foreach(input_trans.data[i]) begin
          ib_mem_cenb_ext_i <= '0;
          ib_mem_wenb_ext_i <= '0;
-         ib_mem_addr_ext_i <= i;
+         ib_mem_addr_ext_i <= i + i_offset;
          ib_mem_d_i_r      <= input_trans.data[i];
          @(posedge clk_i);
       end
@@ -210,7 +214,7 @@ task memory_mode();
       foreach(weight_trans.data[i]) begin
          wb_mem_cenb_ext_i <= '0;
          wb_mem_wenb_ext_i <= '0;
-         wb_mem_addr_ext_i <= i;
+         wb_mem_addr_ext_i <= i + w_offset;
          wb_mem_d_i_r      <= weight_trans.data[i];
          @(posedge clk_i);
       end
@@ -220,7 +224,7 @@ task memory_mode();
       foreach(input_trans.data[i]) begin
          ob_mem_cenb_ext_i <= '0;
          ob_mem_wenb_ext_i <= '0;
-         ob_mem_addr_ext_i <= i;
+         ob_mem_addr_ext_i <= i + o_offset_w;
          ob_mem_d_i_ext_i  <= '0;
          @(posedge clk_i);
       end
@@ -261,10 +265,11 @@ task memory_mode();
       ///////////////////////////////////////////
       $display("==========Computation Finished==========");
       $write("@%0t: ob_mem.data: ", $realtime);
-      foreach(input_trans.data[i])
+      foreach(input_trans.data[i]) begin
          $write("%x ", ob_mem.data[i]);
+         $fwrite(f, "%x\n", ob_mem.data[i]);
+      end
       $display("");
-      $writememh(f, ob_mem.data);
    end
 endtask
 
@@ -283,7 +288,7 @@ task bist_mode();
       ///////////////////////////////////////////
       driver_valid_i       = '0;
       // set lsfr stop code here
-      driver_stop_code_i   = 64'h0000000123456789;
+      driver_stop_code_i   = 64'h6534214444123481;
       // set lsfr and signature analyzer seeds here
       {ext_input_i, ext_psum_i} = 64'h7865342144441234;
       mode_i               = 2'b11;
@@ -292,8 +297,8 @@ task bist_mode();
       // data configuration
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = ROW - 1;
-      w_cols_i             = COL - 1;
+      w_rows_i             = ROW;
+      w_cols_i             = COL;
       i_rows_i             = w_rows_i;
       w_offset             = '0;
       i_offset             = '0;
@@ -346,14 +351,15 @@ task bist_mode();
       ///////////////////////////////////////////
       fork
          forever @(posedge clk_i) begin
-            if (ext_valid_o) begin
-               $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
-               $fwrite(f, "%x\n", ext_result_o);
-            end
-            if (matrix_mult_0.sa_dut_valid_w) begin
-               $display("@%0t: matrix_mult_0.sa_dut_valid_w is asserted, ext_result_o = %x", $realtime, ext_result_o);
-            end
+            if (!ext_valid_o && matrix_mult_0.driver_valid_o_w)
+               $display("@%0t: tracking driver_data_w = %x", $realtime, matrix_mult_0.driver_data_w);
          end
+
+         begin
+            wait(ext_valid_o);
+            $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
+            $fwrite(f, "%x\n", ext_result_o);
+         end 
       join_none
    end
 endtask
