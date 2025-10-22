@@ -203,7 +203,8 @@ always_ff @(posedge clk_i or negedge rstn_i)
                             ctrl_sum_out_o <= '0; // flow down weights from north to south
 
                             // at the end of this state, load in weight regs for 1 cycle
-                            ctrl_load_o <= (wb_mem_addr_o == ROW - 1) ? '1 : '0; 
+                            // ctrl_load_o <= (wb_mem_addr_o == ROW - 1) ? '1 : '0;
+                            ctrl_load_o <= (wb_mem_addr_o == config_i.w_offset + ROW - 1) ? '1 : '0;
                         end
             IN:         begin
                             ib_mem_cenb_o <= 1'b0; // read inputs memory
