@@ -238,15 +238,15 @@ task memory_mode();
       $display("==========Initial Memory==========");
       $write("@%0t: ib_mem.data: ", $realtime);
       foreach(input_trans.data[i])
-         $write("%x ", ib_mem.data[i]);
+         $write("%x ", ib_mem.data[i + i_offset]);
       $display("");
       $write("@%0t: wb_mem.data: ", $realtime);
       foreach(weight_trans.data[i])
-         $write("%x ", wb_mem.data[i]);
+         $write("%x ", wb_mem.data[i + w_offset]);
       $display("");
       $write("@%0t: ob_mem.data: ", $realtime);
       foreach(input_trans.data[i])
-         $write("%x ", ob_mem.data[i]);
+         $write("%x ", ob_mem.data[i + o_offset_w]);
       $display("");
 
       ///////////////////////////////////////////
@@ -266,8 +266,8 @@ task memory_mode();
       $display("==========Computation Finished==========");
       $write("@%0t: ob_mem.data: ", $realtime);
       foreach(input_trans.data[i]) begin
-         $write("%x ", ob_mem.data[i]);
-         $fwrite(f, "%x\n", ob_mem.data[i]);
+         $write("%x ", ob_mem.data[i + o_offset_w]);
+         $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
       end
       $display("");
    end
