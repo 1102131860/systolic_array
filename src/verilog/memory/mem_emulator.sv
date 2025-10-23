@@ -10,7 +10,7 @@ module mem_emulator #(parameter WIDTH=32, SIZE=256) (
 	logic [WIDTH-1:0] data [SIZE-1:0];
 	
     // FF logic
-	always_ff @(posedge clk_i) begin
+	always @(posedge clk_i) begin
 		if (~cenb_i) begin
 			if (wenb_i) begin // read
 				q_o <= data[addr_i];			
