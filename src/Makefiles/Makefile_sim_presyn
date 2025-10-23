@@ -69,5 +69,8 @@ clean:
 	rm -rf simv.daidir
 	rm -rf csrc
 	rm -rf simv
+	rm -rf golden_outputs/GOLD_OUTPUTS.txt
+	rm -rf inputs/INPUTS.txt
+	rm -rf inputs/WEIGHTS.txt
 
 

@@ -82,8 +82,8 @@ task external_mode();
       input_trans = new("input_trans");
       weight_trans = new("weight_trans");
 
-      input_trans.read_mem_file("inputs/systolic_in_2_input.hex");
-      weight_trans.read_mem_file("inputs/systolic_in_2_weight.hex");
+      input_trans.read_mem_file("inputs/INPUTS.txt");
+      weight_trans.read_mem_file("inputs/WEIGHTS.txt");
 
       reset_signals();
       @(posedge clk_i);
@@ -101,9 +101,9 @@ task external_mode();
 
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = ROW;
-      w_cols_i             = COL;
-      i_rows_i             = w_rows_i;
+      w_rows_i             = '0; // pure combinational logic, no need configuration
+      w_cols_i             = '0;
+      i_rows_i             = '0;
       w_offset             = '0;
       i_offset             = '0;
       psum_offset_r        = '0;
@@ -174,8 +174,8 @@ task memory_mode();
       input_trans = new("input_trans");
       weight_trans = new("weight_trans");
 
-      input_trans.read_mem_file("inputs/systolic_in_1_input.hex");
-      weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+      input_trans.read_mem_file("inputs/INPUTS.txt");
+      weight_trans.read_mem_file("inputs/WEIGHTS.txt");
 
       reset_signals();
       @(posedge clk_i);
@@ -234,14 +234,6 @@ task memory_mode();
       ext_en_i            = '0;
       @(posedge clk_i);
 
-      // Monitor how the addr is updated
-   `ifdef DEBUG
-      fork
-         $monitor("@%0t: ib_mem_addr_o = %0d, wb_mem_addr_o = %0d, ob_mem_addr_o = %0d",
-         $realtime, ib_mem_addr_o, wb_mem_addr_o, ob_mem_addr_o);
-      join_none
-   `endif
-
       // display initialized memory
       $display("==========Initial Memory==========");
       $write("@%0t: ib_mem.data: ", $realtime);
@@ -285,7 +277,7 @@ task bist_mode();
    begin
       mem_trans weight_trans;
       weight_trans = new("weight_trans");
-      weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+      weight_trans.read_mem_file("inputs/WEIGHTS.txt");
 
       // Clear all the signals
       reset_signals();
@@ -305,9 +297,9 @@ task bist_mode();
       // data configuration
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = ROW;
-      w_cols_i             = COL;
-      i_rows_i             = w_rows_i;
+      w_rows_i             = '0; // pure combinational logic, no need configuration
+      w_cols_i             = '0;
+      i_rows_i             = '0;
       w_offset             = '0;
       i_offset             = '0;
       psum_offset_r        = '0;
