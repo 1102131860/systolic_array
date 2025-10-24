@@ -101,7 +101,7 @@ task external_mode();
 
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = '0; // pure combinational logic, no need configuration
+      w_rows_i             = '0; // purely combinational logic, no need configuration
       w_cols_i             = '0;
       i_rows_i             = '0;
       w_offset             = '0;
@@ -162,6 +162,7 @@ task external_mode();
       // Deassert ext_en_i
       ext_en_i = '0;
       ext_valid_en_i = '0;
+      disable fork;
    end
 endtask
 
@@ -297,7 +298,7 @@ task bist_mode();
       // data configuration
       start_i              = '0;
       en_i                 = '1;
-      w_rows_i             = '0; // pure combinational logic, no need configuration
+      w_rows_i             = '0; // purely combinational logic, no need configuration
       w_cols_i             = '0;
       i_rows_i             = '0;
       w_offset             = '0;
@@ -354,12 +355,22 @@ task bist_mode();
             if (!ext_valid_o && matrix_mult_0.driver_valid_o_w)
                $display("@%0t: tracking driver_data_w = %x", $realtime, matrix_mult_0.driver_data_w);
          end
+      join_none;
 
-         begin
-            wait(ext_valid_o);
-            $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
-            $fwrite(f, "%x\n", ext_result_o);
-         end 
-      join_none
+      @(posedge ext_valid_o);
+      $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
+      $fwrite(f, "%x\n", ext_result_o);
+      disable fork;
    end
+endtask
+
+task run_all();
+   $display("@%0t===============Memory Mode==================", $realtime);
+   memory_mode();
+
+   $display("@%0t===============External Mode==================", $realtime);
+   external_mode();
+
+   $display("@%0t===============BiST Mode==================", $realtime);
+   bist_mode();
 endtask

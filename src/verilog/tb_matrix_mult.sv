@@ -223,10 +223,10 @@ module tb_matrix_mult;
       repeat (10) @(posedge clk_i);	
       
       case(testname)
-      	 "external":   external_mode();
-      	 "memory":     memory_mode();
-      	 "bist":       bist_mode();
-      	 default:      memory_mode();
+      	"external":   external_mode();
+      	"memory":     memory_mode();
+      	"bist":       bist_mode();
+      	default:      run_all();
       endcase
       #1000 
       $fclose(f);
