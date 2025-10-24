@@ -46,9 +46,7 @@ module matrix_mult_group3 #(parameter WIDTH=8, ROW=4, COL=4, W_SIZE=256, I_SIZE=
   output logic                          done_o            // data controls
 );
 
-// dec;are counter for external mode
-localparam EXT_OUT_OFFSET = ROW;
-logic [$clog2(EXT_OUT_OFFSET)-1:0]  ext_count_r;        // counter for external mode
+logic [$clog2(ROW)-1:0]  ext_count_r;                   // counter for external mode
 
 // declare interfacing signals between systolic array and controller
 logic [0:ROW-1][0:COL-1]            ctrl_load_b, ctrl_sum_out_b, ctrl_ps_in_b, ctrl_ps_valid_b;
@@ -73,8 +71,8 @@ always_ff @(posedge clk_i or negedge rstn_i) begin : control_ext_valid_o
     else begin
         ext_valid_o <= '0;
         if (!start_i && ext_en_i && ext_inputs_i.ext_valid) begin
-            ext_valid_o <= (ext_count_r == EXT_OUT_OFFSET - 1);
-            if (ext_count_r < EXT_OUT_OFFSET - 1)
+            ext_valid_o <= (ext_count_r == ROW - 1);
+            if (ext_count_r < ROW - 1)
                 ext_count_r <= ext_count_r + 1;
         end else
             ext_count_r <= '0;
