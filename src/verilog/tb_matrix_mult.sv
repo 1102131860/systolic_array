@@ -1,21 +1,24 @@
 module tb_matrix_mult;
 
-   parameter WIDTH         = 8;
-   parameter ROW           = 4;
-   parameter COL           = 4;
-   parameter W_SIZE        = 512;
-   parameter I_SIZE        = 512;
-   parameter O_SIZE        = 512;
-   parameter DRIVER_WIDTH  = WIDTH * ( ROW + COL );
-
-   parameter MAX_ROW       = 16;
-   parameter MAX_COL       = 16;
-   parameter EXTRA_BITS    = 4;
-
    parameter CLOCK_PERIOD        = 10;
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
-   
+
+   localparam WIDTH              = matrix_mult_pkg::WIDTH;
+   localparam ROW                = matrix_mult_pkg::ROW;
+   localparam COL                = matrix_mult_pkg::COL;
+   localparam W_SIZE             = matrix_mult_pkg::W_SIZE;
+   localparam I_SIZE             = matrix_mult_pkg::I_SIZE;
+   localparam O_SIZE             = matrix_mult_pkg::O_SIZE;
+   localparam DRIVER_WIDTH       = matrix_mult_pkg::DRIVER_WIDTH;
+
+   localparam MAX_ROW            = matrix_mult_pkg::MAX_ROW;
+   localparam MAX_COL            = matrix_mult_pkg::MAX_COL;
+   localparam EXTRA_BITS         = matrix_mult_pkg::EXTRA_BITS;
+
+   localparam INPUT_DATA_WIDTH   = matrix_mult_pkg::INPUT_DATA_WIDTH;
+   localparam WEIGHT_DATA_WIDTH  = matrix_mult_pkg::WEIGHT_DATA_WIDTH;
+
    logic                         clk_i;
    logic                         rstn_async_i;
    logic                         start_i;
@@ -81,8 +84,8 @@ module tb_matrix_mult;
    logic                         ib_mem_cenb_r;
    logic                         ib_mem_wenb_r;
    logic [$clog2(I_SIZE)-1:0]    ib_mem_addr_r;
-   logic [ROW*WIDTH-1:0]         ib_mem_d_i_r;
-   logic [ROW*WIDTH-1:0]         ib_mem_q_o_r;
+   logic [INPUT_DATA_WIDTH-1:0]  ib_mem_d_i_r;
+   logic [INPUT_DATA_WIDTH-1:0]  ib_mem_q_o_r;
 
    // external input memory control
    logic                         ib_mem_cenb_ext_i;
@@ -93,8 +96,8 @@ module tb_matrix_mult;
    logic                         wb_mem_cenb_r;
    logic                         wb_mem_wenb_r;
    logic [$clog2(W_SIZE)-1:0]    wb_mem_addr_r;
-   logic [COL*WIDTH-1:0]         wb_mem_d_i_r;
-   logic [COL*WIDTH-1:0]         wb_mem_q_o_r;
+   logic [WEIGHT_DATA_WIDTH-1:0] wb_mem_d_i_r;
+   logic [WEIGHT_DATA_WIDTH-1:0] wb_mem_q_o_r;
 
    // external weight memory control
    logic                         wb_mem_cenb_ext_i;
@@ -105,14 +108,14 @@ module tb_matrix_mult;
    logic                         ob_mem_cenb_w;
    logic                         ob_mem_wenb_w;
    logic [$clog2(O_SIZE)-1:0]    ob_mem_addr_w;
-   logic [COL*WIDTH-1:0]         ob_mem_d_i_w;
-   logic [COL*WIDTH-1:0]         ob_mem_q_o_w;
+   logic [WEIGHT_DATA_WIDTH-1:0] ob_mem_d_i_w;
+   logic [WEIGHT_DATA_WIDTH-1:0] ob_mem_q_o_w;
 
    // external output memory control
    logic                         ob_mem_cenb_ext_i;
    logic                         ob_mem_wenb_ext_i;
    logic [$clog2(I_SIZE)-1:0]    ob_mem_addr_ext_i;
-   logic [COL*WIDTH-1:0]         ob_mem_d_i_ext_i;
+   logic [WEIGHT_DATA_WIDTH-1:0] ob_mem_d_i_ext_i;
 
    assign test_config_i.bypass                 = bypass_i;
    assign test_config_i.mode                   = mode_i;

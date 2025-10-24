@@ -1,5 +1,5 @@
 class mem_trans;
-   rand bit [COL*WIDTH-1:0] data[$];         // store memory data
+   rand bit [WEIGHT_DATA_WIDTH-1:0] data[$]; // store memory data
    string name;                              // memory transaction's name
 
    // Constructor
@@ -10,7 +10,7 @@ class mem_trans;
    // read data from file
    function void read_mem_file(string file_path);
       int fd;
-      bit [COL*WIDTH-1:0] tmp;
+      bit [WEIGHT_DATA_WIDTH-1:0] tmp;
       string line;
 
       fd = $fopen(file_path, "r");
@@ -192,7 +192,7 @@ task memory_mode();
       psum_offset_r       = '0;
       o_offset_w          = $urandom_range(O_SIZE - i_rows_i - 1);
       accum_enb_i         = '0;
-      extra_config_i      = 4'b0000; // weight stationary mode
+      extra_config_i[0]   = 1'b0; // weight stationary mode
 
       // back to normal state
       rstn_async_i        = '1;
