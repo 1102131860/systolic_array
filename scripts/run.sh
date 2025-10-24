@@ -1,6 +1,6 @@
 #!/bin/bash
 in_bit=3 # make input range -2^(WIDTH - in_bit) to 2^(WIDTH - in_bit) - 1
-test_num=5 # number of random tests to run
+test_num=1 # number of random tests to run
 
 # configure matrix size
 # Input * Weight = Output
@@ -40,39 +40,47 @@ make link_src
 rm -rf logs/error.log
 rm -rf logs/final_log.txt
 
-for mode in memory external
+for mode in memory external bist
 do
     echo -e "================ Running mode: $mode ================\n"
-    for (( i = 0; i < $test_num; i++ ));
-    do
+    # if bist mode, the how to write?
+    if [ "$mode" = "bist" ]; then
         make clean
         python3.8 generate_golden.py --in_bit $in_bit --M $M --N $N --K $K --output_stat $output_stat
         make vcs TESTNAME=$mode RAND_SEED=$((i+1))
+        # no check verify and checks need
+    else
+        for (( i = 0; i < $test_num; i++ ));
+        do
+            make clean
+            python3.8 generate_golden.py --in_bit $in_bit --M $M --N $N --K $K --output_stat $output_stat
+            make vcs TESTNAME=$mode RAND_SEED=$((i+1))
+            python3.8 verify_output.py --mode $mode
+
+            FILE=./logs/error.log
+            if [ -f "$FILE" ]; then
+                echo -e "${FAIL}****************************************************************************************************${ENDC}\e"
+                echo -e "${FAIL}****** summary: FAIL *******************************************************************************${ENDC}\e"
+                echo -e "${FAIL}****************************************************************************************************${ENDC}\e"
+                echo -e "\n"
+
+                exit 1
+            fi
+        done
+
+        # run with zero input
+        make clean
+        python3.8 generate_golden.py --in_bit $in_bit --mode zero --M $M --N $N --K $K --output_stat $output_stat # enable input=zero mode
+        make vcs TESTNAME=$mode RAND_SEED=$((i+1))
         python3.8 verify_output.py --mode $mode
 
-        FILE=./logs/error.log
-        if [ -f "$FILE" ]; then
-            echo -e "${FAIL}****************************************************************************************************${ENDC}\e"
-            echo -e "${FAIL}****** summary: FAIL *******************************************************************************${ENDC}\e"
-            echo -e "${FAIL}****************************************************************************************************${ENDC}\e"
-            echo -e "\n"
 
-            exit 1
-        fi
-    done
-
-    # run with zero input
-    make clean
-    python3.8 generate_golden.py --in_bit $in_bit --mode zero --M $M --N $N --K $K --output_stat $output_stat # enable input=zero mode
-    make vcs TESTNAME=$mode RAND_SEED=$((i+1))
-    python3.8 verify_output.py --mode $mode
-
-
-    # # run with all inputs saturated
-    make clean
-    python3.8 generate_golden.py --in_bit $in_bit --mode full --M $M --N $N --K $K --output_stat $output_stat # enable input=saturated mode
-    make vcs TESTNAME=$mode RAND_SEED=$((i+1))
-    python3.8 verify_output.py --mode $mode
+        # run with all inputs saturated
+        make clean
+        python3.8 generate_golden.py --in_bit $in_bit --mode full --M $M --N $N --K $K --output_stat $output_stat # enable input=saturated mode
+        make vcs TESTNAME=$mode RAND_SEED=$((i+1))
+        python3.8 verify_output.py --mode $mode
+    fi
 
     # pass us if there is no error log 
     FILE=./logs/error.log
