@@ -53,17 +53,19 @@ task initialize_signals();
       accum_enb_i         = '0;
       extra_config_i      = '0;
 
+      bypass_i            = '1;
+      mode_i              = '1;
+      driver_valid_i      = '0;
+      driver_stop_code_i  = '0;
+
+      // avoid setup/hold violation for ext_result_o_reg
+      #OFFSET;
       ext_en_i            = '0;
       ext_input_i         = '0;
       ext_weight_i        = '0;
       ext_psum_i          = '0;
       ext_valid_en_i      = '0;
       ext_weight_en_i     = '0;
-   
-      bypass_i            = '1;
-      mode_i              = '1;
-      driver_valid_i      = '0;
-      driver_stop_code_i  = '0;
    end
 endtask
 
@@ -88,6 +90,12 @@ task external_mode();
       reset_signals();
       @(posedge clk_i);
 
+      // back to normal state
+      rstn_async_i         = '1;
+      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
+      // when rstn_async_i is asserted as high
+      repeat(2) @(posedge clk_i);
+      
       // SET CONTROL SIGNALS
       // mode_i[0]: Driver should be 1, External Input
       // mode_i[1]: Mointor shoule be 1, Direct Output
@@ -96,27 +104,6 @@ task external_mode();
       // bypass_i[2]: sa_bypass_w should be 1 (bypass)
       mode_i               = 2'b11;
       bypass_i             = 3'b101;
-      driver_valid_i       = '0;
-      driver_stop_code_i   = '0;
-
-      start_i              = '0;
-      en_i                 = '1;
-      w_rows_i             = '0; // purely combinational logic, no need configuration
-      w_cols_i             = '0;
-      i_rows_i             = '0;
-      w_offset             = '0;
-      i_offset             = '0;
-      psum_offset_r        = '0;
-      o_offset_w           = '0;
-      accum_enb_i          = '0;
-      extra_config_i       = '0; // extra_config_i[0]: weight_stationary mode (0); output_stationary mode(1)
-
-      // back to normal state
-      rstn_async_i = '1;
-      // wait 2 more cycles for async_nreset_synchronizer to correctly sample
-      // when rstn_async_i is asserted as high
-      repeat(2) @(posedge clk_i);
-      
       // Assert ext_en_i
       ext_en_i              = '1;
 
@@ -133,6 +120,8 @@ task external_mode();
       // COMPARE RESULTS
       fork
          forever @(posedge clk_i) begin
+            // avoid 1 more cycle sampling
+            #OFFSET;
             if (ext_valid_o) begin
                $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
                $fwrite(f, "%x\n", ext_result_o);
@@ -170,28 +159,22 @@ task memory_mode(input bit en_output_sat=0);
    begin
       mem_trans input_trans;
       mem_trans weight_trans;
+      int w_rows_int, w_cols_int, i_rows_int, w_offset_int, i_offset_int, o_offset_int;
 
       input_trans = new("input_trans");
       weight_trans = new("weight_trans");
-
       input_trans.read_mem_file("inputs/INPUTS.txt");
       weight_trans.read_mem_file("inputs/WEIGHTS.txt");
 
+      w_rows_int = weight_trans.data.size();
+      w_cols_int = COL;
+      i_rows_int = input_trans.data.size();
+      w_offset_int = $urandom_range(W_SIZE - w_rows_i - 1);
+      i_offset_int = $urandom_range(I_SIZE - i_rows_i - 1);
+      o_offset_int = $urandom_range(O_SIZE - i_rows_i - 1);
+
       reset_signals();
       @(posedge clk_i);
-
-      ///////////////////////////////////////////
-      // SET CONTROL SIGNALS
-      ///////////////////////////////////////////
-      w_rows_i            = weight_trans.data.size();
-      w_cols_i            = COL;
-      i_rows_i            = input_trans.data.size();
-      w_offset            = $urandom_range(W_SIZE - w_rows_i - 1);
-      i_offset            = $urandom_range(I_SIZE - i_rows_i - 1);
-      psum_offset_r       = '0;
-      o_offset_w          = $urandom_range(O_SIZE - i_rows_i - 1);
-      accum_enb_i         = '0;
-      extra_config_i[0]   = en_output_sat; // weight stationary mode (0) or output stationary mode(1)
 
       // back to normal state
       rstn_async_i        = '1;
@@ -202,19 +185,19 @@ task memory_mode(input bit en_output_sat=0);
       ///////////////////////////////////////////
       // enable external mode to load input and weight
       ext_en_i            = '1;
-      foreach(input_trans.data[i]) begin
+      for (int i = 0; i < i_rows_int; i++) begin
          ib_mem_cenb_ext_i <= '0;
          ib_mem_wenb_ext_i <= '0;
-         ib_mem_addr_ext_i <= i + i_offset;
+         ib_mem_addr_ext_i <= i + i_offset_int;
          ib_mem_d_i_r      <= input_trans.data[i];
          @(posedge clk_i);
       end
       // not select ib_mem any more
       ib_mem_cenb_ext_i   = '1;
-      foreach(weight_trans.data[i]) begin
+      for (int i = 0; i < w_rows_int; i++) begin
          wb_mem_cenb_ext_i <= '0;
          wb_mem_wenb_ext_i <= '0;
-         wb_mem_addr_ext_i <= i + w_offset;
+         wb_mem_addr_ext_i <= i + w_offset_int;
          wb_mem_d_i_r      <= weight_trans.data[i];
          @(posedge clk_i);
       end
@@ -225,15 +208,15 @@ task memory_mode(input bit en_output_sat=0);
          for (int i = 0; i < ROW; i++) begin
             ob_mem_cenb_ext_i <= '0;
             ob_mem_wenb_ext_i <= '0;
-            ob_mem_addr_ext_i <= i + o_offset_w;
+            ob_mem_addr_ext_i <= i + o_offset_int;
             ob_mem_d_i_ext_i  <= '0;
             @(posedge clk_i);
          end
       else
-         foreach(input_trans.data[i]) begin
+         for (int i = 0; i < i_rows_int; i++) begin
             ob_mem_cenb_ext_i <= '0;
             ob_mem_wenb_ext_i <= '0;
-            ob_mem_addr_ext_i <= i + o_offset_w;
+            ob_mem_addr_ext_i <= i + o_offset_int;
             ob_mem_d_i_ext_i  <= '0;
             @(posedge clk_i);
          end
@@ -247,20 +230,34 @@ task memory_mode(input bit en_output_sat=0);
       $display("==========Initial Memory==========");
       $write("@%0t: ib_mem.data: ", $realtime);
       foreach(input_trans.data[i])
-         $write("%0d: %x ", i + i_offset, ib_mem.data[i + i_offset]);
+         $write("%0d: %x ", i + i_offset_int, ib_mem.data[i + i_offset_int]);
       $display("");
       $write("@%0t: wb_mem.data: ", $realtime);
       foreach(weight_trans.data[i])
-         $write("%0d: %x ", i + w_offset, wb_mem.data[i + w_offset]);
+         $write("%0d: %x ", i + w_offset_int, wb_mem.data[i + w_offset_int]);
       $display("");
       $write("@%0t: ob_mem.data: ", $realtime);
       if (en_output_sat)
          for (int i = 0; i < ROW; i++)
-            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
+            $write("%0d: %x ", i + o_offset_int, ob_mem.data[i + o_offset_int]);
       else
          foreach(input_trans.data[i])
-            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
+            $write("%0d: %x ", i + o_offset_int, ob_mem.data[i + o_offset_int]);
       $display("");
+
+      ///////////////////////////////////////////
+      // SET CONTROL SIGNALS just before start_i (not in rst_n)
+      ///////////////////////////////////////////
+      // data config
+      w_rows_i            = w_rows_int;
+      w_cols_i            = w_cols_int;
+      i_rows_i            = i_rows_int;
+      w_offset            = w_offset_int;
+      i_offset            = i_offset_int;
+      o_offset_w          = o_offset_int;
+      psum_offset_r       = '0;
+      accum_enb_i         = '0;
+      extra_config_i[0]   = en_output_sat; // weight stationary mode (0) or output stationary mode(1)
 
       ///////////////////////////////////////////
       // Start Computing
@@ -280,13 +277,13 @@ task memory_mode(input bit en_output_sat=0);
       $write("@%0t: ob_mem.data: ", $realtime);
       if (en_output_sat)
          for (int i = 0; i < ROW; i++) begin
-            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
-            $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
+            $write("%0d: %x ", i + o_offset_int, ob_mem.data[i + o_offset_int]);
+            $fwrite(f, "%x\n", ob_mem.data[i + o_offset_int]);
          end
       else
          foreach(input_trans.data[i]) begin
-            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
-            $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
+            $write("%0d: %x ", i + o_offset_int, ob_mem.data[i + o_offset_int]);
+            $fwrite(f, "%x\n", ob_mem.data[i + o_offset_int]);
          end
       $display("");
    end
@@ -305,28 +302,19 @@ task bist_mode();
       ///////////////////////////////////////////
       // SET CONTROL SIGNALS
       ///////////////////////////////////////////
+      // mode_i[0]: Driver should be 1, External Input
+      // mode_i[1]: Mointor shoule be 1, Direct Output
+      // bypass_i[0]: drive_bypass_w should be 1 (bypass)
+      // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
+      // bypass_i[2]: sa_bypass_w should be 1 (bypass)
+      mode_i               = 2'b11;
+      bypass_i             = 3'b101;
       driver_valid_i       = '0;
       // set lsfr stop code here
       driver_stop_code_i   = 64'h6534214444123481;
       // set lsfr and signature analyzer seeds here
       {ext_input_i, ext_psum_i} = 64'h7865342144441234;
-      mode_i               = 2'b11;
-      bypass_i             = 3'b101;
-      
-      // data configuration
-      start_i              = '0;
-      en_i                 = '1;
-      w_rows_i             = '0; // purely combinational logic, no need configuration
-      w_cols_i             = '0;
-      i_rows_i             = '0;
-      w_offset             = '0;
-      i_offset             = '0;
-      psum_offset_r        = '0;
-      o_offset_w           = '0;
-      accum_enb_i          = '0;
-      
-      // reset to set lsfr and signature analyzer's stop code and seeds
-      rstn_async_i         = 1'b0;
+
       // clear signals for 1 cycle
       @(posedge clk_i);
       // back to noraml state by asserting rstn_async_i
@@ -337,6 +325,7 @@ task bist_mode();
       ///////////////////////////////////////////
       // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
       ///////////////////////////////////////////
+      // keep on external mode
       ext_en_i             = '1;
       // LOAD WEIGHTS
       foreach(weight_trans.data[i]) begin
@@ -359,12 +348,12 @@ task bist_mode();
       // bypass_i[0]: drive_bypass_w should be 0 (not bypass)
       // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
       // bypass_i[2]: sa_bypass_w should be 0 (not bypass)
-      bypass_i             = 3'b000;
       mode_i               = 2'b00;
+      bypass_i             = 3'b000;
       driver_valid_i       = '1;
       // enable input activation as well
       ext_valid_en_i       = '1;
-      
+
       ///////////////////////////////////////////
       // COMPARE RESULTS
       ///////////////////////////////////////////

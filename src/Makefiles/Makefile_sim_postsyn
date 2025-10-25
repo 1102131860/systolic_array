@@ -46,6 +46,12 @@ vcs:$(TOPLEVEL)_syn.include
 		-lca -kdb
 		# simv 
 
+vrd:
+	verdi -dbdir ./simv.daidir/ &
+
+urg:
+	urg -dir simv.vdb -format text -report cover_report
+
 wipe:
 	rm -rf *.include
 	rm -rf syn_results
