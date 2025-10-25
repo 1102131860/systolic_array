@@ -211,6 +211,9 @@ module tb_matrix_mult_wrapper;
         $fsdbDumpfile("matrix_mult_wrapper.fsdb");
         $fsdbDumpon;
         $fsdbDumpvars(0, matrix_mult_wrapper_0, "+mda", "+all", "+trace_process");
+        $fsdbDumpvars(0, ib_mem, "+mda", "+all", "+trace_process");
+        $fsdbDumpvars(0, wb_mem, "+mda", "+all", "+trace_process");
+        $fsdbDumpvars(0, ob_mem, "+mda", "+all", "+trace_process");
         `ifdef SDF 
             $sdf_annotate("./matrix_mult_wrapper_group3.sdf", matrix_mult_wrapper_0);
         `endif

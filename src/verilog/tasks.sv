@@ -40,6 +40,7 @@ endclass
 
 task initialize_signals();
    begin
+      #OFFSET;
       rstn_async_i        = 1'b0;
       start_i             = '0;
       en_i                = '1;
@@ -86,6 +87,14 @@ task external_mode();
 
       input_trans.read_mem_file("inputs/INPUTS.txt");
       weight_trans.read_mem_file("inputs/WEIGHTS.txt");
+
+      fork
+         $fmonitor(f, "@%0t: matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i: %x, \
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed: %x",
+            $realtime,
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i,
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed);
+      join_none
 
       reset_signals();
       @(posedge clk_i);
@@ -172,6 +181,14 @@ task memory_mode(input bit en_output_sat=0);
       w_offset_int = $urandom_range(W_SIZE - w_rows_i - 1);
       i_offset_int = $urandom_range(I_SIZE - i_rows_i - 1);
       o_offset_int = $urandom_range(O_SIZE - i_rows_i - 1);
+
+      fork
+         $fmonitor(f, "@%0t: matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i: %x, \
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed: %x",
+            $realtime,
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i,
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed);
+      join_none
 
       reset_signals();
       @(posedge clk_i);
