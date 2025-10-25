@@ -167,7 +167,7 @@ task external_mode();
 endtask
 
 // This only test the weight stationary mode
-task memory_mode();
+task memory_mode(input bit en_output_sat=0);
    begin
       mem_trans input_trans;
       mem_trans weight_trans;
@@ -192,7 +192,7 @@ task memory_mode();
       psum_offset_r       = '0;
       o_offset_w          = $urandom_range(O_SIZE - i_rows_i - 1);
       accum_enb_i         = '0;
-      extra_config_i[0]   = 1'b0; // weight stationary mode
+      extra_config_i[0]   = en_output_sat; // weight stationary mode (0) or output stationary mode(1)
 
       // back to normal state
       rstn_async_i        = '1;
@@ -222,13 +222,22 @@ task memory_mode();
       // not select wb_mem any more
       wb_mem_cenb_ext_i   = '1;
       // clear up output memory with O_SIZE data as well
-      foreach(input_trans.data[i]) begin
-         ob_mem_cenb_ext_i <= '0;
-         ob_mem_wenb_ext_i <= '0;
-         ob_mem_addr_ext_i <= i + o_offset_w;
-         ob_mem_d_i_ext_i  <= '0;
-         @(posedge clk_i);
-      end
+      if (en_output_sat)
+         for (int i = 0; i < ROW; i++) begin
+            ob_mem_cenb_ext_i <= '0;
+            ob_mem_wenb_ext_i <= '0;
+            ob_mem_addr_ext_i <= i + o_offset_w;
+            ob_mem_d_i_ext_i  <= '0;
+            @(posedge clk_i);
+         end
+      else
+         foreach(input_trans.data[i]) begin
+            ob_mem_cenb_ext_i <= '0;
+            ob_mem_wenb_ext_i <= '0;
+            ob_mem_addr_ext_i <= i + o_offset_w;
+            ob_mem_d_i_ext_i  <= '0;
+            @(posedge clk_i);
+         end
       // not select ob_mem any more
       ob_mem_cenb_ext_i   = '1;
       // exits external mode
@@ -246,8 +255,12 @@ task memory_mode();
          $write("%0d: %x ", i + w_offset, wb_mem.data[i + w_offset]);
       $display("");
       $write("@%0t: ob_mem.data: ", $realtime);
-      foreach(input_trans.data[i])
-         $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
+      if (en_output_sat)
+         for (int i = 0; i < ROW; i++)
+            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
+      else
+         foreach(input_trans.data[i])
+            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
       $display("");
 
       ///////////////////////////////////////////
@@ -266,10 +279,16 @@ task memory_mode();
       ///////////////////////////////////////////
       $display("==========Computation Finished==========");
       $write("@%0t: ob_mem.data: ", $realtime);
-      foreach(input_trans.data[i]) begin
-         $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
-         $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
-      end
+      if (en_output_sat)
+         for (int i = 0; i < ROW; i++) begin
+            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
+            $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
+         end
+      else
+         foreach(input_trans.data[i]) begin
+            $write("%0d: %x ", i + o_offset_w, ob_mem.data[i + o_offset_w]);
+            $fwrite(f, "%x\n", ob_mem.data[i + o_offset_w]);
+         end
       $display("");
    end
 endtask

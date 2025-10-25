@@ -177,7 +177,7 @@ module tb_matrix_mult;
       .O_SIZE  (O_SIZE  )
    ) matrix_mult_0 (.*);
 
-   mem_emulator #(.WIDTH(ROW*WIDTH), .SIZE(I_SIZE))
+   mem_emulator #(.WIDTH(INPUT_DATA_WIDTH), .SIZE(I_SIZE))
       ib_mem (
          .clk_i   (clk_i            ),
          .cenb_i  (ib_mem_cenb_r    ),
@@ -187,7 +187,7 @@ module tb_matrix_mult;
          .q_o     (ib_mem_q_o_r     )
    );
 
-   mem_emulator #(.WIDTH(COL*WIDTH), .SIZE(W_SIZE))
+   mem_emulator #(.WIDTH(WEIGHT_DATA_WIDTH), .SIZE(W_SIZE))
       wb_mem (
          .clk_i   (clk_i            ),
          .cenb_i  (wb_mem_cenb_r    ),
@@ -197,7 +197,7 @@ module tb_matrix_mult;
          .q_o     (wb_mem_q_o_r     )
    );
 
-   mem_emulator #(.WIDTH(COL*WIDTH), .SIZE(O_SIZE))
+   mem_emulator #(.WIDTH(WEIGHT_DATA_WIDTH), .SIZE(O_SIZE))
       ob_mem (
          .clk_i   (clk_i            ),
          .cenb_i  (ob_mem_cenb_w    ),
@@ -229,6 +229,7 @@ module tb_matrix_mult;
       	"external":   external_mode();
       	"memory":     memory_mode();
       	"bist":       bist_mode();
+         "output_stat":memory_mode(1);
       	default:      run_all();
       endcase
       #1000 
