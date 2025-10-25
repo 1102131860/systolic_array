@@ -9,6 +9,6 @@
 ./lfsr.sv
 ./misr.sv
 ./pseudo_rand_num_gen.sv
-./signature_analizer.sv
+./signature_analyzer.sv
 ./matrix_mult_wrapper.sv
-./tb_matrix_mult.sv
+./tb_matrix_mult_wrapper.sv

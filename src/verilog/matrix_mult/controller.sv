@@ -50,36 +50,36 @@ always_ff @(posedge clk_i or negedge rstn_i) // active low asynch reset
 always_comb begin
     next_state_r = STATEX;
     case (state_r)
-        IDLE:   if (config_i.extra_config[0]) begin
-                    if (start_i)                                    next_state_r = IN;
-                    else                                            next_state_r = IDLE;
-                end 
-                else begin
-                    if (start_i)                                    next_state_r = LOAD;
-                    else                                            next_state_r = IDLE;
-                end
-        LOAD:       if (count_r == ROW + 1)                         next_state_r = IN;
-                    else                                            next_state_r = LOAD;
-        IN:     if (config_i.extra_config[0]) begin
-                    if (count_r == config_i.w_rows + ROW + 1)       next_state_r = OUT;
-                    else                                            next_state_r = IN;
-                end 
-                else begin
-                    if (count_r == 2*ROW + 2)                       next_state_r = IN_OUT;
-                    else                                            next_state_r = IN;
-                end
-        IN_OUT:     if (count_r == ROW + 2 + config_i.i_rows)       next_state_r = OUT;
-                    else                                            next_state_r = IN_OUT;
-        OUT:    if (config_i.extra_config[0]) begin
-                    if (count_r == config_i.w_rows + 2*ROW + 1)     next_state_r = DONE;
-                    else                                            next_state_r = OUT;
-                end 
-                else begin
-                    if (count_r == ROW + COL + config_i.i_rows + 3) next_state_r = DONE;
-                    else                                            next_state_r = OUT; 
-                end
-        DONE:                                                       next_state_r = IDLE;
-        default:                                                    next_state_r = STATEX;
+        IDLE:       if (config_i.extra_config[0]) begin
+                        if (start_i)                                    next_state_r = IN_ONLY;
+                        else                                            next_state_r = IDLE;
+                    end 
+                    else begin
+                        if (start_i)                                    next_state_r = LOAD;
+                        else                                            next_state_r = IDLE;
+                    end
+        LOAD:       if (count_r == ROW + 1)                             next_state_r = IN_ONLY;
+                    else                                                next_state_r = LOAD;
+        IN_ONLY:    if (config_i.extra_config[0]) begin
+                        if (count_r == config_i.w_rows + ROW + 1)       next_state_r = OUT_ONLY;
+                        else                                            next_state_r = IN_ONLY;
+                    end 
+                    else begin
+                        if (count_r == 2*ROW + 2)                       next_state_r = IN_OUT;
+                        else                                            next_state_r = IN_ONLY;
+                    end
+        IN_OUT:     if (count_r == ROW + 2 + config_i.i_rows)           next_state_r = OUT_ONLY;
+                    else                                                next_state_r = IN_OUT;
+        OUT_ONLY:   if (config_i.extra_config[0]) begin
+                        if (count_r == config_i.w_rows + 2*ROW + 1)     next_state_r = DONE;
+                        else                                            next_state_r = OUT_ONLY;
+                    end 
+                    else begin
+                        if (count_r == ROW + COL + config_i.i_rows + 3) next_state_r = DONE;
+                        else                                            next_state_r = OUT_ONLY; 
+                    end
+        DONE:                                                           next_state_r = IDLE;
+        default:                                                        next_state_r = STATEX;
     endcase
 end
 
@@ -87,44 +87,44 @@ end
 always_comb begin
     next_ps_valid_b = '0; // default
     case (state_r)
-        IDLE:   ;
-        LOAD:   ;
-        IN:     if (config_i.extra_config[0]) begin
-                    next_ps_valid_b = ctrl_ps_valid_o;
-                    if (count_r == 1) begin
-                        for (int i = 0; i < ROW; i++) begin
-                            for (int j = 0; j < COL; j++) begin
-                                // all bits 0 except for index (0, 0) = 1
-                                next_ps_valid_b[i][j] = (i == 0 && j == 0) ? 1'b1 : 1'b0;
-                            end
-                        end
-                    end
-                    else begin
-                        // push all rows down by 1
-                        for (int i = ROW-1; i > 0; i--) begin
-                            for (int j = 0; j < COL; j++) begin
-                                next_ps_valid_b[i][j] = next_ps_valid_b[i-1][j];
-                            end
-                        end
-
-                        // create new first row
-                        if (count_r < (config_i.w_rows - COL + 2)) begin
-                            for (int j = 0; j < COL; j++) begin
-                                // 1 0 0 --> 1 1 0 --> 1 1 1
-                                next_ps_valid_b[0][j] = (j < count_r) ? 1'b1 : 1'b0;
+        IDLE:       ;
+        LOAD:       ;
+        IN_ONLY:    if (config_i.extra_config[0]) begin
+                        next_ps_valid_b = ctrl_ps_valid_o;
+                        if (count_r == 1) begin
+                            for (int i = 0; i < ROW; i++) begin
+                                for (int j = 0; j < COL; j++) begin
+                                    // all bits 0 except for index (0, 0) = 1
+                                    next_ps_valid_b[i][j] = (i == 0 && j == 0) ? 1'b1 : 1'b0;
+                                end
                             end
                         end
                         else begin
-                            for (int j = 0; j < COL; j++) begin
-                                // 1 1 1 --> 1 1 0 ---> 1 0 0 
-                                next_ps_valid_b[0][j] = (j > count_r - (config_i.w_rows - COL + 2)) ? 1'b1 : 1'b0;
+                            // push all rows down by 1
+                            for (int i = ROW-1; i > 0; i--) begin
+                                for (int j = 0; j < COL; j++) begin
+                                    next_ps_valid_b[i][j] = next_ps_valid_b[i-1][j];
+                                end
+                            end
+
+                            // create new first row
+                            if (count_r < (config_i.w_rows - COL + 2)) begin
+                                for (int j = 0; j < COL; j++) begin
+                                    // 1 0 0 --> 1 1 0 --> 1 1 1
+                                    next_ps_valid_b[0][j] = (j < count_r) ? 1'b1 : 1'b0;
+                                end
+                            end
+                            else begin
+                                for (int j = 0; j < COL; j++) begin
+                                    // 1 1 1 --> 1 1 0 ---> 1 0 0 
+                                    next_ps_valid_b[0][j] = (j > count_r - (config_i.w_rows - COL + 2)) ? 1'b1 : 1'b0;
+                                end
                             end
                         end
                     end
-                end
-        IN_OUT: ;
-        OUT:    ;
-        DONE:   ;
+        IN_OUT:     ;
+        OUT_ONLY:   ;
+        DONE:       ;
         default:    next_ps_valid_b = 'x;
     endcase
 end
@@ -137,9 +137,9 @@ always_ff @(posedge clk_i or negedge rstn_i)
         case (next_state_r)
             IDLE:       count_r <= 0;
             LOAD:       ;
-            IN:         ;
+            IN_ONLY:    ;
             IN_OUT:     ;
-            OUT:        ;
+            OUT_ONLY:   ;
             DONE:       ;
             default:    count_r <= 'x;
         endcase
@@ -206,7 +206,7 @@ always_ff @(posedge clk_i or negedge rstn_i)
                             // ctrl_load_o <= (wb_mem_addr_o == ROW - 1) ? '1 : '0;
                             ctrl_load_o <= (wb_mem_addr_o == config_i.w_offset + ROW - 1) ? '1 : '0;
                         end
-            IN:         begin
+            IN_ONLY:    begin
                             ib_mem_cenb_o <= 1'b0; // read inputs memory
                             ib_mem_addr_o <= (config_i.extra_config[0] ? count_r : (count_r - ROW - 1)) + config_i.i_offset;
 
@@ -231,7 +231,7 @@ always_ff @(posedge clk_i or negedge rstn_i)
 
                             ctrl_ps_valid_o <= next_ps_valid_b; // increment partial sums controls
                         end
-            OUT:        begin
+            OUT_ONLY:   begin
                             ob_mem_cenb_o <= 1'b0; // enable outputs memory
                             ob_mem_wenb_o <= 1'b0; // write outputs memory
                             ob_mem_addr_o <= (config_i.extra_config[0] ? (count_r - config_i.w_rows - ROW - 1) : (count_r - 2*ROW - 2)) + config_i.o_offset_w;

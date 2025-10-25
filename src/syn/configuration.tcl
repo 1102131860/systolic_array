@@ -33,7 +33,7 @@ set TARGETCELLLIB_PATH "$TSMC_PATH/Front_End/timing_power_noise/NLDM/tcbn65gplus
 #The TYPICAL_LIB_FILE is not actually used. We've just defined it here for reference for you to 
 #take a quick glance at. It contains timing and power information for each cell as a function of 
 #different parameters (loading, slew-rate etc.)
-set TYPICAL_LIB_FILE "$TSMC_PATH/digital/Front_End/timing_power_noise/NLDM/tcbn65gplustc.lib"
+set TYPICAL_LIB_FILE "$TSMC_PATH/Front_End/timing_power_noise/NLDM/tcbn65gplustc.lib"
 
 #Comment on search path, which helps understand link_libraries and additional_search_paths below :)
 #Search Path:This variable specifies directories that the tool searches for files specified without directory names. The search 
@@ -136,7 +136,7 @@ set TECH2ITF_MAP_FILE "star.map_9M"
 #Leave PROJECT_DIR alone. To understand why
 #see where and how it's used in this directory
 #(Hint: grep for it)
-set DESIGN "matrix_mult_wrapper_<group_num>"
+set DESIGN "matrix_mult_wrapper_group3"
 set PROJECT_DIR ".."
 
 # Options that are used to direct the compiler. Look these up in the documentation.

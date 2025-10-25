@@ -1,10 +1,11 @@
-TOPLEVEL= matrix_mult_wrapper
-TESTNAME=default
+TOPLEVEL=matrix_mult_wrapper
+TESTNAME?=default
 SRC_VERILOG=../../src/verilog
 SYN_FOLDER=../../syn/results
-SRC_FOLDER= $(SRC_VERILOG)
+SRC_FOLDER=$(SRC_VERILOG)
 SIM=1
 SDF=1
+RAND_SEED?=42
 
 #Build up a list of verilog define statements to be used by vcs
 
@@ -25,6 +26,8 @@ endif
 # allows you to automate a lot of these menial and occassionally error inducing tasks.
 link_src:
 	find $(SRC_FOLDER) -name '*syn.include' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name 'matrix_mult_pkg.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name 'mem_emulator.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name 'tb_*syn.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*tasks*.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*.cfg' -exec ln -s -f {} ';'
@@ -34,12 +37,12 @@ link_src:
 
 
 vcs:$(TOPLEVEL)_syn.include
-
-	mkdir golden_log
-	touch golden_log/default.log
+	mkdir -p golden_log
+	touch golden_log/$(TESTNAME).log
 	vcs -f $(TOPLEVEL)_syn.include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
 		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
+		+ntb_random_seed=$(RAND_SEED) \
 		-lca -kdb
 		# simv 
 

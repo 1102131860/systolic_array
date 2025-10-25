@@ -166,7 +166,6 @@ task external_mode();
    end
 endtask
 
-// This only test the weight stationary mode
 task memory_mode(input bit en_output_sat=0);
    begin
       mem_trans input_trans;
@@ -371,8 +370,8 @@ task bist_mode();
       ///////////////////////////////////////////
       fork
          forever @(posedge clk_i) begin
-            if (!ext_valid_o && matrix_mult_0.driver_valid_o_w)
-               $display("@%0t: tracking driver_data_w = %x", $realtime, matrix_mult_0.driver_data_w);
+            if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
+               $display("@%0t: tracking driver_data_w = %x", $realtime, matrix_mult_wrapper_0.driver_data_w);
          end
       join_none;
 

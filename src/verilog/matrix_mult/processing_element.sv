@@ -58,9 +58,6 @@ always_ff @(posedge clk_i or negedge rstn_i) begin
         east_o      <=  west_i;
         south_o     <=  ctrl_sum_out_i ? (ctrl_out_stat_i ? ps_r : result_b) : north_i;
     end
-    ps_o        <= ps_r;
-    weight_o    <= weight_r;
-    result_o    <= saturation(long_mult_b);
 end
 
 // combinational logic for computation
@@ -72,6 +69,11 @@ always_comb begin
     long_sum_b = (ctrl_ps_in_i ? ps_r : north_i) + saturation(long_mult_b);
     
     result_b = saturation(long_sum_b);
+
+    // for verification
+    ps_o = ps_r;
+    weight_o = weight_r;
+    result_o = result_b;
 end
 
 endmodule

@@ -1,4 +1,4 @@
-module tb_matrix_mult;
+module tb_matrix_mult_wrapper;
 
    parameter CLOCK_PERIOD        = 10;
    parameter real DUTY_CYCLE     = 0.5;
@@ -175,7 +175,7 @@ module tb_matrix_mult;
       .W_SIZE  (W_SIZE  ),
       .I_SIZE  (I_SIZE  ),
       .O_SIZE  (O_SIZE  )
-   ) matrix_mult_0 (.*);
+   ) matrix_mult_wrapper_0 (.*);
 
    mem_emulator #(.WIDTH(INPUT_DATA_WIDTH), .SIZE(I_SIZE))
       ib_mem (
@@ -208,9 +208,9 @@ module tb_matrix_mult;
    );
 
    initial begin : TEST_CASE
-      $fsdbDumpfile("matrix_mult.fsdb");
+      $fsdbDumpfile("matrix_mult_wrapper.fsdb");
       $fsdbDumpon;
-      $fsdbDumpvars(0, matrix_mult_0, "+mda", "+all", "+trace_process");
+      $fsdbDumpvars(0, matrix_mult_wrapper_0, "+mda", "+all", "+trace_process");
       `ifdef SDF 
          $sdf_annotate("./matrix_mult.wc.sdf", matrix_mult_0, "./sdf.max.cfg");
       `endif

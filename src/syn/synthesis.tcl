@@ -37,7 +37,8 @@ source -echo -verbose ./constraints.tcl
 
 # Set operating conditions
 # min/max not compatible with icc2
-set_operating_conditions
+set_operating_conditions -max $LIB_WC_OPCON -max_library $LIB_WC_NAME \
+                         -min $LIB_BC_OPCON -min_library $LIB_BC_NAME
 
 #=============================================================================#
 #                                Synthesize                                   #
@@ -254,7 +255,7 @@ print_message_info
 #Uncomment this line once you have you set up your design flow. That way
 #running make will conclude with your retun to unix shell (instead of dc_Shell) leaving you ready to run any other script/flow downstream.
 
-# exit
+exit
 
 
 

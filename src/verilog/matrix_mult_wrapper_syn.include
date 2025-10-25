@@ -1,0 +1,5 @@
+./matrix_mult_pkg.sv
+./matrix_mult_wrapper_group3.syn.v
+./mem_emulator.sv
+./tb_matrix_mult_wrapper_syn.sv
+/tools/pdk/tsmc/musesemi/65MSRFGP/tcbn65gplus_200a/TSMCHOME/digital/Front_End/verilog/tcbn65gplus_200a/tcbn65gplus.v

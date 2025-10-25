@@ -51,9 +51,9 @@ typedef struct packed{
 typedef enum logic[2:0] {
     IDLE            = 3'b000, // idle state
     LOAD            = 3'b001, // load in weight registers
-    IN              = 3'b011, // reading inputs and computing
+    IN_ONLY         = 3'b011, // reading inputs and computing
     IN_OUT          = 3'b010, // reading inputs and outputs, and computing
-    OUT             = 3'b110, // reading outputs and computing
+    OUT_ONLY        = 3'b110, // reading outputs and computing
     DONE            = 3'b111, // finished
     STATEX          = 3'bxxx
 } state_struct;
