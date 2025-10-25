@@ -194,11 +194,11 @@ For this milestone you will work by yourself to design a slightly simplified ver
 THe instructions for Milestone 1-b can be found on a separate README: [Milestone 1-b](doc/Milestone_1b.md).
  
 ### Milestone 1-c (Team)
-Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
+Each team must have finalized:
 1. A functionally correct and verified Matrix Mult RTL design integrated with the **Matrix Mult wrapper**. Remember to rename the module matrix_mult_<group_number> to have the appropriate group number.
 2. A test framework that is used to verify your design.
 3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
-**Note**: Your design must meet all of the specifications listed on this repository.
+**Note**: Your design must meet all of the specifications listed on this repository. There is no individual submission for Milestone 1-c. The first team submission corresponds to Milestone 2.
 
 ## Milestone 2 Deliverables
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms2.tar.gz_. The tar file should include the following deliverables, which can be found in your _syn_ directory, structured as below.
