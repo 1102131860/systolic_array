@@ -22,11 +22,11 @@ set APR_CLOCK_PERIOD        10 ; # 10ns = 100MHz
 #*****************************************************************************
 #**                     Floorplan + Routing layers                          **
 #*****************************************************************************
-set MAX_ROUTING_LAYER  "M7"
-set MIN_ROUTING_LAYER  "M1"
+set MAX_ROUTING_LAYER  "M6"
+set MIN_ROUTING_LAYER  "M2"
 
-set CLK_MAX_ROUTING_LAYER "M7"
-set CLK_MIN_ROUTING_LAYER "M1"
+set CLK_MAX_ROUTING_LAYER "M6"
+set CLK_MIN_ROUTING_LAYER "M2"
 
 set FP_CTRL_TYPE           "core" ; # core | die
 set FP_SHAPE               "R"    ; # R | L | T | U TODO: only R shape supports
@@ -41,7 +41,7 @@ set TILE_HEIGHT            1.8 ; # (um) Cell height
 set W_SUPER_TILE_MUL       8
 set H_SUPER_TILE_MUL       8
 
-set W_SUPER_TILE_NUM       15
+set W_SUPER_TILE_NUM       15 ; # Check area spec
 set H_SUPER_TILE_NUM       15
 
 set CORE_UTIL_RATIO        0.1

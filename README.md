@@ -60,7 +60,7 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 | Power supply                        | 0.8 ~ 1 V                        |
 | Target corner                       | TT                               |
 | Minimum clock frequency             | 100 Mhz                          |
-| Highest metal allowed               | M7                               |
+| Highest metal allowed               | M6                               |
 | Target Area                         | 172.8 um x 172.8 um              |
 
 **Operating Modes**
