@@ -58,7 +58,7 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
 | Power supply                        | 0.8 ~ 1 V                        |
-| Target corner                       | TT                               |
+| Target corner                       | WC                               |
 | Minimum clock frequency             | 100 Mhz                          |
 | Highest metal allowed               | M6                               |
 | Target Area                         | 172.8 um x 172.8 um              |
