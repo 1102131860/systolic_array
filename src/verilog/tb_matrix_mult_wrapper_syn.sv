@@ -1,6 +1,6 @@
 module tb_matrix_mult_wrapper;
 
-   parameter CLOCK_PERIOD        = 10;
+   parameter real CLOCK_PERIOD   = 10;
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
 

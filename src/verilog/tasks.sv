@@ -89,11 +89,34 @@ task external_mode();
       weight_trans.read_mem_file("inputs/WEIGHTS.txt");
 
       fork
-         $fmonitor(f, "@%0t: matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i: %x, \
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed: %x",
+         // wb_data_muxed: %x, \
+         // sys_array.north_i[0:3]: %x%x%x%x, \   
+         // ib_data_muxed: %x, \
+         // sys_array.west_i[0:3]: %x%x%x%x, \
+         // matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_3__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_2__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_1__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.ib_data_muxed,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_3__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_2__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_1__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.west_i,
+         $fmonitor(f, "@%0t: wb_data_muxed: %x, \
+            ctrl_load_muxed: %x, \
+            ib_data_muxed: %x, \
+            ctrl_sum_out_muxed: %x, \
+            sys_array.south_o: %x, \
+            ext_result_o: %x",
             $realtime,
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i,
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed);
+            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed,
+            matrix_mult_wrapper_0.matrix_mult_group3.ctrl_load_muxed,
+            matrix_mult_wrapper_0.matrix_mult_group3.ib_data_muxed,
+            matrix_mult_wrapper_0.matrix_mult_group3.ctrl_sum_out_muxed,
+            matrix_mult_wrapper_0.matrix_mult_group3.sys_array.south_o,
+            matrix_mult_wrapper_0.matrix_mult_group3.ext_result_o
+         );
       join_none
 
       reset_signals();
@@ -114,7 +137,7 @@ task external_mode();
       mode_i               = 2'b11;
       bypass_i             = 3'b101;
       // Assert ext_en_i
-      ext_en_i              = '1;
+      ext_en_i             = '1;
 
       // LOAD WEIGHTS
       foreach(weight_trans.data[i]) begin
@@ -183,11 +206,47 @@ task memory_mode(input bit en_output_sat=0);
       o_offset_int = $urandom_range(O_SIZE - i_rows_i - 1);
 
       fork
-         $fmonitor(f, "@%0t: matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i: %x, \
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed: %x",
+         // wb_data_muxed: %x, \
+         // sys_array.north_i[0:3]: %x%x%x%x, \
+         // ib_data_muxed: %x, \
+         // sys_array.west_i[0:3]: %x%x%x%x, \
+         // sys_ctrl.ctrl_ps_in_o: %x, \
+         // sys_ctrl.ctrl_ps_valid_o: %x, \
+         // sys_array[0][0:3]: %x%x%x%x,
+         // matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_3__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_2__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_1__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.north_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.ib_data_muxed,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_3__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_2__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_1__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.west_i,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_ps_in_o,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_ps_valid_o,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_3__u_pe.weight_o,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_2__u_pe.weight_o,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_1__u_pe.weight_o,
+         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.weight_o
+         $fmonitor(f, "@%0t: wb_mem_data_i: %x, \
+            ib_mem_data_i: %x, \
+            sys_ctrl.ctrl_load_o: %x, \
+            sys_ctrl.ctrl_sum_out_o: %x, \
+            sys_array.south_o: %x, \
+            ob_mem_data_o: %x, \
+            ob_mem_cenb_o: %x, \
+            done_o: %x",
             $realtime,
             matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i,
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed);
+            matrix_mult_wrapper_0.matrix_mult_group3.ib_mem_data_i,
+            matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_load_o,
+            matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_sum_out_o,
+            matrix_mult_wrapper_0.matrix_mult_group3.sys_array.south_o,
+            matrix_mult_wrapper_0.matrix_mult_group3.ob_mem_data_o,
+            matrix_mult_wrapper_0.matrix_mult_group3.ob_mem_cenb_o,
+            matrix_mult_wrapper_0.matrix_mult_group3.done_o
+         );
       join_none
 
       reset_signals();

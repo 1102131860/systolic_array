@@ -80,21 +80,23 @@ always_ff @(posedge clk_i or negedge rstn_i) begin : control_ext_valid_o
 end
 
 // combinational logic to control systolic array I/O
-always_comb begin : Input_Weight_Output_Control_Mux
+always_comb begin : Input_Weight_Control_Mux
     if (ext_en_i) begin
         ib_data_muxed       = ext_inputs_i.ext_input;
         wb_data_muxed       = ext_inputs_i.ext_weight;
-        ext_result_o        = pe_result_b;
         ctrl_load_muxed     = {ROW*COL{ext_inputs_i.ext_weight_en}};
         ctrl_sum_out_muxed  = {ROW*COL{ext_inputs_i.ext_valid}};
     end else begin
         ib_data_muxed       = ib_mem_data_i;
         wb_data_muxed       = wb_mem_data_i;
-        ob_mem_data_o       = pe_result_b;
         ctrl_load_muxed     = ctrl_load_b;
         ctrl_sum_out_muxed  = ctrl_sum_out_b;
     end
 end
+
+// Output Assignment
+assign ext_result_o         = pe_result_b;
+assign ob_mem_data_o        = pe_result_b;
 
 //=========================================================================//
 //  SYSTOLIC ARRAY                                                         //
