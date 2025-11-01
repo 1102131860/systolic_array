@@ -57,7 +57,7 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 | Reset                               | Active-Low Reset (Reset when 0)  |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
-| Power supply                        | 0.8 ~ 1 V                        |
+| Power supply                        | 0.9 ~ 1.1 V                      |
 | Target corner                       | WC                               |
 | Minimum clock frequency             | 100 Mhz                          |
 | Highest metal allowed               | M6                               |
