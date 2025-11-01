@@ -10,7 +10,7 @@ done_o                      , layer=M2  +2.0
 
 test_config_i  [69:0]       , layer=M2  +2.0 pitch=1.0
 
-data_config_i  [44:0]       , layer=M2  +2.0 pitch=1.0
+data_config_i  [57:0]       , layer=M2  +2.0 pitch=1.0
 
 ib_mem_cenb_o               , layer=M2  +2.0
 ib_mem_wenb_o               , layer=M2  +2.0

@@ -57,10 +57,11 @@ Here are the specifications of the Matrix Multiplication Unit you are implementi
 | Reset                               | Active-Low Reset (Reset when 0)  |
 | Process node                        | TSMC 65GP                        |
 | Timing model                        | NLDM                             |
-| Power supply                        | 0.8 ~ 1 V                        |
-| Target corner                       | TT                               |
+| Power supply                        | 0.9 ~ 1.1 V                      |
+| Target corner                       | WC                               |
 | Minimum clock frequency             | 100 Mhz                          |
-| Highest metal allowed               | M7                               |
+| Highest metal allowed               | M6                               |
+| Target Area                         | 172.8 um x 172.8 um              |
 
 **Operating Modes**
 
@@ -76,7 +77,7 @@ Your design should support the following modes:
 <img src="./img/signals_memory.png" alt="" width="700"/>
 </p>
 
-2. External mode: The memories are not available, and all signals come from external sources. In this mode, the matrix multiplication module functions purely as a processing unit systolic array. All inputs, internal control signals, and outputs are handled through the use of input test configurations (test_config_struct) and external signal ports (external_inputs_struct). During external mode you can assume to have full control of your clock signal (you choose how and when to toggle it).
+2. External mode: The memories are not available, and all signals come from external sources that are provided by the scan chain. In this mode, the matrix multiplication module functions purely as a processing unit systolic array. All inputs, internal control signals, and outputs are handled through the use of input test configurations (test_config_struct) and external signal ports (external_inputs_struct). During external mode you can assume to have full control of your clock signal (you choose how and when to toggle it).
 
    Shown below is an example of the input and expected output pattern. Note that ext_en_i is used to signal our module that External mode has been selected. Weights and input activations are manually loaded into the array row-by-row cycle by cycle through the use of the given external signal ports and a by walking the clock. 
    
@@ -193,11 +194,11 @@ For this milestone you will work by yourself to design a slightly simplified ver
 THe instructions for Milestone 1-b can be found on a separate README: [Milestone 1-b](doc/Milestone_1b.md).
  
 ### Milestone 1-c (Team)
-Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms1.tar.gz_. The file should include the below deliverables organized the same as the directories in tutorials.
+Each team must have finalized:
 1. A functionally correct and verified Matrix Mult RTL design integrated with the **Matrix Mult wrapper**. Remember to rename the module matrix_mult_<group_number> to have the appropriate group number.
 2. A test framework that is used to verify your design.
 3. A Readme that clearly explains the organization of your design and how to run both the high level simulation model and test framework.
-**Note**: Your design must meet all of the specifications listed on this repository.
+**Note**: Your design must meet all of the specifications listed on this repository. There is no individual submission for Milestone 1-c. The first team submission corresponds to Milestone 2.
 
 ## Milestone 2 Deliverables
 Each team will submit one tar.gz through Canvas with filename _group<group_number>\_ms2.tar.gz_. The tar file should include the following deliverables, which can be found in your _syn_ directory, structured as below.

@@ -8,7 +8,7 @@ set_max_transition 0.55 -scenarios func1_wc [current_design]
 
 # Remove ideal network
 remove_ideal_network -all
-set_ideal_network [get_ports i_clk]
+set_ideal_network [get_ports clk_i]
 
 # place_opt options
 # place opt cell name prefix
