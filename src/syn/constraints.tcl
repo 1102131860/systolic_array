@@ -34,7 +34,8 @@ create_clock -name "clk"    \
 # so you don't have to [get_nets -of_objects [get_ports i_rst]]. 
 # i_en is the enable signal for the global gater; this is expected to be a static bit
 set_ideal_network [get_nets -of_objects [get_ports clk_i]] -no_propagate
-set_ideal_network [get_nets -of_objects [get_ports rstn_async_i]] -no_propagate
+# set_ideal_network [get_nets -of_objects [get_clocks *]]
+# set_ideal_network [get_nets -of_objects [get_ports rstn_async_i]] -no_propagate
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
 #set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate

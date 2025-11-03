@@ -173,7 +173,7 @@ set DC_EXACT_MAP 0
 set hdlin_ff_always_sync_set_reset true
 # Do an additional incremental compile for better results
 set DC_COMPILE_ADDITIONAL 1 
-set DC_CLK_GATING 1 
+set DC_CLK_GATING 0 
 
 # ==========================================================================
 # RESULT GENERATION AND REPORTING
