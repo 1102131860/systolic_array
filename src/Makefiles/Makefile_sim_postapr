@@ -1,10 +1,11 @@
-TOPLEVEL= matrix_mult_wrapper
-TESTNAME=default
+TOPLEVEL=matrix_mult_wrapper
+TESTNAME?=default
 SRC_VERILOG=../../src/verilog
 APR_FOLDER=../../apr/results
 SRC_FOLDER= $(SRC_VERILOG)
 SIM=1
 SDF=1
+RAND_SEED?=42
 
 #Build up a list of verilog define statements to be used by vcs
 
@@ -25,7 +26,9 @@ endif
 # allows you to automate a lot of these menial and occassionally error inducing tasks.
 link_files:
 	find $(SRC_FOLDER) -name '*apr.include' -exec ln -s -f {} ';'
-	find $(SRC_FOLDER) -name 'tb_*sapr.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name '*_pkg.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name 'mem_emulator.sv' -exec ln -s -f {} ';'
+	find $(SRC_FOLDER) -name 'tb_*apr.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*tasks*.sv' -exec ln -s -f {} ';'
 	find $(SRC_FOLDER) -name '*.cfg' -exec ln -s -f {} ';'
 	find $(APR_FOLDER) -name '*.v' -exec ln -s -f {} ';'
@@ -34,11 +37,20 @@ link_files:
 
 
 vcs:$(TOPLEVEL)_apr.include
+	mkdir -p golden_log
+	touch golden_log/$(TESTNAME).log
+	mkdir -p logs
 	vcs -f $(TOPLEVEL)_apr.include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
 		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
-		-lca -kdb
+		+ntb_random_seed=$(RAND_SEED) -lca -kdb
 		#simv
+
+vrd:
+	verdi -dbdir ./simv.daidir/ &
+
+urg:
+	urg -dir simv.vdb -format text -report cover_report
 
 wipe:
 	rm -rf *.include
@@ -58,6 +70,9 @@ wipe:
 	rm -rf verdi*
 	rm -rf novas*
 	rm -rf *.cfg
+	rm -rf *.sdf
+	rm -rf ./apr_results
+	rm -rf ./logs
 
 clean:
 	rm -rf DVEfiles

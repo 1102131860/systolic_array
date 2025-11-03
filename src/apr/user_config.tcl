@@ -10,7 +10,7 @@ set NDM_DIR                 "./ndm"
 set RTL_SRC_DIR             "../src/verilog"
 set GATE_SRC_DIR            "../syn"
 
-set TOP_MODULE              "matrix_mult_wrapper_<group_num>"
+set TOP_MODULE              "matrix_mult_wrapper_group3"
 
 set GATE_NETLIST            "${GATE_SRC_DIR}/results/${TOP_MODULE}.syn.v"
 
@@ -41,12 +41,12 @@ set TILE_HEIGHT            1.8 ; # (um) Cell height
 set W_SUPER_TILE_MUL       8
 set H_SUPER_TILE_MUL       8
 
-set W_SUPER_TILE_NUM       15 ; # Check area spec
-set H_SUPER_TILE_NUM       15
+set W_SUPER_TILE_NUM       12 ; # Check area spec
+set H_SUPER_TILE_NUM       12
 
 set CORE_UTIL_RATIO        0.1
 
-set ITER                   40 ; #Number of routing iterations to perform; default is 40. The more you add, the better results you will see, but the longer it will take
+set ITER                   50 ; #Number of routing iterations to perform; default is 40. The more you add, the better results you will see, but the longer it will take
 
 #*****************************************************************************
 #**                     Power                                               **

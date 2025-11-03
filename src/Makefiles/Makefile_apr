@@ -1,11 +1,11 @@
 # TCL scripts
-TOPLEVEL=matrix_mult_wrapper
+TOPLEVEL=matrix_mult_wrapper_03
 PRJ=..
 
 SRC_TCL=$(PRJ)/src/apr
 TCL_MAIN=apr.tcl
 
-SRC_VERILOG:= $(PRJ)/src/verilog/$(TOPLEVEL).sv $(PRJ)/src/verilog/$(TOPLEVEL)_pkg.sv
+# SRC_VERILOG:= $(PRJ)/src/verilog/$(TOPLEVEL).sv $(PRJ)/src/verilog/$(TOPLEVEL)_pkg.sv
 SYN_FILES:= $(PRJ)/syn/results/$(TOPLEVEL).syn.v \
 			   $(PRJ)/syn/results/$(TOPLEVEL).sdc 	
 

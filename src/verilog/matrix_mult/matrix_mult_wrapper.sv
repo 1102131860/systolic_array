@@ -1,4 +1,4 @@
-module matrix_mult_wrapper_group3 #(
+module matrix_mult_wrapper_03 #(
     parameter WIDTH         = 8, 
     parameter ROW           = 4, 
     parameter COL           = 4, 

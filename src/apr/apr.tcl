@@ -42,7 +42,7 @@ source ./tech_node_config.tcl  -echo -verbose
 source ./user_config.tcl -echo -verbose 
 
 # set core num
-set_host_options -max_cores 8
+set_host_options -max_cores 12
 
 check_disk_space
 

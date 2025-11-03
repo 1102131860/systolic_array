@@ -3,7 +3,7 @@ module tb_matrix_mult_wrapper;
    parameter real CLOCK_PERIOD   = 10;
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
-   parameter real MEM_DELAY      = 3.33;
+   parameter real MEM_DELAY      = 2.40;
 
    localparam WIDTH              = matrix_mult_pkg::WIDTH;
    localparam ROW                = matrix_mult_pkg::ROW;
@@ -24,7 +24,6 @@ module tb_matrix_mult_wrapper;
    logic                         rstn_async_i;
    logic                         start_i;
    logic                         en_i;                               // gate clocking enable, active high
-   logic                         mem_clk;
 
    // test config
    logic [2:0]                   bypass_i;
@@ -143,12 +142,12 @@ module tb_matrix_mult_wrapper;
    assign ib_mem_cenb_r                        = ext_en_i ? ib_mem_cenb_ext_i : ib_mem_cenb_o;
    assign ib_mem_wenb_r                        = ext_en_i ? ib_mem_wenb_ext_i : ib_mem_wenb_o;
    assign ib_mem_addr_r                        = ext_en_i ? ib_mem_addr_ext_i : ib_mem_addr_o;
-   assign ib_mem_data_i                        = ib_mem_q_o_r;
+   assign #MEM_DELAY ib_mem_data_i                        = ib_mem_q_o_r;
 
    assign wb_mem_cenb_r                        = ext_en_i ? wb_mem_cenb_ext_i : wb_mem_cenb_o;
    assign wb_mem_wenb_r                        = ext_en_i ? wb_mem_wenb_ext_i : wb_mem_wenb_o;
    assign wb_mem_addr_r                        = ext_en_i ? wb_mem_addr_ext_i : wb_mem_addr_o;
-   assign wb_mem_data_i                        = wb_mem_q_o_r;
+   assign #MEM_DELAY wb_mem_data_i                        = wb_mem_q_o_r;
 
    assign ob_mem_cenb_w                        = ext_en_i ? ob_mem_cenb_ext_i : ob_mem_cenb_o;
    assign ob_mem_wenb_w                        = ext_en_i ? ob_mem_wenb_ext_i : ob_mem_wenb_o;
@@ -156,7 +155,8 @@ module tb_matrix_mult_wrapper;
    assign ob_mem_d_i_w                         = ext_en_i ? ob_mem_d_i_ext_i  : ob_mem_data_o;
    assign ob_mem_data_i                        = ob_mem_q_o_w;
 
-   assign #MEM_DELAY mem_clk                   = clk_i;
+   // logic                         mem_clk;
+   // assign #MEM_DELAY mem_clk                   = clk_i;
 
    logic [1000:0] testname;
    integer        returnval;
@@ -172,7 +172,7 @@ module tb_matrix_mult_wrapper;
       end
    end
 
-   matrix_mult_wrapper_group3 #(
+   matrix_mult_wrapper_03 #(
       .WIDTH   (WIDTH   ),
       .ROW     (ROW     ),
       .COL     (COL     ),
@@ -183,7 +183,7 @@ module tb_matrix_mult_wrapper;
 
    mem_emulator #(.WIDTH(INPUT_DATA_WIDTH), .SIZE(I_SIZE))
       ib_mem (
-        .clk_i   (mem_clk          ),
+        .clk_i   (clk_i            ),
         .cenb_i  (ib_mem_cenb_r    ),
         .wenb_i  (ib_mem_wenb_r    ),
         .addr_i  (ib_mem_addr_r    ),
@@ -193,7 +193,7 @@ module tb_matrix_mult_wrapper;
 
    mem_emulator #(.WIDTH(WEIGHT_DATA_WIDTH), .SIZE(W_SIZE))
       wb_mem (
-        .clk_i   (mem_clk          ),
+        .clk_i   (clk_i            ),
         .cenb_i  (wb_mem_cenb_r    ),
         .wenb_i  (wb_mem_wenb_r    ),
         .addr_i  (wb_mem_addr_r    ),
@@ -203,7 +203,7 @@ module tb_matrix_mult_wrapper;
 
    mem_emulator #(.WIDTH(WEIGHT_DATA_WIDTH), .SIZE(O_SIZE))
       ob_mem (
-        .clk_i   (mem_clk          ),
+        .clk_i   (clk_i            ),
         .cenb_i  (ob_mem_cenb_w    ),
         .wenb_i  (ob_mem_wenb_w    ),
         .addr_i  (ob_mem_addr_w    ),
@@ -219,7 +219,7 @@ module tb_matrix_mult_wrapper;
         $fsdbDumpvars(0, wb_mem, "+mda", "+all", "+trace_process");
         $fsdbDumpvars(0, ob_mem, "+mda", "+all", "+trace_process");
         `ifdef SDF 
-            $sdf_annotate("./matrix_mult_wrapper_group3.sdf", matrix_mult_wrapper_0);
+            $sdf_annotate("./matrix_mult_wrapper_03.sdf", matrix_mult_wrapper_0);
         `endif
 
         returnval = $value$plusargs("testname=%s", testname);

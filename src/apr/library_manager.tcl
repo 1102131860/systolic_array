@@ -31,7 +31,7 @@ source -echo -verbose ./tech_node_config.tcl
 set NDM_DIR                 "./ndm"
 
 # set core num
-set_host_options -max_cores 8
+set_host_options -max_cores 12
 
 check_disk_space
 

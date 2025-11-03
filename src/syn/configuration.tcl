@@ -136,7 +136,7 @@ set TECH2ITF_MAP_FILE "star.map_9M"
 #Leave PROJECT_DIR alone. To understand why
 #see where and how it's used in this directory
 #(Hint: grep for it)
-set DESIGN "matrix_mult_wrapper_group3"
+set DESIGN "matrix_mult_wrapper_03"
 set PROJECT_DIR ".."
 
 # Options that are used to direct the compiler. Look these up in the documentation.
@@ -173,7 +173,7 @@ set DC_EXACT_MAP 0
 set hdlin_ff_always_sync_set_reset true
 # Do an additional incremental compile for better results
 set DC_COMPILE_ADDITIONAL 1 
-set DC_CLK_GATING 0 
+set DC_CLK_GATING 1 
 
 # ==========================================================================
 # RESULT GENERATION AND REPORTING

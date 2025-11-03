@@ -61,22 +61,6 @@ set_pg_strategy PG_M5_M6_MESH_STR \
     -pg_regions CORE_EXPAND
 
 compile_pg -strategies PG_M5_M6_MESH_STR -via_rule NO_VIA -tag PG_M5_M6_MESH
-
-create_pg_mesh_pattern PG_M7_M8_MESH_PTRN \
-    -layers { \
-         {{vertical_layer:M7}{width:2.0 }\
-             {spacing:interleaving}{pitch:14.4}{trim: false}{offset:0}} \
-         {{horizontal_layer:M8}{width:2.0 }\
-             {spacing:interleaving}{pitch:14.4}{trim: false}{offset:0.33}} \
-             }\
-    -via_rule {{intersection : all}{via_master:NIL}}
-
-set_pg_strategy PG_M7_M8_MESH_STR \
-    -extension {{{stop: outermost_ring}}} \
-    -pattern { {name: PG_M7_M8_MESH_PTRN}{nets: {VDD VSS}}} \
-    -pg_regions CORE_EXPAND
-
-compile_pg -strategies PG_M7_M8_MESH_STR -via_rule NO_VIA -tag PG_M7_M8_MESH
 set_app_options -name plan.pgroute.optimize_via_when_maximize_cutarea -value false
 set_app_options -name plan.pgroute.fix_via_drc_multiple_viadef -value false
 set_app_options -name plan.pgroute.treat_fixed_stdcell_as_macro -value true
@@ -89,10 +73,6 @@ create_pg_vias -from_layers M4 -to_layers M3 -nets {VDD VSS} -via_masters {VIA34
 create_pg_vias -from_layers M5 -to_layers M4 -nets {VDD VSS} -via_masters {VIA45 FATVIA45}
 
 create_pg_vias -from_layers M6 -to_layers M5 -nets {VDD VSS} -via_masters {VIA56 FATVIA56}
-
-create_pg_vias -from_layers M7 -to_layers M6 -nets {VDD VSS} -via_masters {VIA67 FATVIA67}
-
-create_pg_vias -from_layers M8 -to_layers M7 -nets {VDD VSS} -tag PG_VIA_M7_M8 -via_masters {VIA78 FATVIA78}
 reset_app_options plan.pgroute.optimize_via_when_maximize_cutarea
 reset_app_options plan.pgroute.fix_via_drc_multiple_viadef
 reset_app_options plan.pgroute.treat_fixed_stdcell_as_macro
