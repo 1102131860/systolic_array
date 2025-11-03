@@ -40,7 +40,6 @@ endclass
 
 task initialize_signals();
    begin
-      #OFFSET;
       rstn_async_i        = 1'b0;
       start_i             = '0;
       en_i                = '1;
@@ -59,8 +58,6 @@ task initialize_signals();
       driver_valid_i      = '0;
       driver_stop_code_i  = '0;
 
-      // avoid setup/hold violation for ext_result_o_reg
-      #OFFSET;
       ext_en_i            = '0;
       ext_input_i         = '0;
       ext_weight_i        = '0;
@@ -88,37 +85,6 @@ task external_mode();
       input_trans.read_mem_file("inputs/INPUTS.txt");
       weight_trans.read_mem_file("inputs/WEIGHTS.txt");
 
-      fork
-         // wb_data_muxed: %x, \
-         // sys_array.north_i[0:3]: %x%x%x%x, \   
-         // ib_data_muxed: %x, \
-         // sys_array.west_i[0:3]: %x%x%x%x, \
-         // matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_3__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_2__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_1__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.ib_data_muxed,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_3__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_2__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_1__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.west_i,
-         $fmonitor(f, "@%0t: wb_data_muxed: %x, \
-            ctrl_load_muxed: %x, \
-            ib_data_muxed: %x, \
-            ctrl_sum_out_muxed: %x, \
-            sys_array.south_o: %x, \
-            ext_result_o: %x",
-            $realtime,
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed,
-            matrix_mult_wrapper_0.matrix_mult_group3.ctrl_load_muxed,
-            matrix_mult_wrapper_0.matrix_mult_group3.ib_data_muxed,
-            matrix_mult_wrapper_0.matrix_mult_group3.ctrl_sum_out_muxed,
-            matrix_mult_wrapper_0.matrix_mult_group3.sys_array.south_o,
-            matrix_mult_wrapper_0.matrix_mult_group3.ext_result_o
-         );
-      join_none
-
       reset_signals();
       @(posedge clk_i);
 
@@ -136,9 +102,21 @@ task external_mode();
       // bypass_i[2]: sa_bypass_w should be 1 (bypass)
       mode_i               = 2'b11;
       bypass_i             = 3'b101;
-      // Assert ext_en_i
-      ext_en_i             = '1;
 
+      // COMPARE RESULTS
+      fork
+         forever @(posedge sample_clk_o) begin
+            // avoid 1 more cycle sampling
+            if (ext_valid_o) begin
+               $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
+               $fwrite(f, "%x\n", ext_result_o);
+            end
+         end
+      join_none
+
+      // Assert ext_en_i
+      @(negedge sample_clk_o);
+      ext_en_i             <= '1;
       // LOAD WEIGHTS
       foreach(weight_trans.data[i]) begin
          ext_input_i       <= '0;
@@ -146,20 +124,8 @@ task external_mode();
          ext_valid_en_i    <= '0;
          ext_weight_en_i   <= '1;
          ext_psum_i        <= '0;
-         @(posedge clk_i);
+         @(negedge sample_clk_o);
       end
-
-      // COMPARE RESULTS
-      fork
-         forever @(posedge clk_i) begin
-            // avoid 1 more cycle sampling
-            #OFFSET;
-            if (ext_valid_o) begin
-               $display("@%0t: ext_result_o = %x", $realtime, ext_result_o);
-               $fwrite(f, "%x\n", ext_result_o);
-            end
-         end
-      join_none
 
       // STREAM INPUTS AND PARTIAL SUMS
       foreach(input_trans.data[i]) begin
@@ -168,7 +134,7 @@ task external_mode();
          ext_valid_en_i    <= '1;
          ext_weight_en_i   <= '0;
          ext_psum_i        <= '0;
-         @(posedge clk_i);
+         @(negedge sample_clk_o);
       end
       // extra cycles for pipeline flush
       repeat (ROW) begin
@@ -177,12 +143,12 @@ task external_mode();
          ext_valid_en_i    <= '1;
          ext_weight_en_i   <= '0;
          ext_psum_i        <= '0;
-         @(posedge clk_i);
+         @(negedge sample_clk_o);
       end
 
       // Deassert ext_en_i
-      ext_en_i = '0;
-      ext_valid_en_i = '0;
+      ext_en_i             <= '0;
+      ext_valid_en_i       <= '0;
       disable fork;
    end
 endtask
@@ -205,50 +171,6 @@ task memory_mode(input bit en_output_sat=0);
       i_offset_int = $urandom_range(I_SIZE - i_rows_i - 1);
       o_offset_int = $urandom_range(O_SIZE - i_rows_i - 1);
 
-      fork
-         // wb_data_muxed: %x, \
-         // sys_array.north_i[0:3]: %x%x%x%x, \
-         // ib_data_muxed: %x, \
-         // sys_array.west_i[0:3]: %x%x%x%x, \
-         // sys_ctrl.ctrl_ps_in_o: %x, \
-         // sys_ctrl.ctrl_ps_valid_o: %x, \
-         // sys_array[0][0:3]: %x%x%x%x,
-         // matrix_mult_wrapper_0.matrix_mult_group3.wb_data_muxed,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_3__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_2__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_1__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.north_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.ib_data_muxed,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_3__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_2__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_1__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.west_i,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_ps_in_o,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_ps_valid_o,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_3__u_pe.weight_o,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_2__u_pe.weight_o,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_1__u_pe.weight_o,
-         // matrix_mult_wrapper_0.matrix_mult_group3.sys_array.sys_ROW_0__sys_COL_0__u_pe.weight_o
-         $fmonitor(f, "@%0t: wb_mem_data_i: %x, \
-            ib_mem_data_i: %x, \
-            sys_ctrl.ctrl_load_o: %x, \
-            sys_ctrl.ctrl_sum_out_o: %x, \
-            sys_array.south_o: %x, \
-            ob_mem_data_o: %x, \
-            ob_mem_cenb_o: %x, \
-            done_o: %x",
-            $realtime,
-            matrix_mult_wrapper_0.matrix_mult_group3.wb_mem_data_i,
-            matrix_mult_wrapper_0.matrix_mult_group3.ib_mem_data_i,
-            matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_load_o,
-            matrix_mult_wrapper_0.matrix_mult_group3.sys_ctrl.ctrl_sum_out_o,
-            matrix_mult_wrapper_0.matrix_mult_group3.sys_array.south_o,
-            matrix_mult_wrapper_0.matrix_mult_group3.ob_mem_data_o,
-            matrix_mult_wrapper_0.matrix_mult_group3.ob_mem_cenb_o,
-            matrix_mult_wrapper_0.matrix_mult_group3.done_o
-         );
-      join_none
-
       reset_signals();
       @(posedge clk_i);
 
@@ -260,25 +182,26 @@ task memory_mode(input bit en_output_sat=0);
       // LOAD MEMORIES
       ///////////////////////////////////////////
       // enable external mode to load input and weight
-      ext_en_i            = '1;
+      @(negedge sample_clk_o);
+      ext_en_i             <= '1;
       for (int i = 0; i < i_rows_int; i++) begin
          ib_mem_cenb_ext_i <= '0;
          ib_mem_wenb_ext_i <= '0;
          ib_mem_addr_ext_i <= i + i_offset_int;
          ib_mem_d_i_r      <= input_trans.data[i];
-         @(posedge clk_i);
+         @(negedge sample_clk_o);
       end
       // not select ib_mem any more
-      ib_mem_cenb_ext_i   = '1;
+      ib_mem_cenb_ext_i    <= '1;
       for (int i = 0; i < w_rows_int; i++) begin
          wb_mem_cenb_ext_i <= '0;
          wb_mem_wenb_ext_i <= '0;
          wb_mem_addr_ext_i <= i + w_offset_int;
          wb_mem_d_i_r      <= weight_trans.data[i];
-         @(posedge clk_i);
+         @(negedge sample_clk_o);
       end
       // not select wb_mem any more
-      wb_mem_cenb_ext_i   = '1;
+      wb_mem_cenb_ext_i    <= '1;
       // clear up output memory with O_SIZE data as well
       if (en_output_sat)
          for (int i = 0; i < ROW; i++) begin
@@ -286,7 +209,7 @@ task memory_mode(input bit en_output_sat=0);
             ob_mem_wenb_ext_i <= '0;
             ob_mem_addr_ext_i <= i + o_offset_int;
             ob_mem_d_i_ext_i  <= '0;
-            @(posedge clk_i);
+            @(negedge sample_clk_o);
          end
       else
          for (int i = 0; i < i_rows_int; i++) begin
@@ -294,14 +217,14 @@ task memory_mode(input bit en_output_sat=0);
             ob_mem_wenb_ext_i <= '0;
             ob_mem_addr_ext_i <= i + o_offset_int;
             ob_mem_d_i_ext_i  <= '0;
-            @(posedge clk_i);
+            @(negedge sample_clk_o);
          end
       // not select ob_mem any more
-      ob_mem_cenb_ext_i   = '1;
+      ob_mem_cenb_ext_i   <= '1;
       // exits external mode
-      ext_en_i            = '0;
-      @(posedge clk_i);
-
+      ext_en_i            <= '0;
+      
+      @(negedge sample_clk_o);
       // display initialized memory
       $display("==========Initial Memory==========");
       $write("@%0t: ib_mem.data: ", $realtime);
@@ -339,10 +262,10 @@ task memory_mode(input bit en_output_sat=0);
       // Start Computing
       ///////////////////////////////////////////
       $display("==========Start Computing==========");
-      @(negedge clk_i);
-      start_i  = '1;
-      @(negedge clk_i);
-      start_i  = '0;
+      @(negedge sample_clk_o);
+      start_i  <= '1;
+      @(negedge sample_clk_o);
+      start_i  <= '0;
       // wait for done_o to be high
       @(posedge done_o);
 
@@ -402,7 +325,8 @@ task bist_mode();
       // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
       ///////////////////////////////////////////
       // keep on external mode
-      ext_en_i             = '1;
+      @(negedge sample_clk_o);
+      ext_en_i             <= '1;
       // LOAD WEIGHTS
       foreach(weight_trans.data[i]) begin
          ext_input_i       <= '0;
@@ -410,10 +334,10 @@ task bist_mode();
          ext_valid_en_i    <= '0;
          ext_weight_en_i   <= '1;
          ext_psum_i        <= '0;
-         @(posedge clk_i);
+         @(negedge sample_clk_o);
       end
-      ext_weight_en_i      = '0;
-      ext_weight_i         = '0;
+      ext_weight_en_i      <= '0;
+      ext_weight_i         <= '0;
 
       ///////////////////////////////////////////
       // STREAM INPUTS AND PARTIAL SUMS
@@ -434,7 +358,7 @@ task bist_mode();
       // COMPARE RESULTS
       ///////////////////////////////////////////
       fork
-         forever @(posedge clk_i) begin
+         forever @(posedge sample_clk_o) begin
             if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
                $display("@%0t: tracking driver_data_w = %x", $realtime, matrix_mult_wrapper_0.driver_data_w);
          end

@@ -3,6 +3,7 @@ module tb_matrix_mult_wrapper;
    parameter real CLOCK_PERIOD   = 10;
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
+   parameter real MEM_DELAY      = 3.33;
 
    localparam WIDTH              = matrix_mult_pkg::WIDTH;
    localparam ROW                = matrix_mult_pkg::ROW;
@@ -23,6 +24,7 @@ module tb_matrix_mult_wrapper;
    logic                         rstn_async_i;
    logic                         start_i;
    logic                         en_i;                               // gate clocking enable, active high
+   logic                         mem_clk;
 
    // test config
    logic [2:0]                   bypass_i;
@@ -154,6 +156,8 @@ module tb_matrix_mult_wrapper;
    assign ob_mem_d_i_w                         = ext_en_i ? ob_mem_d_i_ext_i  : ob_mem_data_o;
    assign ob_mem_data_i                        = ob_mem_q_o_w;
 
+   assign #MEM_DELAY mem_clk                   = clk_i;
+
    logic [1000:0] testname;
    integer        returnval;
    string         filename;
@@ -179,7 +183,7 @@ module tb_matrix_mult_wrapper;
 
    mem_emulator #(.WIDTH(INPUT_DATA_WIDTH), .SIZE(I_SIZE))
       ib_mem (
-        .clk_i   (clk_i            ),
+        .clk_i   (mem_clk          ),
         .cenb_i  (ib_mem_cenb_r    ),
         .wenb_i  (ib_mem_wenb_r    ),
         .addr_i  (ib_mem_addr_r    ),
@@ -189,7 +193,7 @@ module tb_matrix_mult_wrapper;
 
    mem_emulator #(.WIDTH(WEIGHT_DATA_WIDTH), .SIZE(W_SIZE))
       wb_mem (
-        .clk_i   (clk_i            ),
+        .clk_i   (mem_clk          ),
         .cenb_i  (wb_mem_cenb_r    ),
         .wenb_i  (wb_mem_wenb_r    ),
         .addr_i  (wb_mem_addr_r    ),
@@ -199,7 +203,7 @@ module tb_matrix_mult_wrapper;
 
    mem_emulator #(.WIDTH(WEIGHT_DATA_WIDTH), .SIZE(O_SIZE))
       ob_mem (
-        .clk_i   (clk_i            ),
+        .clk_i   (mem_clk          ),
         .cenb_i  (ob_mem_cenb_w    ),
         .wenb_i  (ob_mem_wenb_w    ),
         .addr_i  (ob_mem_addr_w    ),
