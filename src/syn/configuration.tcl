@@ -14,7 +14,7 @@
 # ==========================================================================
 
 # Multicore
-set_host_options -max_cores 8 
+set_host_options -max_cores 12 
 
 set TOOL_NAME "DC"
 
@@ -198,6 +198,6 @@ set HOLD_SKEW 0.01
 set GATER_SETUP 0.05
 set GATER_HOLD 0.01
 set CLK_TRANSITION_LIMIT 0.08
-set SIGNAL_TRANSITION_LIMIT 0.12
+set SIGNAL_TRANSITION_LIMIT 0.08
 set INPUT_DELAY 0.1
 set OUTPUT_DELAY 0.1

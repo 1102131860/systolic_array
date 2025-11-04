@@ -3,7 +3,7 @@ module tb_matrix_mult_wrapper;
    parameter CLOCK_PERIOD        = 10;
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
-   parameter real MEM_DELAY      = 3.33;
+   parameter real MEM_DELAY      = 0.35;
 
    localparam WIDTH              = matrix_mult_pkg::WIDTH;
    localparam ROW                = matrix_mult_pkg::ROW;
