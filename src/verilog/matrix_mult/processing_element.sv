@@ -20,12 +20,12 @@ module processing_element #(parameter WIDTH=8) (
   input     logic signed [WIDTH-1:0]      north_i,  // north input
   input     logic signed [WIDTH-1:0]      west_i,   // west input
   output    logic signed [WIDTH-1:0]      east_o,   // east output
-  output    logic signed [WIDTH-1:0]      south_o,   // south output
+  output    logic signed [WIDTH-1:0]      south_o   // south output
 
   // for verification
-  output    logic signed [WIDTH-1:0]      ps_o,
-  output    logic signed [WIDTH-1:0]      weight_o,
-  output    logic signed [WIDTH-1:0]      result_o
+//   output    logic signed [WIDTH-1:0]      ps_o,
+//   output    logic signed [WIDTH-1:0]      weight_o,
+//   output    logic signed [WIDTH-1:0]      result_o
 );
 
 // local parameters
@@ -71,9 +71,9 @@ always_comb begin
     result_b = saturation(long_sum_b);
 
     // for verification
-    ps_o = ps_r;
-    weight_o = weight_r;
-    result_o = result_b;
+    // ps_o = ps_r;
+    // weight_o = weight_r;
+    // result_o = result_b;
 end
 
 endmodule

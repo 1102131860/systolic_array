@@ -27,44 +27,9 @@ logic signed [WIDTH-1:0]                we_b    [0:ROW-1][0:COL];
 logic signed [WIDTH-1:0]                ns_b    [0:ROW][0:COL-1];
 
 // for verification
-logic signed [WIDTH-1:0]  ps_b              [0:ROW][0:COL-1];
-logic signed [WIDTH-1:0]  weight_b          [0:ROW][0:COL-1];
-logic signed [WIDTH-1:0]  result_b          [0:ROW][0:COL-1];
-
-`ifdef DEBUG
-    always_ff @(posedge clk_i or negedge rstn_i) begin
-        if (ctrl_load_i[0] || ctrl_sum_out_i[0]) begin
-            $display("==========Internal States==========");
-
-            $write("@%0t: weight_b: ", $realtime);
-            for (int i = 0; i < ROW; i++) begin
-               for (int j = COL - 1; j >= 0; j--) begin
-                    $write("%x", weight_b[i][j]);
-               end
-               $write(" ");
-            end
-            $display("");
-
-            $write("@%0t: result_b: ", $realtime);
-            for (int i = 0; i < ROW; i++) begin
-               for (int j = COL - 1; j >= 0; j--) begin
-                    $write("%x", result_b[i][j]);
-               end
-               $write(" ");
-            end
-            $display("");
-
-            $write("@%0t: ps_b: ", $realtime);
-            for (int i = 0; i < ROW; i++) begin
-               for (int j = COL - 1; j >= 0; j--) begin
-                    $write("%x", ps_b[i][j]);
-               end
-               $write(" ");
-            end
-            $display("");
-        end
-    end
-`endif
+// logic signed [WIDTH-1:0]  ps_b              [0:ROW][0:COL-1];
+// logic signed [WIDTH-1:0]  weight_b          [0:ROW][0:COL-1];
+// logic signed [WIDTH-1:0]  result_b          [0:ROW][0:COL-1];
 
 // instantiate ROW x COL processing elements
 genvar r, c;
@@ -82,10 +47,10 @@ generate
                 .north_i            (ns_b[r][c]                     ),
                 .west_i             (we_b[r][c]                     ),            
                 .east_o             (we_b[r][c + 1]                 ),
-                .south_o            (ns_b[r + 1][c]                 ),
-                .ps_o               (ps_b[r][c]             ),
-                .weight_o           (weight_b[r][c]         ),
-                .result_o           (result_b[r][c]         )
+                .south_o            (ns_b[r + 1][c]                 )
+                // .ps_o               (ps_b[r][c]             ),
+                // .weight_o           (weight_b[r][c]         ),
+                // .result_o           (result_b[r][c]         )
             );
         end
 

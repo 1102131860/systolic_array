@@ -58,6 +58,7 @@ logic [COL-1:0][WIDTH-1:0]          pe_result_b;        // internal bus for PE r
 
 logic [ROW*COL-1:0]                 ctrl_load_muxed;    // muxed ctrl load signal
 logic [ROW*COL-1:0]                 ctrl_sum_out_muxed; // muxed ctrl sum out signal
+logic                               start_r1, start_r2, start_en;  // detect posedge of start_i
 
 //=========================================================================//
 //  EXTERNAL MODE (BYPASS MEMORY CONTROLLER)                               //
@@ -99,6 +100,16 @@ assign ext_result_o         = pe_result_b;
 assign ob_mem_data_o        = pe_result_b;
 
 //=========================================================================//
+// Start_i Posedge Detector                                                //
+//=========================================================================//
+always_ff @(posedge clk_i or negedge rstn_i) begin : posedge_start_i
+    if (!rstn_i) {start_r1, start_r2} <= 2'b00;
+    else {start_r1, start_r2} <= {start_i, start_r1};
+end
+
+assign start_en = start_r1 & ~start_r2;
+
+//=========================================================================//
 //  SYSTOLIC ARRAY                                                         //
 //=========================================================================//
 systolic_array #(.WIDTH(WIDTH), .ROW(ROW), .COL(COL))
@@ -123,6 +134,7 @@ controller #(.WIDTH(WIDTH), .ROW(ROW), .COL(COL), .W_SIZE(W_SIZE), .I_SIZE(I_SIZ
         .ctrl_sum_out_o     (ctrl_sum_out_b     ),
         .ctrl_ps_in_o       (ctrl_ps_in_b       ),
         .ctrl_ps_valid_o    (ctrl_ps_valid_b    ),
+        .start_i            (start_en),
         .*
 );
 

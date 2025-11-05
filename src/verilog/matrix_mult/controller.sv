@@ -151,11 +151,9 @@ always_ff @(posedge clk_i or negedge rstn_i)
         done_o          <=  1'b0;   // done
 
         ib_mem_cenb_o   <= 1'b1;    // active low
-        // ib_mem_wenb_o   <= 1'b1;    // active low
-        ib_mem_wenb_o   <= 1'b0;
+        ib_mem_wenb_o   <= 1'b1;    // active low
         wb_mem_cenb_o   <= 1'b1;    // active low
-        // wb_mem_wenb_o   <= 1'b1;    // active low
-        wb_mem_wenb_o   <= 1'b0;    // active low
+        wb_mem_wenb_o   <= 1'b1;    // active low
         ob_mem_cenb_o   <= 1'b1;    // active low
         ob_mem_wenb_o   <= 1'b1;    // active low
 
@@ -173,11 +171,9 @@ always_ff @(posedge clk_i or negedge rstn_i)
         done_o <= done_o;
 
         ib_mem_cenb_o   <= 1'b1;    // active low
-        // ib_mem_wenb_o   <= 1'b1;    // active low
-        ib_mem_wenb_o   <= 1'b0;
+        ib_mem_wenb_o   <= 1'b1;    // active low
         wb_mem_cenb_o   <= 1'b1;    // active low
-        // wb_mem_wenb_o   <= 1'b1;    // active low
-        wb_mem_wenb_o   <= 1'b0;
+        wb_mem_wenb_o   <= 1'b1;    // active low
         ob_mem_cenb_o   <= 1'b1;    // active low
         ob_mem_wenb_o   <= 1'b1;    // active low
 
@@ -201,7 +197,6 @@ always_ff @(posedge clk_i or negedge rstn_i)
             IDLE:       ;
             LOAD:       begin
                             wb_mem_cenb_o <= 1'b0; // read weights memory
-                            wb_mem_wenb_o <= 1'b1;
                             wb_mem_addr_o <= config_i.w_offset + count_r;
 
                             done_o <= 1'b0;
@@ -213,7 +208,6 @@ always_ff @(posedge clk_i or negedge rstn_i)
                         end
             IN_ONLY:    begin
                             ib_mem_cenb_o <= 1'b0; // read inputs memory
-                            ib_mem_wenb_o <= 1'b1;
                             ib_mem_addr_o <= (config_i.extra_config[0] ? count_r : (count_r - ROW - 1)) + config_i.i_offset;
 
                             wb_mem_cenb_o <= config_i.extra_config[0] ? 1'b0 : 1'b1; // flow down weights (for output stationary mode)
@@ -226,7 +220,6 @@ always_ff @(posedge clk_i or negedge rstn_i)
                         end
             IN_OUT:     begin
                             ib_mem_cenb_o <= 1'b0; // read inputs memory
-                            ib_mem_wenb_o <= 1'b1;
                             ib_mem_addr_o <= config_i.extra_config[0] ? count_r : (count_r - ROW - 1) + config_i.i_offset;
 
                             wb_mem_cenb_o <= config_i.extra_config[0] ? 1'b0 : 1'b1; // read weights memory (for output stationary mode)
