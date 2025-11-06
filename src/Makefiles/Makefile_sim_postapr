@@ -39,11 +39,11 @@ link_files:
 vcs:$(TOPLEVEL)_apr.include
 	mkdir -p golden_log
 	touch golden_log/$(TESTNAME).log
-	mkdir -p logs
 	vcs -f $(TOPLEVEL)_apr.include +v2k -R +lint=all -sverilog -full64 \
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
 		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
-		+ntb_random_seed=$(RAND_SEED) -lca -kdb
+		+ntb_random_seed=$(RAND_SEED) -lca -kdb \
+		-cm line+cond+tgl
 		#simv
 
 vrd:

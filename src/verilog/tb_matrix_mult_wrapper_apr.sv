@@ -3,7 +3,7 @@ module tb_matrix_mult_wrapper;
    parameter CLOCK_PERIOD        = 10;
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
-   parameter real MEM_DELAY      = 0.35;
+   parameter real MEM_DELAY      = 1.00;
 
    localparam WIDTH              = matrix_mult_pkg::WIDTH;
    localparam ROW                = matrix_mult_pkg::ROW;
@@ -228,7 +228,7 @@ module tb_matrix_mult_wrapper;
         returnval = $value$plusargs("testname=%s", testname);
         $display("@%0t: testname = %0s", $realtime, testname);
 
-        filename = $sformatf("./logs/%0s.log", testname);
+        filename = $sformatf("./golden_log/%0s.log", testname);
         f = $fopen(filename, "w");
         if (f == 0)
             $fatal("@%0t: Cannot open %s for writing", $realtime, filename);
