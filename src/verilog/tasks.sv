@@ -1,6 +1,3 @@
-/************************************/
-/*** Assertion Based Verification ***/
-/************************************/
 // when in the weight stationary memory mode and wb_mem is selected, 
 // the wb_mem_cenb_o and wb_mem_wenb_o in the continuous COL cylces
 // must be 0 (selected) and 1 (read mode) and release 2 cycles later
@@ -15,7 +12,7 @@ wb_mem_assert: assert property (check_wb_mem_cycles)
 // i_rows is not a constant so cannot directly use concurrent assertion
 task check_ib_mem_cycles(input int i_rows);
    @(negedge ib_mem_cenb_o);
-   for (int i = 0; i < i_rows; i++) begin
+   for (int i = 0; i < i_rows; i++) begin : check_ib_mem_loop
       check_ib_mem: assert (!ib_mem_cenb_o && ib_mem_wenb_o)
       else $error("@%0t: ib_mem violated read hold", $realtime);
       @(posedge sample_clk_o);
@@ -25,7 +22,7 @@ endtask
 // ob_mem can only be written
 task check_ob_mem_cycles(input int i_rows);
    @(negedge ob_mem_cenb_o);
-   for (int i = 0; i < i_rows; i++) begin
+   for (int i = 0; i < i_rows; i++) begin : check_ob_mem_loop
       check_ob_mem: assert (!ob_mem_cenb_o && !ob_mem_wenb_o)
       else $error("@%0t: ob_mem violated read hold", $realtime);
       @(posedge sample_clk_o);
