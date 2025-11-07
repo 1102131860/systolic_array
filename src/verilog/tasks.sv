@@ -1,3 +1,6 @@
+///////////////////////////////////////////
+// Assertions
+///////////////////////////////////////////
 // when in the weight stationary memory mode and wb_mem is selected, 
 // the wb_mem_cenb_o and wb_mem_wenb_o in the continuous COL cylces
 // must be 0 (selected) and 1 (read mode) and release 2 cycles later
@@ -12,7 +15,7 @@ wb_mem_assert: assert property (check_wb_mem_cycles)
 // i_rows is not a constant so cannot directly use concurrent assertion
 task check_ib_mem_cycles(input int i_rows);
    @(negedge ib_mem_cenb_o);
-   for (int i = 0; i < i_rows; i++) begin : check_ib_mem_loop
+   for (int i = 0; i < i_rows; i++) begin
       check_ib_mem: assert (!ib_mem_cenb_o && ib_mem_wenb_o)
       else $error("@%0t: ib_mem violated read hold", $realtime);
       @(posedge sample_clk_o);
@@ -20,9 +23,11 @@ task check_ib_mem_cycles(input int i_rows);
 endtask
 
 // ob_mem can only be written
-task check_ob_mem_cycles(input int i_rows);
+task check_ob_mem_cycles(input int i_rows, en_output_sat);
+   int size;
+   size = en_output_sat ? COL : i_rows;
    @(negedge ob_mem_cenb_o);
-   for (int i = 0; i < i_rows; i++) begin : check_ob_mem_loop
+   for (int i = 0; i < size; i++) begin
       check_ob_mem: assert (!ob_mem_cenb_o && !ob_mem_wenb_o)
       else $error("@%0t: ob_mem violated read hold", $realtime);
       @(posedge sample_clk_o);
@@ -45,19 +50,33 @@ task check_done_cycles(input int i_rows);
    else $error("@%0t: latency (%0d) exceeds bound (%0d)", $realtime, cyc, bound);
 endtask
 
+///////////////////////////////////////////
+// Memory transcation and Coverage
+///////////////////////////////////////////
 class mem_trans;
-   rand bit [WEIGHT_DATA_WIDTH-1:0] data[$]; // store memory data
    string name;                              // memory transaction's name
+   rand bit [WEIGHT_DATA_WIDTH-1:0] data[$]; // store memory data
+   bit [WEIGHT_DATA_WIDTH-1:0] mem_line;
+
+   covergroup cg_mem;
+      coverpoint mem_line {
+         bins zero = {32'h00000000};
+         bins max = {32'h7FFFFFFF}; 
+         bins min = {32'h80000000};
+         bins positive = {[32'h00000001 : 32'h7FFFFFFE]};
+         bins negative = {[32'h80000001 : 32'hFFFFFFFF]}; 
+      }
+   endgroup
 
    // Constructor
    function new(string mem_name="");
       name = mem_name;
+      cg_mem = new();
    endfunction
 
    // read data from file
    function void read_mem_file(string file_path);
       int fd;
-      bit [WEIGHT_DATA_WIDTH-1:0] tmp;
       string line;
 
       fd = $fopen(file_path, "r");
@@ -69,8 +88,9 @@ class mem_trans;
       while (!$feof(fd)) begin
          void'($fgets(line, fd));
          if (line != "") begin
-            $sscanf(line, "%x", tmp);
-            data.push_back(tmp);
+            $sscanf(line, "%x", mem_line);
+            data.push_back(mem_line);
+            cg_mem.sample();  // covergroup samples
          end
       end
       $fclose(fd);
@@ -207,9 +227,9 @@ task memory_mode(input bit en_output_sat=0);
    w_rows_int = weight_trans.data.size();
    w_cols_int = COL;
    i_rows_int = input_trans.data.size();
-   w_offset_int = $urandom_range(W_SIZE - w_rows_i - 1);
-   i_offset_int = $urandom_range(I_SIZE - i_rows_i - 1);
-   o_offset_int = $urandom_range(O_SIZE - i_rows_i - 1);
+   w_offset_int = $urandom_range(W_SIZE - w_rows_i - 2);
+   i_offset_int = $urandom_range(I_SIZE - i_rows_i - 2);
+   o_offset_int = $urandom_range(O_SIZE - i_rows_i - 2);
 
    reset_signals();
    @(posedge clk_i);
@@ -300,9 +320,9 @@ task memory_mode(input bit en_output_sat=0);
 
    // Assertions
    fork
-      check_ib_mem_cycles(input_trans.data.size());
-      check_ob_mem_cycles(input_trans.data.size());
-      check_done_cycles(input_trans.data.size());
+      check_ib_mem_cycles(i_rows_int);
+      check_ob_mem_cycles(i_rows_int, en_output_sat);
+      check_done_cycles(i_rows_int);
    join_none
 
    ///////////////////////////////////////////

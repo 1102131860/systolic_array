@@ -5,7 +5,7 @@ test_num=1 # number of random tests to run
 # configure matrix size
 # Input * Weight = Output
 # [M, K] * [K, N] = [M, N]
-M=6
+M=4
 K=4
 N=4
 output_stat=0

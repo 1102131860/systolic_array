@@ -11,7 +11,7 @@ args = vars(parser.parse_args())
 mode_arg = args['mode']
 
 # set parameters
-output_path = f"logs/{mode_arg}.log"
+output_path = f"golden_log/{mode_arg}.log"
 golden_path = "golden_outputs/GOLD_OUTPUTS.txt"
 big_path = "logs/final_log.txt"
 error_path = "logs/error.log"
