@@ -1,3 +1,53 @@
+/************************************/
+/*** Assertion Based Verification ***/
+/************************************/
+// when in the weight stationary memory mode and wb_mem is selected, 
+// the wb_mem_cenb_o and wb_mem_wenb_o in the continuous COL cylces
+// must be 0 (selected) and 1 (read mode) and release 2 cycles later
+property check_wb_mem_cycles;
+   @(posedge sample_clk_o) disable iff (!rstn_async_i)
+      (!extra_config_i[0] && $fell(wb_mem_cenb_o))
+      |-> ((!wb_mem_cenb_o && wb_mem_wenb_o)[*COL] ##2 wb_mem_cenb_o);
+endproperty
+wb_mem_assert: assert property (check_wb_mem_cycles)
+   else $error("@%0t: failed to deassert and assert wb_mem", $realtime);
+
+// i_rows is not a constant so cannot directly use concurrent assertion
+task check_ib_mem_cycles(input int i_rows);
+   @(negedge ib_mem_cenb_o);
+   for (int i = 0; i < i_rows; i++) begin
+      check_ib_mem: assert (!ib_mem_cenb_o && ib_mem_wenb_o)
+      else $error("@%0t: ib_mem violated read hold", $realtime);
+      @(posedge sample_clk_o);
+   end
+endtask
+
+// ob_mem can only be written
+task check_ob_mem_cycles(input int i_rows);
+   @(negedge ob_mem_cenb_o);
+   for (int i = 0; i < i_rows; i++) begin
+      check_ob_mem: assert (!ob_mem_cenb_o && !ob_mem_wenb_o)
+      else $error("@%0t: ob_mem violated read hold", $realtime);
+      @(posedge sample_clk_o);
+   end
+endtask
+
+// the i_rows is not a constant so cannot directly use concurrent assertion
+task check_done_cycles(input int i_rows);
+   int cyc, bound;
+   cyc = 0;
+   // for weight_stationary: w_rows(COL)[LOAD] + i_rows(K + M - 1)[ONLY_INPUT + INPUT_OUTPUT] + w_rows(COL)[ONLY_OUTPUT]
+   // for output_stationary: i_rows(K + M - 1)[INPUT] + w_rows(COL)[FLASH] + w_rows(COL)[LOAD]
+   bound = (2 * COL + i_rows) + 6;
+
+   @(posedge start_i);
+   while(cyc < bound + 1_000 && !done_o)
+      @(posedge sample_clk_o) cyc++;
+
+   check_bound: assert (cyc <= bound)
+   else $error("@%0t: latency (%0d) exceeds bound (%0d)", $realtime, cyc, bound);
+endtask
+
 class mem_trans;
    rand bit [WEIGHT_DATA_WIDTH-1:0] data[$]; // store memory data
    string name;                              // memory transaction's name
@@ -251,20 +301,21 @@ task memory_mode(input bit en_output_sat=0);
    accum_enb_i         = '0;
    extra_config_i[0]   = en_output_sat; // weight stationary mode (0) or output stationary mode(1)
 
+   // Assertions
+   fork
+      check_ib_mem_cycles(input_trans.data.size());
+      check_ob_mem_cycles(input_trans.data.size());
+      check_done_cycles(input_trans.data.size());
+   join_none
+
    ///////////////////////////////////////////
    // Start Computing
    ///////////////////////////////////////////
    $display("==========Start Computing==========");
-
-   // assertion for done_o
-   // a1: assert property (assert_done_o)
-   //    else $error("done_o not asserted within expected delay!");
-
    @(negedge sample_clk_o);
    start_i  <= '1;
    @(negedge sample_clk_o);
    start_i  <= '0;
-
    // wait for done_o to be high
    @(posedge done_o);
 

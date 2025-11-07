@@ -43,7 +43,7 @@ vcs:$(TOPLEVEL)_apr.include
 		-timescale=1ns/10ps -debug_acc+pp+dmptf -debug_region+cell+encrypt \
 		-debug_access -l $(TOPLEVEL).log +define+$(VERILOG_DEFINES) +testname=$(TESTNAME) \
 		+ntb_random_seed=$(RAND_SEED) -lca -kdb \
-		-cm line+cond+tgl
+		-cm line+cond+tgl+branch+assert
 		#simv
 
 vrd:
