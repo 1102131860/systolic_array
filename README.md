@@ -232,10 +232,7 @@ group<group_number>\_ms3.tar.gz
 |                                   |-file1
 |                                   |-file2
 |                                   |-...
-|        
-|-cordic_wrapper_<groupnum>_lib-----|
-                                    |-dir1
-                                    |-file1
+
 ```
 
 ## Milestone 4 Deliverables
@@ -254,10 +251,7 @@ group<group_number>\_ms4.tar.gz
 |                                   |-file1
 |                                   |-file2
 |                                   |-...
-|        
-|-cordic_wrapper_<groupnum>_lib-----|
-                                    |-dir1
-                                    |-file1
+
 ```
 
 ## Team Common Directories on ECE Linux Machine

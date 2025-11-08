@@ -51,12 +51,9 @@ current_scenario func1_wc
 read_sdc ${GATE_SRC_DIR}/results/${TOP_MODULE}.sdc
 
 #The clock details are read from the .sdc; however, we likely will want to change this from synthesis. Syn has no wire delays, so these will kill timing
-set cmd "create_clock \{clk_i\} -add -name clk -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
-eval $cmd
-
+create_clock -add -name clk -period $APR_CLOCK_PERIOD -waveform [list 0 [expr 0.5*$APR_CLOCK_PERIOD]] [get_ports clk_i]
 
 report_port -verbose
-
 
 #What is tlu_plus files? Virtual route and post-layout DRC rules with rules - Extraction rules -Parasitic extraction. Vias.
 #
@@ -74,12 +71,10 @@ set_parasitic_parameters -corners wc -late_spec wc -late_temperature 125 \
                                      -early_spec wc -early_temperature 125
 report_parasitic_parameters -corners wc
 
-
 set_process_label SS125 -library $TECH_LABEL
 set_voltage 0.9
 set_temperature 125
 report_pvt
-
 
 set_scenario_status func1_wc -hold false -cell_em false -signal_em false -all -active false
 
@@ -92,9 +87,9 @@ create_scenario -mode func1 -corner bc -name func1_bc
 current_scenario func1_bc
 
 read_sdc ${GATE_SRC_DIR}/results/${TOP_MODULE}.sdc
+
 #The clock details are read from the .sdc; however, we likely will want to change this from synthesis. Syn has no wire delays, so these will kill timing
-set cmd "create_clock \{clk_i\} -add -name clk -period $APR_CLOCK_PERIOD -waveform \{0 [expr 0.5*$APR_CLOCK_PERIOD]\}"
-eval $cmd
+create_clock -add -name clk -period $APR_CLOCK_PERIOD -waveform [list 0 [expr 0.5*$APR_CLOCK_PERIOD]] [get_ports clk_i]
 
 report_port -verbose
 
@@ -102,7 +97,6 @@ read_parasitic_tech -tlup $MAX_TLUPLUS_FILE -layermap $TECH2ITF_MAP_FILE -name b
 set_parasitic_parameters -corners bc -late_spec bc -late_temperature 0 \
                                      -early_spec bc -early_temperature 0
 report_parasitic_parameters -corners bc
-
 
 set_process_label FF0 -library $TECH_LABEL
 set_voltage 1.1
@@ -112,8 +106,8 @@ report_pvt
 set_scenario_status func1_bc -setup false -cell_em false -signal_em false -all -active false
 current_scenario func1_wc
 
-# derate factorr
-set_timing_derate -early $DERATE_EARLY
-set_timing_derate -late  $DERATE_LATE
+# derate factor
+set_timing_derate -early $DERATE_EARLY -corner bc
+set_timing_derate -late  $DERATE_LATE -corner wc
 
 set_app_options -name time.enable_non_sequential_checks -value false
