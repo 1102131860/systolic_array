@@ -1,6 +1,6 @@
 module tb_matrix_mult_wrapper;
 
-   parameter real CLOCK_PERIOD   = 10;
+   parameter real CLOCK_PERIOD   = 6;  // the highest clk frequency, 167MHz
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
    parameter real MEM_DELAY      = 1.00;
