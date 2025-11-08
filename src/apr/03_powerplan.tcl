@@ -89,7 +89,7 @@ for {set i 0} {$i < [llength $POWER_NET]} {incr i} {
  
 for {set i 0} {$i < [llength $GROUND_NET]} {incr i} {
     set ground_net_name [lindex $GROUND_NET $i]
-    set top_layer       [lindex $TOP_LAYER_POWER_NET $i]
+    set top_layer       [lindex $TOP_LAYER_GROUND_NET $i]
     set top_shape      [get_shapes -filter "net_type == ground && net == [get_nets $ground_net_name]"]
     set top_shape      [filter_collection $top_shape "layer == [get_layers $top_layer]"]
     create_terminal -layer [get_layers $top_layer] -of_objects $top_shape

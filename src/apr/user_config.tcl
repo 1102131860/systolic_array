@@ -69,14 +69,14 @@ set PGR_CLEARANCE          "2.0"; # spacing between adjacent power rings, and be
 set PGR_SPACE              "1.2"; # space between I/O pads and outermost ring edge
 set PGR_WIDTH              "3.0"; # metal width of a core power ring
 
-set PGR_HLAYER             "M8"
-set PGR_VLAYER             "M7"
+set PGR_HLAYER             "M6"
+set PGR_VLAYER             "M5"
 
 set POWER_NET              [list "VDD"] ;# This is real power net name.
 set GROUND_NET             [list "VSS"] ;# This is real ground net name.
 
-set TOP_LAYER_POWER_NET       [list "M7"]  ;# Should contain one element for each power net.
-set TOP_LAYER_GROUND_NET      [list "M7"]  ;# Should contain one element for each ground net.
+set TOP_LAYER_POWER_NET       [list "M6"]  ;# Should contain one element for each power net.
+set TOP_LAYER_GROUND_NET      [list "M6"]  ;# Should contain one element for each ground net.
 
 #*****************************************************************************
 #**                     Message Info                                        **

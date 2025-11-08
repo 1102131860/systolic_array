@@ -35,6 +35,7 @@ create_clock -name "clk"    \
 # i_en is the enable signal for the global gater; this is expected to be a static bit
 set_ideal_network [get_nets -of_objects [get_ports clk_i]] -no_propagate
 set_ideal_network [get_nets -of_objects [get_ports rstn_async_i]] -no_propagate
+set_ideal_network [get_nets g_clk] -no_propagate
 
 #set_dont_touch_network [get_nets [list phi phi_bar update capture reset]] 
 #set_ideal_network [get_nets [list phi phi_bar update capture reset]] -no_propagate
@@ -134,4 +135,13 @@ source set_dont_use.tcl
 #set_false_path -through [get_pins trng_ns_0/reset_*]
 #set_false_path -to clk_pad_out
 # set_false_path -from nmi
-set_false_path   -from [get_ports en_i]
+
+# Static scan signals
+set_false_path -from [get_ports test_config_i]
+set_false_path -from [get_ports data_config_i]
+set_false_path -from [get_ports ext_inputs_i]
+set_false_path -from [get_ports ext_en_i]
+set_false_path -to [get_ports sample_clk_o]
+set_false_path -to [get_ports ext_result_o]
+set_false_path -to [get_ports ext_valid_o]
+set_case_analysis 1 [get_ports en_i]
