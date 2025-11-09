@@ -27,6 +27,7 @@ task check_ob_mem_cycles(input int i_rows, en_output_sat);
    int size;
    size = en_output_sat ? COL : i_rows;
    @(negedge ob_mem_cenb_o);
+   // #0.05;   // There is a 0.03ns delay in bc.sdf for ob_mem_cenb_o transition, so in the bc case, uncomment it
    for (int i = 0; i < size; i++) begin
       check_ob_mem: assert (!ob_mem_cenb_o && !ob_mem_wenb_o)
       else $error("@%0t: ob_mem violated read hold", $realtime);

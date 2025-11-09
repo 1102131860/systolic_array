@@ -1,6 +1,6 @@
 module tb_matrix_mult_wrapper;
 
-   parameter real CLOCK_PERIOD   = 6;  // the highest clk frequency, 167MHz
+   parameter real CLOCK_PERIOD   = 10;  // the highest clk frequency, 143MHz (7ns) for wc; 500MHz (2ns) for bc
    parameter real DUTY_CYCLE     = 0.5;
    parameter real OFFSET         = 2.5;
    parameter real MEM_DELAY      = 1.00;
@@ -158,9 +158,6 @@ module tb_matrix_mult_wrapper;
    assign ob_mem_d_i_w                         = ext_en_i ? ob_mem_d_i_ext_i  : ob_mem_data_o;
    assign ob_mem_data_i                        = ob_mem_q_o_w;
 
-   // logic mem_clk;
-   // assign #3.33 mem_clk = clk_i;
-
    logic [1000:0] testname;
    integer        returnval;
    string         filename;
@@ -223,6 +220,7 @@ module tb_matrix_mult_wrapper;
 	      $fsdbDumpvars(0, ob_mem, "+mda", "+all", "+trace_process");
         `ifdef SDF 
             $sdf_annotate("./matrix_mult_wrapper_03.wc.sdf", matrix_mult_wrapper_0, "./sdf.max.cfg");
+            // $sdf_annotate("./matrix_mult_wrapper_03.bc.sdf", matrix_mult_wrapper_0, "./sdf.min.cfg");
         `endif
 
         returnval = $value$plusargs("testname=%s", testname);
