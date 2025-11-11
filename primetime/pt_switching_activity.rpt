@@ -1,0 +1,169 @@
+Warning: Switching activity for constant net net_aps_90 is reset by SAIF/VCD.  (PSW-208)
+Warning: Switching activity for constant net net_aps_91 is reset by SAIF/VCD.  (PSW-208)
+Warning: Switching activity for constant net optlc_net_296 is reset by SAIF/VCD.  (PSW-208)
+Warning: Switching activity for constant net ps_mem_cenb_o is reset by SAIF/VCD.  (PSW-208)
+Warning: Switching activity for constant net net_aps_65 is reset by SAIF/VCD.  (PSW-208)
+****************************************
+Report : Switching Activity
+	-list_not_annotated
+Design : matrix_mult_wrapper_03
+Version: W-2024.09-SP5
+Date   : Tue Nov 11 15:46:01 2025
+****************************************
+
+ Switching Activity Overview Statistics for "matrix_mult_wrapper_03"
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                  From Activity     From         From         From             From            From                                                            Not           From Annotated
+Object Type       File (%)          SSA (%)      SSA Force (%) SSA Force (%)   SCA (%)         Clock (%)       Default (%)     Propagated(%)   Implied(%)      Annotated(%)  Waveform(%)         Total
+                                                 Annotated    Implied                                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nets             8213(98.37%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        101(1.21%)      0(0.00%)        22(0.26%)       13(0.16%)     0(0.00%)            8349
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Nets Driven by
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Primary Input     359(100.00%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)      0(0.00%)            359
+Tri-State         0(0%)             0(0%)        0(0%)        0(0%)            0(0%)           0(0%)           0(0%)           0(0%)           0(0%)           0(0%)         0(0%)               0
+Black Box         0(0%)             0(0%)        0(0%)        0(0%)            0(0%)           0(0%)           0(0%)           0(0%)           0(0%)           0(0%)         0(0%)               0
+Sequential        731(100.00%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)      0(0.00%)            731
+Combinational     7097(98.12%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        101(1.40%)      0(0.00%)        22(0.30%)       13(0.18%)     0(0.00%)            7233
+Memory            0(0%)             0(0%)        0(0%)        0(0%)            0(0%)           0(0%)           0(0%)           0(0%)           0(0%)           0(0%)         0(0%)               0
+Clock Gate        26(100.00%)       0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)      0(0.00%)            26
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Static Probability Overview Statistics for "matrix_mult_wrapper_03"
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                  From Activity     From         From         From             From            From                                                            Not           From Annotated
+Object Type       File (%)          SSA (%)      SSA Force (%) SSA Force (%)   SCA (%)         Clock (%)       Default (%)     Propagated(%)   Implied(%)      Annotated(%)  Waveform(%)         Total
+                                                 Annotated    Implied                                                                                                        
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Nets             8213(98.37%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        101(1.21%)      0(0.00%)        22(0.26%)       13(0.16%)     0(0.00%)            8349
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Nets Driven by
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Primary Input     359(100.00%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)      0(0.00%)            359
+Tri-State         0(0%)             0(0%)        0(0%)        0(0%)            0(0%)           0(0%)           0(0%)           0(0%)           0(0%)           0(0%)         0(0%)               0
+Black Box         0(0%)             0(0%)        0(0%)        0(0%)            0(0%)           0(0%)           0(0%)           0(0%)           0(0%)           0(0%)         0(0%)               0
+Sequential        731(100.00%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)      0(0.00%)            731
+Combinational     7097(98.12%)      0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        101(1.40%)      0(0.00%)        22(0.30%)       13(0.18%)     0(0.00%)            7233
+Memory            0(0%)             0(0%)        0(0%)        0(0%)            0(0%)           0(0%)           0(0%)           0(0%)           0(0%)           0(0%)         0(0%)               0
+Clock Gate        26(100.00%)       0(0.00%)     0(0.00%)     0(0.00%)         0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)        0(0.00%)      0(0.00%)            26
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+List of nonannotated nets :
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/optlc_6
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/clk_gate_ps_r_reg/optlc_7
+	monitor_0/misr_0/n631
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/clk_gate_ps_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_1__u_pe/optlc_10
+	monitor_0/misr_0/n643
+	matrix_mult_group3/optlc_5
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/optlc_7
+	monitor_0/misr_0/clk_gate_r_misr_data_reg/optlc_14
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/clk_gate_weight_r_reg/optlc_2
+	matrix_mult_group3/sys_array/optlc_3
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_3__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/clk_gate_weight_r_reg/optlc_11
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/clk_gate_weight_r_reg/TE
+	monitor_0/misr_0/clk_gate_r_misr_data_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/clk_gate_weight_r_reg/optlc_3
+	matrix_mult_group3/sys_ctrl/clk_gate_count_r_reg/TE
+	matrix_mult_group3/optlc_12
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_1__u_pe/optlc_6
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_1__u_pe/clk_gate_weight_r_reg/optlc_10
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/clk_gate_ps_r_reg/optlc_3
+	matrix_mult_group3/optlc_6
+	matrix_mult_group3/sys_ctrl/optlc_4
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_3__u_pe/clk_gate_ps_r_reg/TE
+	matrix_mult_group3/optlc_3
+	monitor_0/misr_0/n647
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/clk_gate_weight_r_reg/optlc_6
+	driver_0/lfsr_0/optlc_2
+	matrix_mult_group3/sys_array/optlc_6
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_3__u_pe/clk_gate_ps_r_reg/optlc_13
+	matrix_mult_group3/sys_array/optlc_11
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_3__u_pe/clk_gate_weight_r_reg/optlc_8
+	monitor_0/misr_0/n651
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/clk_gate_weight_r_reg/optlc_11
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/clk_gate_weight_r_reg/optlc_6
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_1__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/clk_gate_weight_r_reg/TE
+	driver_0/lfsr_0/n645
+	matrix_mult_group3/sys_array/optlc_1
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/optlc_11
+	matrix_mult_group3/sys_array/optlc_8
+	matrix_mult_group3/sys_ctrl/clk_gate_count_r_reg/optlc_4
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_0__u_pe/clk_gate_weight_r_reg/TE
+	monitor_0/misr_0/n672
+	matrix_mult_group3/optlc_13
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/clk_gate_ps_r_reg/TE
+	monitor_0/misr_0/n653
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_3__u_pe/clk_gate_weight_r_reg/optlc_13
+	matrix_mult_group3/optlc_4
+	matrix_mult_group3/optlc_14
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_3__u_pe/clk_gate_ps_r_reg/optlc_12
+	matrix_mult_group3/sys_array/optlc_9
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_0__u_pe/clk_gate_weight_r_reg/optlc_7
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/clk_gate_ps_r_reg/optlc_10
+	monitor_0/misr_0/n655
+	matrix_mult_group3/sys_array/optlc_7
+	driver_0/optlc_2
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_3__u_pe/optlc_13
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/clk_gate_ps_r_reg/optlc_11
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/clk_gate_ps_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_1__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/clk_gate_ps_r_reg/optlc_10
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/clk_gate_weight_r_reg/optlc_10
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_0__u_pe/optlc_7
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/optlc_10
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/optlc_2
+	matrix_mult_group3/sys_array/optlc_13
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_0__u_pe/clk_gate_weight_r_reg/optlc_1
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/clk_gate_weight_r_reg/optlc_10
+	matrix_mult_group3/sys_array/optlc_2
+	monitor_0/misr_0/n649
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_1__u_pe/clk_gate_weight_r_reg/optlc_6
+	monitor_0/misr_0/n669
+	matrix_mult_group3/sys_array/optlc_12
+	driver_0/lfsr_0/clk_gate_r_lfsr_data_r_reg/optlc_2
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_0__u_pe/optlc_1
+	matrix_mult_group3/optlc_10
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_0__u_pe/optlc_9
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/optlc_5
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/optlc_6
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/clk_gate_ps_r_reg/TE
+	monitor_0/misr_0/n616
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_0__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/optlc_9
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_3__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/clk_gate_weight_r_reg/optlc_5
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/optlc_10
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_3__u_pe/optlc_12
+	monitor_0/misr_0/n707
+	monitor_0/misr_0/n639
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/clk_gate_ps_r_reg/TE
+	matrix_mult_group3/optlc_7
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/optlc_11
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/optlc_2
+	matrix_mult_group3/optlc_11
+	driver_0/lfsr_0/clk_gate_r_lfsr_data_r_reg/TE
+	monitor_0/misr_0/optlc_14
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_3__u_pe/optlc_8
+	matrix_mult_group3/sys_array/optlc_10
+	matrix_mult_group3/optlc_8
+	matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_0__u_pe/clk_gate_weight_r_reg/optlc_9
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/optlc_3
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_0__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_3__u_pe/clk_gate_ps_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/clk_gate_weight_r_reg/TE
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/clk_gate_weight_r_reg/TE
+	monitor_0/optlc_14
+	matrix_mult_group3/sys_array/optlc_5
+	matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/optlc_3
+
+114 nets with no annotation
+1

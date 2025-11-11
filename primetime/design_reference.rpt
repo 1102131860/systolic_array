@@ -1,0 +1,49 @@
+Information: Using automatic max wire load selection group 'WireAreaForZero'. (ENV-003)
+Information: Using automatic min wire load selection group 'WireAreaForZero'. (ENV-003)
+Information: Building multi voltage information for entire design. (MV-022)
+****************************************
+Report : reference
+Design : matrix_mult_wrapper_03
+Version: W-2024.09-SP5
+Date   : Tue Nov 11 15:45:54 2025
+****************************************
+
+
+Attributes:
+    b - black-box (unknown)
+    h - hierarchical
+    n - noncombinational
+    u - contains unmapped logic
+    A - abstracted timing model
+    E - extracted timing model
+    S - Stamp timing model
+    Q - Quick timing model (QTM)
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+--------------------------------------------------------------------------------
+AN2D0              tcbn65gplustc    2.16     1           2.16      
+BUFFD0             tcbn65gplustc    1.44     194       279.36      
+BUFFD1             tcbn65gplustc    1.44     21         30.24      
+BUFFD2             tcbn65gplustc    2.16     1           2.16      
+CKBD0              tcbn65gplustc    1.44     4           5.76      
+CKBD12             tcbn65gplustc    7.92     2          15.84      
+CKBD2              tcbn65gplustc    2.16     1           2.16      
+CKMUX2D1           tcbn65gplustc    3.60     2           7.20      
+INVD0              tcbn65gplustc    1.08     79         85.32      
+MUX2D0             tcbn65gplustc    3.24     129       417.96      
+MUX2ND0            tcbn65gplustc    2.88     29         83.52      
+MUX2ND1            tcbn65gplustc    4.32     3          12.96      
+NR2D0              tcbn65gplustc    1.44     32         46.08      
+TIEH               tcbn65gplustc    1.08     7           7.56      
+TIEL               tcbn65gplustc    1.08     19         20.52      
+async_nreset_synchronizer
+                                   18.00     1          18.00      h
+matrix_mult_group3_WIDTH8_ROW4_COL4_W_SIZE512_I_SIZE512_O_SIZE512
+                                 20413.42    1        20413.42     h
+pseudo_rand_num_gen_DATA_WIDTH64
+                                 1437.48     1        1437.48      h
+signature_analyzer_DATA_WIDTH64
+                                 1381.32     1        1381.32      h
+--------------------------------------------------------------------------------
+Total 19 references                                   24269.02
+1

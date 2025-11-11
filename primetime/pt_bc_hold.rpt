@@ -1,0 +1,957 @@
+****************************************
+Report : timing
+	-path_type full
+	-delay_type min
+	-slack_lesser_than 0.00
+	-max_paths 100
+	-sort_by slack
+Design : matrix_mult_wrapper_03
+Version: W-2024.09-SP5
+Date   : Tue Nov 11 15:45:58 2025
+****************************************
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_3_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_3_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/CTS_copt_h_inst_452/Z (BUFFD0)
+                                                          0.03 H     0.29 f
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_3_/D (DFCNQD2)
+                                                          0.00 &     0.29 f
+  data arrival time                                                  0.29
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_3_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.01
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.17       0.17
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_3_/CP (DFCNQD2)
+                                                          0.00       0.17 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_3_/Q (DFCNQD2)
+                                                          0.09 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_455/Z (BUFFD0)
+                                                          0.03 H     0.29 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_3_/D (DFCNQD2)
+                                                          0.00 &     0.29 f
+  data arrival time                                                  0.29
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_3_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.01
+
+
+  Startpoint: matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_0__3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_1__3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.12       0.12
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_0__3_/CP (DFCNQD2)
+                                                          0.00       0.12 r
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_0__3_/Q (DFCNQD2)
+                                                          0.09 +     0.20 f
+  matrix_mult_group3/sys_ctrl/U504/ZN (INR2XD0)           0.03 +     0.23 f
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_1__3_/D (DFCNQD2)
+                                                          0.00 +     0.23 f
+  data arrival time                                                  0.23
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.25       0.25
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_1__3_/CP (DFCNQD2)
+                                                                     0.25 r
+  clock reconvergence pessimism                          -0.05       0.20
+  clock uncertainty                                       0.01       0.21
+  library hold time                                       0.03       0.24
+  data required time                                                 0.24
+  ------------------------------------------------------------------------------
+  data required time                                                 0.24
+  data arrival time                                                 -0.23
+  ------------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.01
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_0__u_pe/south_o_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/weight_r_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_0__u_pe/south_o_reg_4_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_0__u_pe/south_o_reg_4_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/CTS_copt_h_inst_449/Z (DEL005)
+                                                          0.04 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/weight_r_reg_4_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.33       0.33
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_0__u_pe/weight_r_reg_4_/CP (DFCNQD2)
+                                                                     0.33 r
+  clock reconvergence pessimism                          -0.05       0.27
+  clock uncertainty                                       0.01       0.28
+  library hold time                                       0.03       0.31
+  data required time                                                 0.31
+  ------------------------------------------------------------------------------
+  data required time                                                 0.31
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.01
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_1_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_1_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/CTS_copt_h_inst_469/Z (BUFFD0)
+                                                          0.03 H     0.29 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_1_/D (DFCNQD2)
+                                                          0.00 &     0.29 f
+  data arrival time                                                  0.29
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.31       0.31
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_1_/CP (DFCNQD2)
+                                                                     0.31 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_4_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_4_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/CTS_copt_h_inst_471/Z (BUFFD0)
+                                                          0.03 H     0.29 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_4_/D (DFCNQD2)
+                                                          0.00 &     0.29 f
+  data arrival time                                                  0.29
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.31       0.31
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_4_/CP (DFCNQD2)
+                                                                     0.31 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_2_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_2_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/CTS_copt_h_inst_476/Z (BUFFD0)
+                                                          0.03 H     0.29 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_2_/D (DFCNQD2)
+                                                          0.00 &     0.29 f
+  data arrival time                                                  0.29
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.31       0.31
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_2_/CP (DFCNQD2)
+                                                                     0.31 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_5_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_5_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_5_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_485/Z (BUFFD0)
+                                                          0.03 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_5_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_5_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: async_nreset_synchronizer_0/rstn_o_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: driver_0/r_state_reg_0_
+               (removal check against rising-edge clock clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: **async_default**
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.12       0.12
+  async_nreset_synchronizer_0/rstn_o_reg/CP (DFCNQD2)     0.00       0.12 r
+  async_nreset_synchronizer_0/rstn_o_reg/Q (DFCNQD2)      0.10 +     0.22 r
+  driver_0/U5/Z (CKBD0)                                   0.05 +     0.27 r
+  driver_0/r_state_reg_0_/CDN (DFCNQD2)                   0.00 +     0.27 r
+  data arrival time                                                  0.27
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.23       0.23
+  driver_0/r_state_reg_0_/CP (DFCNQD2)                               0.23 r
+  clock reconvergence pessimism                          -0.05       0.18
+  clock uncertainty                                       0.01       0.19
+  library removal time                                    0.09       0.28
+  data required time                                                 0.28
+  ------------------------------------------------------------------------------
+  data required time                                                 0.28
+  data arrival time                                                 -0.27
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: async_nreset_synchronizer_0/rstn_o_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: driver_0/r_state_reg_1_
+               (removal check against rising-edge clock clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: **async_default**
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.12       0.12
+  async_nreset_synchronizer_0/rstn_o_reg/CP (DFCNQD2)     0.00       0.12 r
+  async_nreset_synchronizer_0/rstn_o_reg/Q (DFCNQD2)      0.10 +     0.22 r
+  driver_0/U5/Z (CKBD0)                                   0.05 +     0.27 r
+  driver_0/r_state_reg_1_/CDN (DFCNQD2)                   0.00 +     0.27 r
+  data arrival time                                                  0.27
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.23       0.23
+  driver_0/r_state_reg_1_/CP (DFCNQD2)                               0.23 r
+  clock reconvergence pessimism                          -0.05       0.18
+  clock uncertainty                                       0.01       0.19
+  library removal time                                    0.09       0.28
+  data required time                                                 0.28
+  ------------------------------------------------------------------------------
+  data required time                                                 0.28
+  data arrival time                                                 -0.27
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_6_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_6_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_6_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_6_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_489/Z (BUFFD0)
+                                                          0.03 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_6_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_6_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_7_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_7_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_7_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_7_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_488/Z (BUFFD0)
+                                                          0.03 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_7_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_7_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/south_o_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/weight_r_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: matrix_mult_group3/ZCTSBUF_7065_355/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/south_o_reg_1_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/south_o_reg_1_/Q (DFCNQD2)
+                                                          0.08 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/CTS_copt_h_inst_463/Z (BUFFD0)
+                                                          0.02 H     0.28 f
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/weight_r_reg_1_/D (DFCNQD2)
+                                                          0.00 &     0.28 f
+  data arrival time                                                  0.28
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/weight_r_reg_1_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.07       0.25
+  clock uncertainty                                       0.01       0.26
+  library hold time                                       0.03       0.28
+  data required time                                                 0.28
+  ------------------------------------------------------------------------------
+  data required time                                                 0.28
+  data arrival time                                                 -0.28
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.17       0.17
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_2_/CP (DFCNQD2)
+                                                          0.00       0.17 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_2_/Q (DFCNQD2)
+                                                          0.09 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_451/Z (DEL005)
+                                                          0.04 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_2_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_2_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_0_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_0_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_0_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_0_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_495/Z (BUFFD0)
+                                                          0.03 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_0_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_0_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: async_nreset_synchronizer_0/rstn_o_reg
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: monitor_0/r_state_reg_1_
+               (removal check against rising-edge clock clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: **async_default**
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.12       0.12
+  async_nreset_synchronizer_0/rstn_o_reg/CP (DFCNQD2)     0.00       0.12 r
+  async_nreset_synchronizer_0/rstn_o_reg/Q (DFCNQD2)      0.10 +     0.22 r
+  monitor_0/U3/Z (CKBD0)                                  0.05 +     0.27 r
+  monitor_0/r_state_reg_1_/CDN (DFCNQD2)                  0.00 +     0.27 r
+  data arrival time                                                  0.27
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.23       0.23
+  monitor_0/r_state_reg_1_/CP (DFCNQD2)                              0.23 r
+  clock reconvergence pessimism                          -0.05       0.18
+  clock uncertainty                                       0.01       0.19
+  library removal time                                    0.09       0.27
+  data required time                                                 0.27
+  ------------------------------------------------------------------------------
+  data required time                                                 0.27
+  data arrival time                                                 -0.27
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/south_o_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/weight_r_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: matrix_mult_group3/ZCTSBUF_7065_355/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/south_o_reg_1_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/south_o_reg_1_/Q (DFCNQD2)
+                                                          0.08 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/CTS_copt_h_inst_462/Z (BUFFD0)
+                                                          0.02 H     0.29 f
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/weight_r_reg_1_/D (DFCNQD2)
+                                                          0.00 &     0.29 f
+  data arrival time                                                  0.29
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_2__u_pe/weight_r_reg_1_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.07       0.25
+  clock uncertainty                                       0.01       0.26
+  library hold time                                       0.03       0.29
+  data required time                                                 0.29
+  ------------------------------------------------------------------------------
+  data required time                                                 0.29
+  data arrival time                                                 -0.29
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.17       0.17
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_1_/CP (DFCNQD2)
+                                                          0.00       0.17 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_1_/Q (DFCNQD2)
+                                                          0.09 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_453/Z (DEL005)
+                                                          0.04 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_1_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_1_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_0__2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_1__2_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.12       0.12
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_0__2_/CP (DFCNQD2)
+                                                          0.00       0.12 r
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_0__2_/Q (DFCNQD2)
+                                                          0.09 +     0.21 f
+  matrix_mult_group3/sys_ctrl/U505/ZN (INR2D0)            0.03 +     0.24 f
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_1__2_/D (DFCNQD2)
+                                                          0.00 +     0.24 f
+  data arrival time                                                  0.24
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.25       0.25
+  matrix_mult_group3/sys_ctrl/ctrl_ps_valid_o_reg_1__2_/CP (DFCNQD2)
+                                                                     0.25 r
+  clock reconvergence pessimism                          -0.05       0.20
+  clock uncertainty                                       0.01       0.21
+  library hold time                                       0.03       0.24
+  data required time                                                 0.24
+  ------------------------------------------------------------------------------
+  data required time                                                 0.24
+  data arrival time                                                 -0.24
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_4_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_4_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/CTS_copt_h_inst_454/Z (DEL005)
+                                                          0.03 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_4_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_4_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/south_o_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/weight_r_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: matrix_mult_group3/ZCTSBUF_7065_355/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/south_o_reg_4_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_3__u_pe/south_o_reg_4_/Q (DFCNQD2)
+                                                          0.08 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/CTS_copt_h_inst_464/Z (BUFFD0)
+                                                          0.02 H     0.28 f
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/weight_r_reg_4_/D (DFCNQD2)
+                                                          0.00 &     0.28 f
+  data arrival time                                                  0.28
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_3__sys_COL_3__u_pe/weight_r_reg_4_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.07       0.25
+  clock uncertainty                                       0.01       0.26
+  library hold time                                       0.03       0.28
+  data required time                                                 0.28
+  ------------------------------------------------------------------------------
+  data required time                                                 0.28
+  data arrival time                                                 -0.28
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_1_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_1_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_0__sys_COL_2__u_pe/south_o_reg_1_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/CTS_copt_h_inst_456/Z (DEL005)
+                                                          0.04 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_1_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/weight_r_reg_1_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_3_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.18       0.18
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_3_/CP (DFCNQD2)
+                                                          0.00       0.18 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_2__u_pe/south_o_reg_3_/Q (DFCNQD2)
+                                                          0.09 +     0.27 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/CTS_copt_h_inst_494/Z (BUFFD0)
+                                                          0.03 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_3_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.31       0.31
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_2__u_pe/weight_r_reg_3_/CP (DFCNQD2)
+                                                                     0.31 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+  Startpoint: matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_4_
+               (rising edge-triggered flip-flop clocked by clk)
+  Last common pin: ZCTSBUF_22128_357/Z
+  Path Group: clk
+  Path Type: min
+  Min Data Paths Derating Factor  : 0.80
+  Min Clock Paths Derating Factor : 0.80
+  Max Clock Paths Derating Factor : 1.10
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.17       0.17
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_4_/CP (DFCNQD2)
+                                                          0.00       0.17 r
+  matrix_mult_group3/sys_array/sys_ROW_1__sys_COL_1__u_pe/south_o_reg_4_/Q (DFCNQD2)
+                                                          0.09 +     0.26 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/CTS_copt_h_inst_450/Z (DEL005)
+                                                          0.04 H     0.30 f
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_4_/D (DFCNQD2)
+                                                          0.00 &     0.30 f
+  data arrival time                                                  0.30
+
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (propagated)                        0.32       0.32
+  matrix_mult_group3/sys_array/sys_ROW_2__sys_COL_1__u_pe/weight_r_reg_4_/CP (DFCNQD2)
+                                                                     0.32 r
+  clock reconvergence pessimism                          -0.05       0.26
+  clock uncertainty                                       0.01       0.27
+  library hold time                                       0.03       0.30
+  data required time                                                 0.30
+  ------------------------------------------------------------------------------
+  data required time                                                 0.30
+  data arrival time                                                 -0.30
+  ------------------------------------------------------------------------------
+  slack (VIOLATED: increase significant digits)                     -0.00
+
+
+1

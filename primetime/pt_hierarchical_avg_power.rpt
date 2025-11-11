@@ -1,0 +1,67 @@
+****************************************
+Report : Averaged Power
+	-hierarchy
+	-levels 4
+	-nosplit
+Design : matrix_mult_wrapper_03
+Version: W-2024.09-SP5
+Date   : Tue Nov 11 15:46:01 2025
+****************************************
+
+
+
+                                      Int      Switch   Leak     Total
+Hierarchy                             Power    Power    Power    Power    %
+----------------------------------------------------------------------------------
+matrix_mult_wrapper_03                1.14e-03 2.03e-04 1.16e-04 1.46e-03 100.0
+  monitor_0 (signature_analyzer_DATA_WIDTH64) 1.02e-04 1.10e-05 5.58e-06 1.19e-04   8.1
+    misr_0 (misr_NUM_BITS64)          9.93e-05 1.10e-05 5.46e-06 1.16e-04   8.0
+      clk_gate_r_misr_data_reg (SNPS_CLOCK_GATE_HIGH_misr_NUM_BITS64_0) 2.75e-06 9.16e-06 7.70e-08 1.20e-05   0.8
+  driver_0 (pseudo_rand_num_gen_DATA_WIDTH64) 1.01e-04 1.23e-05 5.60e-06 1.19e-04   8.2
+    lfsr_0 (lfsr_NUM_BITS64)          9.87e-05 1.22e-05 5.48e-06 1.16e-04   8.0
+      clk_gate_r_lfsr_data_r_reg (SNPS_CLOCK_GATE_HIGH_lfsr_NUM_BITS64_0) 2.42e-06 1.04e-05 7.63e-08 1.29e-05   0.9
+  async_nreset_synchronizer_0 (async_nreset_synchronizer) 2.60e-06 1.58e-08 1.00e-07 2.71e-06   0.2
+  matrix_mult_group3 (matrix_mult_group3_WIDTH8_ROW4_COL4_W_SIZE512_I_SIZE512_O_SIZE512) 9.23e-04 1.49e-04 1.01e-04 1.17e-03  80.5
+    sys_ctrl (controller_WIDTH8_ROW4_COL4_W_SIZE512_I_SIZE512_O_SIZE512) 1.49e-04 3.57e-06 1.01e-05 1.63e-04  11.2
+      clk_gate_count_r_reg (SNPS_CLOCK_GATE_HIGH_controller_WIDTH8_ROW4_COL4_W_SIZE512_I_SIZE512_O_SIZE512_0) 8.37e-07 1.11e-06 2.92e-08 1.98e-06   0.1
+    sys_array (systolic_array_WIDTH8_ROW4_COL4) 7.56e-04 1.03e-04 8.87e-05 9.48e-04  65.1
+      sys_ROW_2__sys_COL_3__u_pe (processing_element_WIDTH8_4) 3.99e-05 5.69e-06 5.31e-06 5.09e-05   3.5
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_4_0) 1.17e-06 1.12e-06 2.94e-08 2.31e-06   0.2
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_4_1) 1.26e-06 1.06e-06 2.94e-08 2.35e-06   0.2
+      sys_ROW_0__sys_COL_0__u_pe (processing_element_WIDTH8_15) 4.45e-05 2.54e-06 5.48e-06 5.25e-05   3.6
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_15_0) 1.26e-06 1.02e-06 2.94e-08 2.31e-06   0.2
+      sys_ROW_1__sys_COL_0__u_pe (processing_element_WIDTH8_11) 5.02e-05 4.73e-06 5.68e-06 6.06e-05   4.2
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_11_0) 2.34e-06 1.08e-06 6.53e-08 3.48e-06   0.2
+      sys_ROW_3__sys_COL_3__u_pe (processing_element_WIDTH8_0) 3.86e-05 4.66e-06 5.25e-06 4.85e-05   3.3
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_0_0) 1.98e-06 1.14e-06 6.46e-08 3.19e-06   0.2
+      sys_ROW_2__sys_COL_0__u_pe (processing_element_WIDTH8_7) 5.18e-05 6.49e-06 5.66e-06 6.39e-05   4.4
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_7_0) 2.31e-06 1.17e-06 6.53e-08 3.54e-06   0.2
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_7_1) 1.26e-06 1.06e-06 2.94e-08 2.36e-06   0.2
+      sys_ROW_0__sys_COL_1__u_pe (processing_element_WIDTH8_14) 4.84e-05 4.54e-06 5.58e-06 5.85e-05   4.0
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_14_0) 1.18e-06 1.06e-06 2.94e-08 2.27e-06   0.2
+      sys_ROW_3__sys_COL_0__u_pe (processing_element_WIDTH8_3) 5.00e-05 5.42e-06 5.61e-06 6.10e-05   4.2
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_3_0) 2.31e-06 1.17e-06 6.53e-08 3.54e-06   0.2
+      sys_ROW_1__sys_COL_1__u_pe (processing_element_WIDTH8_10) 5.00e-05 5.99e-06 5.56e-06 6.15e-05   4.2
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_10_0) 1.94e-06 1.14e-06 6.45e-08 3.14e-06   0.2
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_10_1) 1.20e-06 1.21e-06 2.94e-08 2.44e-06   0.2
+      sys_ROW_2__sys_COL_1__u_pe (processing_element_WIDTH8_6) 5.17e-05 6.37e-06 5.67e-06 6.37e-05   4.4
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_6_0) 2.31e-06 1.08e-06 6.53e-08 3.45e-06   0.2
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_6_1) 9.46e-07 1.14e-06 2.93e-08 2.11e-06   0.1
+      sys_ROW_0__sys_COL_2__u_pe (processing_element_WIDTH8_13) 4.84e-05 4.41e-06 5.61e-06 5.84e-05   4.0
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_13_0) 1.26e-06 1.10e-06 2.94e-08 2.39e-06   0.2
+      sys_ROW_3__sys_COL_1__u_pe (processing_element_WIDTH8_2) 4.86e-05 5.26e-06 5.62e-06 5.95e-05   4.1
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_2_0) 8.40e-07 1.17e-06 2.92e-08 2.03e-06   0.1
+      sys_ROW_1__sys_COL_2__u_pe (processing_element_WIDTH8_9) 5.00e-05 5.38e-06 5.70e-06 6.11e-05   4.2
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_9_0) 2.30e-06 1.17e-06 6.53e-08 3.54e-06   0.2
+      sys_ROW_2__sys_COL_2__u_pe (processing_element_WIDTH8_5) 5.18e-05 6.58e-06 5.58e-06 6.39e-05   4.4
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_5_0) 2.29e-06 1.09e-06 6.53e-08 3.45e-06   0.2
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_5_1) 1.19e-06 1.08e-06 2.94e-08 2.30e-06   0.2
+      sys_ROW_0__sys_COL_3__u_pe (processing_element_WIDTH8_12) 3.80e-05 5.04e-06 5.10e-06 4.82e-05   3.3
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_12_0) 8.82e-07 1.03e-06 2.93e-08 1.94e-06   0.1
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_12_1) 8.92e-07 1.02e-06 2.92e-08 1.94e-06   0.1
+      sys_ROW_3__sys_COL_2__u_pe (processing_element_WIDTH8_1) 5.00e-05 5.12e-06 5.60e-06 6.07e-05   4.2
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_1_0) 2.31e-06 1.08e-06 6.53e-08 3.46e-06   0.2
+      sys_ROW_1__sys_COL_3__u_pe (processing_element_WIDTH8_8) 4.10e-05 6.34e-06 5.26e-06 5.26e-05   3.6
+        clk_gate_weight_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_8_0) 2.29e-06 1.12e-06 6.53e-08 3.47e-06   0.2
+        clk_gate_ps_r_reg (SNPS_CLOCK_GATE_HIGH_processing_element_WIDTH8_8_1) 1.25e-06 1.02e-06 2.94e-08 2.30e-06   0.2
+1
