@@ -21,7 +21,7 @@ error_flag = 0
 try: # if verilog sim failed, can't open output_path. then print error log automatically
     with open(output_path, 'r') as output_file, open(golden_path, 'r') as golden_file, open(big_path, "a") as big_file:
         for line_num, (line1, line2) in enumerate(zip(output_file, golden_file), start=1):
-            if mode_arg != 'memory': line1 = line1[8:]
+            if mode_arg != 'memory' and mode_arg != 'output_stat': line1 = line1[8:]
             if line1.strip().replace('x', '0') != line2.strip(): # take XX as 00 in DUT output log
                 print(f"❌ERROR❌: Difference at line {line_num}:")
                 print(f"DUT output: {line1.strip()}")
