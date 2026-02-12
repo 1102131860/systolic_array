@@ -358,7 +358,7 @@ endtask
 task bist_mode();
    mem_trans weight_trans;
    weight_trans = new("weight_trans");
-   weight_trans.read_mem_file("inputs/WEIGHTS.txt");
+   weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
 
    // Clear all the signals
    reset_signals();
@@ -426,7 +426,7 @@ task bist_mode();
    fork
       forever @(posedge sample_clk_o) begin
          if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
-            $display("@%0t: tracking driver_data_w = %x", $realtime, matrix_mult_wrapper_0.driver_data_w);
+            $display("@%0t: tracking driver_data_w = %x, tracking ext_result_o = %x", $realtime, matrix_mult_wrapper_0.driver_data_w, ext_result_o);
       end
    join_none;
 
@@ -435,6 +435,215 @@ task bist_mode();
    $fwrite(f, "%x\n", ext_result_o);
    disable fork;
 endtask
+
+task bist_mode_DUT_bypass();
+   // Clear all the signals
+   reset_signals();
+   @(posedge clk_i);
+
+   ///////////////////////////////////////////
+   // SET CONTROL SIGNALS
+   ///////////////////////////////////////////
+   // mode_i[0]: Driver should be 0, External Input
+   // mode_i[1]: Mointor shoule be 0, Direct Output
+   // bypass_i[0]: drive_bypass_w should be 0 (bypass)
+   // bypass_i[1]: dut_bypass_w should be 1 (not bypass)
+   // bypass_i[2]: sa_bypass_w should be 0 (bypass)
+   mode_i               = 2'b00;
+   bypass_i             = 3'b010;
+   driver_valid_i       = '0;
+   // set lsfr stop code here
+   driver_stop_code_i   = 64'h6534214444123481;
+   // set lsfr and signature analyzer seeds here
+   {ext_input_i, ext_psum_i} = 64'h7865342144441234;
+
+   // clear signals for 1 cycle
+   @(posedge clk_i);
+   // back to noraml state by asserting rstn_async_i
+   rstn_async_i         =  1'b1;
+   // wait 2 cycles for the asynchronous reset synchronizer sample
+   repeat(2) @(posedge clk_i);
+
+
+   ///////////////////////////////////////////
+   // COMPARE RESULTS
+   ///////////////////////////////////////////
+   fork
+      forever @(posedge sample_clk_o) begin
+         if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
+            $display("@%0t: tracking driver_data_w = %x, tracking ext_result_o = %x", $realtime, matrix_mult_wrapper_0.driver_data_w, ext_result_o);
+      end
+   join_none;
+
+   @(posedge ext_valid_o);
+   $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
+   $fwrite(f, "%x\n", ext_result_o);
+   disable fork;
+endtask
+
+
+task bist_mode_LFSR_bypass();
+   mem_trans weight_trans;
+   mem_trans input_trans;
+   weight_trans = new("weight_trans");
+   input_trans = new("input_trans");
+   weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+   input_trans.read_mem_file("inputs/systolic_in_1_input.hex");
+
+   // Clear all the signals
+   reset_signals();
+   @(posedge clk_i);
+
+   ///////////////////////////////////////////
+   // SET CONTROL SIGNALS
+   ///////////////////////////////////////////
+   // mode_i[0]: Driver should be 1, External Input
+   // mode_i[1]: Mointor shoule be 0
+   // bypass_i[0]: drive_bypass_w should be 1 (bypass)
+   // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
+   // bypass_i[2]: sa_bypass_w should be 0 (bypass)
+   mode_i               = 2'b01;
+   bypass_i             = 3'b001;
+   driver_valid_i       = '0;
+   // set lsfr stop code here
+   driver_stop_code_i   = 64'h6534214444123481;
+   // set lsfr and signature analyzer seeds here
+   {ext_input_i, ext_psum_i} = 64'h7865342144441234;
+
+   // clear signals for 1 cycle
+   @(posedge clk_i);
+   // back to noraml state by asserting rstn_async_i
+   rstn_async_i         =  1'b1;
+   // wait 2 cycles for the asynchronous reset synchronizer sample
+   repeat(2) @(posedge clk_i);
+
+   ///////////////////////////////////////////
+   // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
+   ///////////////////////////////////////////
+   // keep on external mode
+   @(negedge sample_clk_o);
+   ext_en_i             <= '1;
+   // LOAD WEIGHTS
+   foreach(weight_trans.data[i]) begin
+      ext_input_i       <= '0;
+      ext_weight_i      <= weight_trans.data[i];
+      ext_valid_en_i    <= '0;
+      ext_weight_en_i   <= '1;
+      ext_psum_i        <= '0;
+      @(negedge sample_clk_o);
+   end
+
+   ///////////////////////////////////////////
+   // COMPARE RESULTS
+   ///////////////////////////////////////////
+   fork
+      forever @(posedge sample_clk_o) begin
+         if (!ext_valid_o)
+            $display("@%0t: tracking driver_data_w = %x, tracking ext_result_o = %x", $realtime, matrix_mult_wrapper_0.driver_data_w, ext_result_o);
+      end
+   join_none;
+
+   // STREAM INPUTS AND PARTIAL SUMS
+   foreach(input_trans.data[i]) begin
+      ext_input_i       <= input_trans.data[i];
+      ext_weight_i      <= '0;
+      ext_valid_en_i    <= '1;
+      ext_weight_en_i   <= '0;
+      ext_psum_i        <= '0;
+      @(negedge sample_clk_o);
+   end
+   // extra cycles for pipeline flush
+   repeat (ROW) begin
+      ext_input_i       <= '0;
+      ext_weight_i      <= '0;
+      ext_valid_en_i    <= '1;
+      ext_weight_en_i   <= '0;
+      ext_psum_i        <= '0;
+      @(negedge sample_clk_o);
+   end
+   // Deassert ext_en_i
+   ext_en_i             <= '0;
+   ext_valid_en_i       <= '0;
+
+   // @(posedge ext_valid_o);
+   // $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
+   // $fwrite(f, "%x\n", ext_result_o);
+   disable fork;
+endtask
+
+task bist_mode_SA_bypass();
+   mem_trans weight_trans;
+   weight_trans = new("weight_trans");
+   weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+
+   // Clear all the signals
+   reset_signals();
+   @(posedge clk_i);
+
+   ///////////////////////////////////////////
+   // SET CONTROL SIGNALS
+   ///////////////////////////////////////////
+   // mode_i[0]: Driver should be 0, External Input
+   // mode_i[1]: Mointor shoule be 1
+   // bypass_i[0]: drive_bypass_w should be 0 (bypass)
+   // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
+   // bypass_i[2]: sa_bypass_w should be 1 (bypass)
+   mode_i               = 2'b10;
+   bypass_i             = 3'b100;
+   driver_valid_i       = '0;
+   // set lsfr stop code here
+   driver_stop_code_i   = 64'h6534214444123481;
+   // set lsfr and signature analyzer seeds here
+   {ext_input_i, ext_psum_i} = 64'h7865342144441234;
+
+   // clear signals for 1 cycle
+   @(posedge clk_i);
+   // back to noraml state by asserting rstn_async_i
+   rstn_async_i         =  1'b1;
+   // wait 2 cycles for the asynchronous reset synchronizer sample
+   repeat(2) @(posedge clk_i);
+
+   ///////////////////////////////////////////
+   // LOAD WEIGHT BUFFERS WITH EXTERNAL MODE
+   ///////////////////////////////////////////
+   // keep on external mode
+   @(negedge sample_clk_o);
+   ext_en_i             <= '1;
+   // LOAD WEIGHTS
+   foreach(weight_trans.data[i]) begin
+      ext_input_i       <= '0;
+      ext_weight_i      <= weight_trans.data[i];
+      ext_valid_en_i    <= '0;
+      ext_weight_en_i   <= '1;
+      ext_psum_i        <= '0;
+      @(negedge sample_clk_o);
+   end
+   ext_weight_en_i      <= '0;
+   ext_weight_i         <= '0;
+
+   ///////////////////////////////////////////
+   // COMPARE RESULTS
+   ///////////////////////////////////////////
+   fork
+      forever @(posedge sample_clk_o) begin
+         if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
+            $display("@%0t: tracking driver_data_w = %x, tracking ext_result_o = %x", $realtime, matrix_mult_wrapper_0.driver_data_w, ext_result_o);
+      end
+   join_none;
+
+   ///////////////////////////////////////////
+   // STREAM INPUTS AND PARTIAL SUMS
+   ///////////////////////////////////////////
+   driver_valid_i       = '1;
+   // enable input activation as well
+   ext_valid_en_i       = '1;
+
+   @(posedge ext_valid_o);
+   $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
+   $fwrite(f, "%x\n", ext_result_o);
+   disable fork;
+endtask
+
 
 task run_all();
    $display("@%0t===============Memory Mode==================", $realtime);
