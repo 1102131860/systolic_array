@@ -230,6 +230,9 @@ module tb_matrix_mult_wrapper;
       	"memory":     memory_mode();
       	"bist":       bist_mode();
          "output_stat":memory_mode(1);
+         "dut_bypass": bist_mode_DUT_bypass();
+         "lfsr_bypass": bist_mode_LFSR_bypass();
+         "sa_bypass": bist_mode_SA_bypass();
       	default:      run_all();
       endcase
       #1000 
