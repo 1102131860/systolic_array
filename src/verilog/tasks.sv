@@ -376,7 +376,9 @@ task bist_mode();
    bypass_i             = 3'b101;
    driver_valid_i       = '0;
    // set lsfr stop code here
-   driver_stop_code_i   = 64'h6534214444123481;
+   // Cycle 5000:  driver_stop_code = 64'h229d6b0ab6dac7f8 -> sa = 64'h85dc947ed8afe859
+   // Cycle 50000: driver_stop_code = 64'h19c46224f0c0613c -> sa = 64'hea49a27f02277e7e
+   driver_stop_code_i   = 64'h6534214444123481; // 64'h6534214444123481 or 64'h229d6b0ab6dac7f8 or 64'h19c46224f0c0613c
    // set lsfr and signature analyzer seeds here
    {ext_input_i, ext_psum_i} = 64'h7865342144441234;
 
