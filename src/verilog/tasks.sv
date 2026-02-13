@@ -451,7 +451,7 @@ task bist_mode_DUT_bypass();
    // bypass_i[2]: sa_bypass_w should be 0 (bypass)
    mode_i               = 2'b00;
    bypass_i             = 3'b010;
-   driver_valid_i       = '0;
+   driver_valid_i       = '1;
    // set lsfr stop code here
    driver_stop_code_i   = 64'h6534214444123481;
    // set lsfr and signature analyzer seeds here
@@ -463,7 +463,6 @@ task bist_mode_DUT_bypass();
    rstn_async_i         =  1'b1;
    // wait 2 cycles for the asynchronous reset synchronizer sample
    repeat(2) @(posedge clk_i);
-
 
    ///////////////////////////////////////////
    // COMPARE RESULTS
