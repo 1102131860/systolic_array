@@ -358,7 +358,7 @@ endtask
 task bist_mode();
    mem_trans weight_trans;
    weight_trans = new("weight_trans");
-   weight_trans.read_mem_file("inputs/bist_weight.hex");
+   weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
 
    // Clear all the signals
    reset_signals();
