@@ -367,25 +367,27 @@ task bist_mode();
    ///////////////////////////////////////////
    // SET CONTROL SIGNALS
    ///////////////////////////////////////////
-   // mode_i[0]: Driver should be 1, External Input
-   // mode_i[1]: Mointor shoule be 1, Direct Output
-   // bypass_i[0]: drive_bypass_w should be 1 (bypass)
+   // mode_i[0]: Driver should be 0
+   // mode_i[1]: Mointor shoule be 0
+   // bypass_i[0]: drive_bypass_w should be 0 (not bypass)
    // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
-   // bypass_i[2]: sa_bypass_w should be 1 (bypass)
+   // bypass_i[2]: sa_bypass_w should be 0 (not bypass)
    mode_i               = 2'b00;
    bypass_i             = 3'b000;
    driver_valid_i       = 1'b0;
    // set lsfr stop code here
    // Cycle 5000:  driver_stop_code = 64'h229d6b0ab6dac7f8 -> sa = 64'h85dc947ed8afe859
    // Cycle 50000: driver_stop_code = 64'h19c46224f0c0613c -> sa = 64'hea49a27f02277e7e
-   driver_stop_code_i   = 64'h74b5a49036a36f47;  // 64'h6534214444123481 or 64'h229d6b0ab6dac7f8 or 64'h19c46224f0c0613c or 64'h74b5a49036a36f47
+   // 64'h6534214444123481 or 64'h229d6b0ab6dac7f8 or 64'h19c46224f0c0613c or 64'h74b5a49036a36f47
+   driver_stop_code_i   = 64'h74b5a49036a36f47;
    // set lsfr and signature analyzer seeds here
    // assign driver_seed_w    = { ext_inputs_i.ext_input, ext_inputs_i.ext_psum };
    // assign sa_seed_w        = { ext_inputs_i.ext_psum, ext_inputs_i.ext_input };
    ext_weight_en_i      = 1'b0;
    ext_valid_en_i       = 1'b0;
    ext_weight_i         = '0;
-   {ext_input_i, ext_psum_i} = 64'hAFBFCFDF19283746; // 7865342144441234, 12341234ABCDABCD or AFBFCFDF19283746
+   // 7865342144441234, 12341234ABCDABCD or AFBFCFDF19283746
+   {ext_input_i, ext_psum_i} = 64'hAFBFCFDF19283746;
 
    // clear signals for 2 cycle
    repeat (2) @(posedge clk_i);
