@@ -358,7 +358,7 @@ endtask
 task bist_mode();
    mem_trans weight_trans;
    weight_trans = new("weight_trans");
-   weight_trans.read_mem_file("inputs/systolic_in_1_weight.hex");
+   weight_trans.read_mem_file("inputs/bist_weight.hex");
 
    // Clear all the signals
    reset_signals();
@@ -372,18 +372,23 @@ task bist_mode();
    // bypass_i[0]: drive_bypass_w should be 1 (bypass)
    // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
    // bypass_i[2]: sa_bypass_w should be 1 (bypass)
-   mode_i               = 2'b11;
-   bypass_i             = 3'b101;
-   driver_valid_i       = '0;
+   mode_i               = 2'b00;
+   bypass_i             = 3'b000;
+   driver_valid_i       = 1'b0;
    // set lsfr stop code here
    // Cycle 5000:  driver_stop_code = 64'h229d6b0ab6dac7f8 -> sa = 64'h85dc947ed8afe859
    // Cycle 50000: driver_stop_code = 64'h19c46224f0c0613c -> sa = 64'hea49a27f02277e7e
-   driver_stop_code_i   = 64'h6534214444123481; // 64'h6534214444123481 or 64'h229d6b0ab6dac7f8 or 64'h19c46224f0c0613c
+   driver_stop_code_i   = 64'h74b5a49036a36f47;  // 64'h6534214444123481 or 64'h229d6b0ab6dac7f8 or 64'h19c46224f0c0613c or 64'h74b5a49036a36f47
    // set lsfr and signature analyzer seeds here
-   {ext_input_i, ext_psum_i} = 64'h7865342144441234;
+   // assign driver_seed_w    = { ext_inputs_i.ext_input, ext_inputs_i.ext_psum };
+   // assign sa_seed_w        = { ext_inputs_i.ext_psum, ext_inputs_i.ext_input };
+   ext_weight_en_i      = 1'b0;
+   ext_valid_en_i       = 1'b0;
+   ext_weight_i         = '0;
+   {ext_input_i, ext_psum_i} = 64'hAFBFCFDF19283746; // 7865342144441234, 12341234ABCDABCD or AFBFCFDF19283746
 
-   // clear signals for 1 cycle
-   @(posedge clk_i);
+   // clear signals for 2 cycle
+   repeat (2) @(posedge clk_i);
    // back to noraml state by asserting rstn_async_i
    rstn_async_i         =  1'b1;
    // wait 2 cycles for the asynchronous reset synchronizer sample
@@ -410,14 +415,8 @@ task bist_mode();
    ///////////////////////////////////////////
    // STREAM INPUTS AND PARTIAL SUMS
    ///////////////////////////////////////////
-   // set LSFR and Signature Analyzer Mode
-   // mode_i[0]: Driver should be 0, LSFR 
-   // mode_i[1]: Mointor shoule be 0, Signature Analyzer
-   // bypass_i[0]: drive_bypass_w should be 0 (not bypass)
-   // bypass_i[1]: dut_bypass_w should be 0 (not bypass)
-   // bypass_i[2]: sa_bypass_w should be 0 (not bypass)
-   mode_i               = 2'b00;
-   bypass_i             = 3'b000;
+   @(negedge sample_clk_o);
+   // enable driver_valid
    driver_valid_i       = '1;
    // enable input activation as well
    ext_valid_en_i       = '1;
@@ -425,12 +424,12 @@ task bist_mode();
    ///////////////////////////////////////////
    // COMPARE RESULTS
    ///////////////////////////////////////////
-   fork
-      forever @(posedge sample_clk_o) begin
-         if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
-            $display("@%0t: tracking driver_data_w = %x, tracking ext_result_o = %x", $realtime, matrix_mult_wrapper_0.driver_data_w, ext_result_o);
-      end
-   join_none;
+   // fork
+   //    forever @(posedge sample_clk_o) begin
+   //       if (!ext_valid_o && matrix_mult_wrapper_0.driver_valid_o_w)
+   //          $display("@%0t: tracking driver_data_w = %x, tracking ext_result_o = %x", $realtime, matrix_mult_wrapper_0.driver_data_w, ext_result_o);
+   //    end
+   // join_none;
 
    @(posedge ext_valid_o);
    $display("@%0t: ext_valid_o is asserted, ext_result_o = %x", $realtime, ext_result_o);
